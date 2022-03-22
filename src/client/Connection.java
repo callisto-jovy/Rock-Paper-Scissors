@@ -1,14 +1,14 @@
-/**
+package src.client; /**
  * <p>
  * Materialien zu den zentralen NRW-Abiturpruefungen im Fach Informatik ab 2018
  * </p>
  * <p>
- * Klasse Connection
+ * Klasse src.client.Connection
  * </p>
  * <p>
- * Objekte der Klasse Connection ermoeglichen eine Netzwerkverbindung zu einem
- * Server mittels TCP/IP-Protokoll. Nach Verbindungsaufbau koennen Zeichenketten
- * (Strings) zum Server gesendet und von diesem empfangen werden. Zur
+ * Objekte der Klasse src.client.Connection ermoeglichen eine Netzwerkverbindung zu einem
+ * src.server.Server mittels TCP/IP-Protokoll. Nach Verbindungsaufbau koennen Zeichenketten
+ * (Strings) zum src.server.Server gesendet und von diesem empfangen werden. Zur
  * Vereinfachung geschieht dies zeilenweise, d. h., beim Senden einer
  * Zeichenkette wird ein Zeilentrenner ergaenzt und beim Empfang wird dieser
  * entfernt. Es findet nur eine rudimentaere Fehlerbehandlung statt, so dass z.B.
@@ -21,8 +21,11 @@
  * @version 30.08.2016
  */
 
-import java.net.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 
 public class Connection
 {
