@@ -55,7 +55,7 @@ public abstract class Packet {
     }
 
 
-    public JSONObject getBasicData() {
+    public JSONObject getData() {
         return basicData;
     }
 

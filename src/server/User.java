@@ -1,11 +1,33 @@
 package src.server;
 
+/**
+ * @Author Roman
+ * Basic User class, in order to manage all the users.
+ * This class contains such things as the user's name, ip and port. Further, the class points to the users individual packet manager,
+ * in order to reroute the user's packet. Lastly, the class contains a toggle which indicates whether the user is searching for a rock-paper-scissors
+ * battle
+ */
 public class User {
 
-    private String name;
+    /**
+     * The user's ip, pretty self-explanatory
+     */
     private final String clientIP;
+    /**
+     * The user's connected port
+     */
     private final int clientPort;
+    /**
+     * The user's packet manager in order to reroute and assign packets
+     */
     private final PacketManager packetManager;
+    /**
+     * The users name, will be null before the user "authenticates" himself (Can be used as an indicator whether the user is authenticated
+     */
+    private String name;
+    /**
+     * Toggle whether the user is searching for a match
+     */
     private boolean searchesMatch;
 
     public User(String clientIP, int clientPort, PacketManager packetManager) {

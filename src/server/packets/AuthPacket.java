@@ -16,6 +16,11 @@ public class AuthPacket extends Packet {
     public void receive(JSONObject input, User parent) {
         final String userName = input.getString("payload");
 
+        if (userName.isEmpty()) {
+            setError("Your username may not be null");
+            return;
+        }
+
         ApplicationServer.HIGHSCORE_LIST.toFirst();
         while (ApplicationServer.HIGHSCORE_LIST.hasAccess()) {
             final Highscore highscore = ApplicationServer.HIGHSCORE_LIST.getContent();
@@ -31,6 +36,6 @@ public class AuthPacket extends Packet {
 
     @Override
     public void send() {
-
+        setPayload("Request Username");
     }
 }
