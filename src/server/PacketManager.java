@@ -15,6 +15,7 @@ public class PacketManager {
     /*
         List of all packets which may be received
      */
+    
     private final List<Packet> packetList = new List<>();
 
     public PacketManager() {
