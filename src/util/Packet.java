@@ -1,6 +1,7 @@
-package src.server;
+package src.util;
 
 import org.json.JSONObject;
+import src.server.User;
 
 /**
  * Every packet, which is sent, has the following basic form:
@@ -16,6 +17,7 @@ import org.json.JSONObject;
  * "error":"..."
  * }
  * Most likely the error-message or a custom error message is to be found.
+ * @author Roman
  */
 public abstract class Packet {
 
