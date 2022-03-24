@@ -1,8 +1,7 @@
 package src.server;
 
 import org.json.JSONObject;
-import src.server.packets.AuthPacket;
-import src.server.packets.ListPacket;
+import src.server.packets.*;
 import src.util.List;
 import src.util.LogUtil;
 
@@ -20,6 +19,7 @@ public class PacketManager {
         packetList.toFirst();
         packetList.append(new AuthPacket());
         packetList.append(new ListPacket());
+        packetList.append(new HighscorePacket());
     }
 
     /**
