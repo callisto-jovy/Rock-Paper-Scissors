@@ -35,7 +35,7 @@ public class HighscorePacket extends Packet {
             ApplicationServer.HIGHSCORE_LIST.next();
         }
         
-        getData().put("payload", jsonArray);
+        setPayload(jsonArray);
     }
 
 }
