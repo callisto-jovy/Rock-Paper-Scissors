@@ -6,7 +6,6 @@ import src.server.ApplicationServer;
 import src.server.Highscore;
 import src.server.User;
 
-
 public class SearchPacket extends Packet
 { 
    public SearchPacket() {
