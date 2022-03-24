@@ -3,11 +3,14 @@ package src.server;
 import src.server.packets.AuthPacket;
 import src.util.List;
 import src.util.LogUtil;
+import src.util.Packet;
 import src.util.PacketFormatter;
 
 import java.util.logging.Level;
 
 public class ApplicationServer extends Server {
+
+    public static final ApplicationServer INSTANCE = new ApplicationServer();
 
     /**
      * The port on which the server binds on
@@ -16,11 +19,16 @@ public class ApplicationServer extends Server {
     /**
      * List of all active users
      */
-    public static final List<User> USER_LIST = new List<>();
+    public final List<User> userList = new List<>();
     /**
      * List of all high-scores also used to check for names
      */
-    public static final List<Highscore> HIGHSCORE_LIST = new List<>();
+    public final List<Highscore> highscoreList = new List<>();
+    /**
+     * List of all matches
+     */
+    public final List<Match> matchList = new List<>();
+
 
     public ApplicationServer() {
         super(PORT);
@@ -33,8 +41,8 @@ public class ApplicationServer extends Server {
 
         //Create and append new user object
         final User newUser = new User(pClientIP, pClientPort, new PacketManager());
-        USER_LIST.toFirst();
-        USER_LIST.append(newUser);
+        userList.toFirst();
+        userList.append(newUser);
         //Send a user-authentication packet to the newly connected user (prompt for a username)
         final AuthPacket userAuthPacket = new AuthPacket();
         userAuthPacket.send();
@@ -44,16 +52,16 @@ public class ApplicationServer extends Server {
     @Override
     public void processMessage(String pClientIP, int pClientPort, String pMessage) {
         //Get user from list to process packets
-        USER_LIST.toFirst();
+        userList.toFirst();
         User user = null;
 
-        while (USER_LIST.hasAccess()) {
-            final User u = USER_LIST.getContent();
+        while (userList.hasAccess()) {
+            final User u = userList.getContent();
             if (u.getClientIP().equals(pClientIP) && u.getClientPort() == pClientPort) {
                 user = u;
                 break;
             }
-            USER_LIST.next();
+            userList.next();
         }
 
         assert user != null;
@@ -67,14 +75,15 @@ public class ApplicationServer extends Server {
     @Override
     public void processClosingConnection(String pClientIP, int pClientPort) {
         //Remove user from list if disconnected
-        USER_LIST.toFirst();
-        while (USER_LIST.hasAccess()) {
-            final User user = USER_LIST.getContent();
+        userList.toFirst();
+        while (userList.hasAccess()) {
+            final User user = userList.getContent();
             if (user.getClientIP().equals(pClientIP) && user.getClientPort() == pClientPort) {
-                USER_LIST.remove();
+                userList.remove();
                 break;
             }
-            USER_LIST.next();
+            userList.next();
         }
     }
+
 }

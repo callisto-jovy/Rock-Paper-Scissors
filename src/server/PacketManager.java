@@ -1,9 +1,12 @@
 package src.server;
 
 import org.json.JSONObject;
-import src.server.packets.*;
+import src.server.packets.AuthPacket;
+import src.server.packets.HighscorePacket;
+import src.server.packets.ListPacket;
 import src.util.List;
 import src.util.LogUtil;
+import src.util.Packet;
 
 import java.util.logging.Level;
 
@@ -34,7 +37,7 @@ public class PacketManager {
         if (input == null || input.isEmpty()) {
             return null;
         }
-        
+
         final JSONObject jsonObject = new JSONObject(input);
         final int statusCode = jsonObject.optInt("status_code");
 

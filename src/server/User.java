@@ -1,11 +1,12 @@
 package src.server;
 
 /**
- * @Author Roman
  * Basic User class, in order to manage all the users.
  * This class contains such things as the user's name, ip and port. Further, the class points to the users individual packet manager,
  * in order to reroute the user's packet. Lastly, the class contains a toggle which indicates whether the user is searching for a rock-paper-scissors
  * battle
+ *
+ * @author Roman
  */
 public class User {
 
@@ -30,10 +31,20 @@ public class User {
      */
     private boolean searchesMatch;
 
+    private int score;
+
     public User(String clientIP, int clientPort, PacketManager packetManager) {
         this.clientIP = clientIP;
         this.clientPort = clientPort;
         this.packetManager = packetManager;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public String getName() {
