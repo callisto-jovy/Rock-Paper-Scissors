@@ -54,7 +54,6 @@ public abstract class Packet {
         this.basicData.put("payload", payload);
     }
 
-
     public JSONObject getData() {
         return basicData;
     }
