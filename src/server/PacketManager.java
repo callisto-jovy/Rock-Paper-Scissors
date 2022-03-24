@@ -34,6 +34,7 @@ public class PacketManager {
         if (input == null || input.isEmpty()) {
             return null;
         }
+        
         final JSONObject jsonObject = new JSONObject(input);
         final int statusCode = jsonObject.optInt("status_code");
 
