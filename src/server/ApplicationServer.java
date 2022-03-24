@@ -1,6 +1,6 @@
 package src.server;
 
-import src.server.packets.AuthPacket;
+import src.server.packets.*;
 import src.util.List;
 import src.util.LogUtil;
 import src.util.Packet;
@@ -29,10 +29,21 @@ public class ApplicationServer extends Server {
      */
     public final List<Match> matchList = new List<>();
 
+    private final List<Packet> packetList = new List<>();
+
 
     public ApplicationServer() {
         super(PORT);
         LogUtil.getLogger().log(Level.INFO, "Server started on port:" + PORT);
+
+        //Add packets
+        packetList.toFirst();
+        packetList.append(new AuthPacket());
+        packetList.append(new ListPacket());
+        packetList.append(new HighscorePacket());
+        packetList.append(new MatchFoundPacket());
+        packetList.append(new MatchPacket());
+        packetList.append(new SearchPacket());
     }
 
     @Override
@@ -40,7 +51,7 @@ public class ApplicationServer extends Server {
         LogUtil.getLogger().log(Level.INFO, "New client connected with IP: " + pClientIP + " on port: " + pClientPort);
 
         //Create and append new user object
-        final User newUser = new User(pClientIP, pClientPort, new PacketManager());
+        final User newUser = new User(pClientIP, pClientPort);
         userList.toFirst();
         userList.append(newUser);
         //Send a user-authentication packet to the newly connected user (prompt for a username)
@@ -65,7 +76,10 @@ public class ApplicationServer extends Server {
         }
 
         assert user != null;
-        final Packet returnToSender = user.getPacketManager().processMessage(pMessage, user);
+
+        final PacketManager packetManager = new PacketManager(packetList);
+
+        final Packet returnToSender = packetManager.processMessage(pMessage, user);
         //Send the formatted packet to the sender if the packet has to send anything at all.
         if (returnToSender != null) {
             send(user.getClientIP(), user.getClientPort(), PacketFormatter.formatPacket(returnToSender));

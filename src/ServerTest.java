@@ -27,7 +27,7 @@ public class ServerTest {
 
     //@BeforeEach
     public void setUp() {
-        ApplicationServer.INSTANCE.INSTANCE.startServer();
+        ApplicationServer.INSTANCE.startServer();
 
 
         final Connection connection = new Connection("localhost", 80);

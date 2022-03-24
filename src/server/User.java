@@ -19,10 +19,6 @@ public class User {
      */
     private final int clientPort;
     /**
-     * The user's packet manager in order to reroute and assign packets
-     */
-    private final PacketManager packetManager;
-    /**
      * The users name, will be null before the user "authenticates" himself (Can be used as an indicator whether the user is authenticated
      */
     private String name;
@@ -31,20 +27,29 @@ public class User {
      */
     private boolean searchesMatch;
 
-    private int score;
+    private int totalScore;
 
-    public User(String clientIP, int clientPort, PacketManager packetManager) {
+    private int currentScore;
+
+    public User(String clientIP, int clientPort) {
         this.clientIP = clientIP;
         this.clientPort = clientPort;
-        this.packetManager = packetManager;
+    }
+
+    public int getCurrentScore() {
+        return currentScore;
+    }
+
+    public void setCurrentScore(int currentScore) {
+        this.currentScore = currentScore;
     }
 
     public int getScore() {
-        return score;
+        return totalScore;
     }
 
     public void setScore(int score) {
-        this.score = score;
+        this.totalScore = score;
     }
 
     public String getName() {
@@ -53,10 +58,6 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public PacketManager getPacketManager() {
-        return packetManager;
     }
 
     public boolean searchesMatch() {

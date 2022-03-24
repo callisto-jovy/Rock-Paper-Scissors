@@ -13,7 +13,6 @@ public class MatchFoundPacket extends Packet {
 
     @Override
     public void receive(JSONObject input, User parent) {
-
     }
 
     @Override
