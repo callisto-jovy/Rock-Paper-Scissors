@@ -26,31 +26,31 @@ public class User {
      * Toggle whether the user is searching for a match
      */
     private boolean searchesMatch;
-
+    /*
+     * The users total score  
+     */
     private int totalScore;
-
-    private int currentScore;
 
     public User(String clientIP, int clientPort) {
         this.clientIP = clientIP;
         this.clientPort = clientPort;
     }
 
-    public int getCurrentScore() {
-        return currentScore;
-    }
-
-    public void setCurrentScore(int currentScore) {
-        this.currentScore = currentScore;
-    }
-
     public int getScore() {
         return totalScore;
     }
 
-    public void setScore(int score) {
-        this.totalScore = score;
+    public void increasePoints() {
+        this.totalScore++;
     }
+    
+    public void deductPoints() {
+        if(this.totalScore > 0) {
+            this.totalScore--;
+        }
+        
+    }
+    
 
     public String getName() {
         return name;

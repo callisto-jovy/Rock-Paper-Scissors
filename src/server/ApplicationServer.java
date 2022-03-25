@@ -15,7 +15,7 @@ public class ApplicationServer extends Server {
     /**
      * The port on which the server binds on
      */
-    public static final int PORT = 80;
+    public static final int PORT = 2049;
     /**
      * List of all active users
      */
@@ -30,7 +30,6 @@ public class ApplicationServer extends Server {
     public final List<Match> matchList = new List<>();
 
     private final List<Packet> packetList = new List<>();
-
 
     public ApplicationServer() {
         super(PORT);
@@ -56,8 +55,7 @@ public class ApplicationServer extends Server {
         userList.append(newUser);
         //Send a user-authentication packet to the newly connected user (prompt for a username)
         final AuthPacket userAuthPacket = new AuthPacket();
-        userAuthPacket.send();
-        send(pClientIP, pClientPort, PacketFormatter.formatPacket(userAuthPacket));
+        this.sendToUser(newUser, userAuthPacket);
     }
 
     @Override
@@ -98,6 +96,11 @@ public class ApplicationServer extends Server {
             }
             userList.next();
         }
+    }
+
+    public void sendToUser(final User user, final Packet packet) {
+        packet.send();
+        this.send(user.getClientIP(), user.getClientPort(), PacketFormatter.formatPacket(packet));
     }
 
 }

@@ -27,8 +27,9 @@ public class Player extends Client {
 
     @Override
     public void processMessage(String pMessage) {
-
-
+        
+        
+        
     }
 
     public String getName() {

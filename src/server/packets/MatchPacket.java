@@ -11,7 +11,18 @@ public class MatchPacket extends Packet {
     public MatchPacket() {
         super("MATC");
     }
-
+    
+    private User winner, looser;
+    private int decision;
+    
+     public MatchPacket(final User winner, final User looser, final int dec) {
+        super("MATC");
+        this.winner = winner;
+        this.looser = looser;
+        this.decision = dec;
+    }
+    
+    
     @Override
     public void receive(JSONObject input, User parent) {
         ApplicationServer.INSTANCE.matchList.next();
@@ -36,7 +47,11 @@ public class MatchPacket extends Packet {
 
     @Override
     public void send() {
-
-
+        final JSONObject nestedJSON = new JSONObject();
+        nestedJSON.put("winner", winner.getName());
+        nestedJSON.put("nico", looser.getName());
+        nestedJSON.put("decision", decision);
+        
+        setPayload(nestedJSON);
     }
 }
