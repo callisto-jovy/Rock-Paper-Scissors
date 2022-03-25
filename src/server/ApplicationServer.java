@@ -1,13 +1,16 @@
 package src.server;
 
-import src.server.packets.AuthPacket;
+import src.server.packets.*;
 import src.util.List;
 import src.util.LogUtil;
+import src.util.Packet;
 import src.util.PacketFormatter;
 
 import java.util.logging.Level;
 
 public class ApplicationServer extends Server {
+
+    public static final ApplicationServer INSTANCE = new ApplicationServer();
 
     /**
      * The port on which the server binds on
@@ -16,15 +19,31 @@ public class ApplicationServer extends Server {
     /**
      * List of all active users
      */
-    public static final List<User> USER_LIST = new List<>();
+    public final List<User> userList = new List<>();
     /**
      * List of all high-scores also used to check for names
      */
-    public static final List<Highscore> HIGHSCORE_LIST = new List<>();
+    public final List<Highscore> highscoreList = new List<>();
+    /**
+     * List of all matches
+     */
+    public final List<Match> matchList = new List<>();
+
+    private final List<Packet> packetList = new List<>();
+
 
     public ApplicationServer() {
         super(PORT);
         LogUtil.getLogger().log(Level.INFO, "Server started on port:" + PORT);
+
+        //Add packets
+        packetList.toFirst();
+        packetList.append(new AuthPacket());
+        packetList.append(new ListPacket());
+        packetList.append(new HighscorePacket());
+        packetList.append(new MatchFoundPacket());
+        packetList.append(new MatchPacket());
+        packetList.append(new SearchPacket());
     }
 
     @Override
@@ -32,9 +51,9 @@ public class ApplicationServer extends Server {
         LogUtil.getLogger().log(Level.INFO, "New client connected with IP: " + pClientIP + " on port: " + pClientPort);
 
         //Create and append new user object
-        final User newUser = new User(pClientIP, pClientPort, new PacketManager());
-        USER_LIST.toFirst();
-        USER_LIST.append(newUser);
+        final User newUser = new User(pClientIP, pClientPort);
+        userList.toFirst();
+        userList.append(newUser);
         //Send a user-authentication packet to the newly connected user (prompt for a username)
         final AuthPacket userAuthPacket = new AuthPacket();
         userAuthPacket.send();
@@ -44,20 +63,23 @@ public class ApplicationServer extends Server {
     @Override
     public void processMessage(String pClientIP, int pClientPort, String pMessage) {
         //Get user from list to process packets
-        USER_LIST.toFirst();
+        userList.toFirst();
         User user = null;
 
-        while (USER_LIST.hasAccess()) {
-            final User u = USER_LIST.getContent();
+        while (userList.hasAccess()) {
+            final User u = userList.getContent();
             if (u.getClientIP().equals(pClientIP) && u.getClientPort() == pClientPort) {
                 user = u;
                 break;
             }
-            USER_LIST.next();
+            userList.next();
         }
 
         assert user != null;
-        final Packet returnToSender = user.getPacketManager().processMessage(pMessage, user);
+
+        final PacketManager packetManager = new PacketManager(packetList);
+
+        final Packet returnToSender = packetManager.processMessage(pMessage, user);
         //Send the formatted packet to the sender if the packet has to send anything at all.
         if (returnToSender != null) {
             send(user.getClientIP(), user.getClientPort(), PacketFormatter.formatPacket(returnToSender));
@@ -67,14 +89,15 @@ public class ApplicationServer extends Server {
     @Override
     public void processClosingConnection(String pClientIP, int pClientPort) {
         //Remove user from list if disconnected
-        USER_LIST.toFirst();
-        while (USER_LIST.hasAccess()) {
-            final User user = USER_LIST.getContent();
+        userList.toFirst();
+        while (userList.hasAccess()) {
+            final User user = userList.getContent();
             if (user.getClientIP().equals(pClientIP) && user.getClientPort() == pClientPort) {
-                USER_LIST.remove();
+                userList.remove();
                 break;
             }
-            USER_LIST.next();
+            userList.next();
         }
     }
+
 }

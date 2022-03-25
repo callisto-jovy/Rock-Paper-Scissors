@@ -1,15 +1,16 @@
 package src.server.packets;
-import src.server.Packet;
-import org.json.JSONObject;
+
 import org.json.JSONArray;
+import org.json.JSONObject;
 import src.server.ApplicationServer;
 import src.server.Highscore;
 import src.server.User;
+import src.util.Packet;
 
 /**
  * Beschreiben Sie hier die Klasse HighscorePacket.
- * 
- * @author (Ihr Name) 
+ *
+ * @author (Ihr Name)
  * @version (eine Versionsnummer oder ein Datum)
  */
 public class HighscorePacket extends Packet {
@@ -17,25 +18,25 @@ public class HighscorePacket extends Packet {
     public HighscorePacket() {
         super("HLST");
     }
-    
-    
+
+
     public void send() {
-        
+
     }
-    
-    
+
+
     public void receive(final JSONObject obj, User user) {
-        ApplicationServer.HIGHSCORE_LIST.toFirst();
+        ApplicationServer.INSTANCE.highscoreList.toFirst();
         JSONArray jsonArray = new JSONArray();
 
-        while(ApplicationServer.HIGHSCORE_LIST.hasAccess()) {
-            Highscore hs = ApplicationServer.HIGHSCORE_LIST.getContent();    
+        while (ApplicationServer.INSTANCE.highscoreList.hasAccess()) {
+            Highscore hs = ApplicationServer.INSTANCE.highscoreList.getContent();
             jsonArray.put(hs.getName() + ":" + hs.getScore());
-            
-            ApplicationServer.HIGHSCORE_LIST.next();
+
+            ApplicationServer.INSTANCE.highscoreList.next();
         }
-        
-        getData().put("payload", jsonArray);
+
+        setPayload(jsonArray);
     }
 
 }

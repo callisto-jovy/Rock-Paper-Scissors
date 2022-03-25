@@ -1,25 +1,22 @@
 package src.server;
 
 import org.json.JSONObject;
-import src.server.packets.*;
 import src.util.List;
 import src.util.LogUtil;
+import src.util.Packet;
 
 import java.util.logging.Level;
 
 public class PacketManager {
 
     /*
-        List of all packets which may be received
+       List of all packets which may be received
      */
-    private final List<Packet> packetList = new List<>();
 
-    public PacketManager() {
-        //Add packets
-        packetList.toFirst();
-        packetList.append(new AuthPacket());
-        packetList.append(new ListPacket());
-        packetList.append(new HighscorePacket());
+    private final List<Packet> packetList;
+
+    public PacketManager(final List<Packet> packetList) {
+        this.packetList = packetList;
     }
 
     /**
@@ -34,6 +31,7 @@ public class PacketManager {
         if (input == null || input.isEmpty()) {
             return null;
         }
+
         final JSONObject jsonObject = new JSONObject(input);
         final int statusCode = jsonObject.optInt("status_code");
 
