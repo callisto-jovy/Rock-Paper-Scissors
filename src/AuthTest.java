@@ -1,5 +1,10 @@
 package src;
 
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import src.client.Player;
 import src.server.ApplicationServer;
 
@@ -10,25 +15,26 @@ import src.server.ApplicationServer;
  * @author Roman
  * @version 1.0
  */
-public class ServerTest {
+public class AuthTest {
 
     /**
      * Konstruktor fuer die Test-Klasse ServerTest
      */
-    public ServerTest() {
+    public AuthTest() {
     }
 
+    //Only needed for intellij 
     public static void main(String[] args) {
         ApplicationServer.INSTANCE.startServer();
         Player.PLAYER.connect();
         System.out.println("Player connected:" + Player.PLAYER.isConnected());
     }
 
-    //@BeforeEach
+    @BeforeEach
     public void setUp() {
         ApplicationServer.INSTANCE.startServer();
-
-
+        Player.PLAYER.connect();
+        System.out.println("Player connected:" + Player.PLAYER.isConnected());
     }
 
     /**
@@ -36,7 +42,9 @@ public class ServerTest {
      * <p>
      * Wird nach jeder Testfall-Methode aufgerufen.
      */
-    //@AfterEach
+    @AfterEach
     public void tearDown() {
+        Player.PLAYER.close();
+        ApplicationServer.INSTANCE.close();
     }
 }

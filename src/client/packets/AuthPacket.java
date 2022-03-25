@@ -13,7 +13,7 @@ public class AuthPacket extends Packet {
     }
 
     @Override
-    public void receive(PacketUtil input, User user) {
+    public void receive(PacketUtil input, User user) {        
         if (input.isError()) {
             final String error = input.getError();
             JOptionPane.showMessageDialog(null, "Error: " + error);

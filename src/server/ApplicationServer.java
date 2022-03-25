@@ -77,14 +77,14 @@ public class ApplicationServer extends Server {
             userList.next();
         }
 
-        assert user != null;
+        if(user != null) {
+            final PacketManager packetManager = new PacketManager(packetList);
 
-        final PacketManager packetManager = new PacketManager(packetList);
-
-        final Packet returnToSender = packetManager.processMessage(pMessage, user);
-        //Send the formatted packet to the sender if the packet has to send anything at all.
-        if (returnToSender != null) {
-            send(user.getClientIP(), user.getClientPort(), PacketFormatter.formatPacket(returnToSender));
+            final Packet returnToSender = packetManager.processMessage(pMessage, user);
+            //Send the formatted packet to the sender if the packet has to send anything at all.
+            if (returnToSender != null) {
+                send(user.getClientIP(), user.getClientPort(), PacketFormatter.formatPacket(returnToSender));
+            }
         }
     }
 
