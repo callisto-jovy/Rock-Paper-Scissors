@@ -8,17 +8,13 @@ import java.util.logging.Level;
 
 /**
  * Die Test-Klasse ServerTest.
+ * Unit tests, to test the server's functionallity 
  *
- * @author (Ihr Name)
- * @version (eine Versionsnummer oder ein Datum)
+ * @author Roman
+ * @version 1.0
  */
 public class ServerTest {
-    /**
-     * Setzt das Testgerüst fuer den Test.
-     * <p>
-     * Wird vor jeder Testfall-Methode aufgerufen.
-     */
-
+    
     /**
      * Konstruktor fuer die Test-Klasse ServerTest
      */
