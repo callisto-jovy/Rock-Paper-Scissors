@@ -1,4 +1,10 @@
 package src.client;
+import src.client.packets.*;
+import src.util.List;
+import src.util.LogUtil;
+import src.util.Packet;
+import src.util.PacketFormatter;
+import java.util.logging.Level;
 
 
 /**
@@ -9,10 +15,10 @@ package src.client;
  */
 public class Player extends Client {
     //--> for connection purposes to a Server
-    private final String clientIP;
-    private final int clientPort;
     //Management of the Packets
     private final PacketManager packetManager;
+    public static final Player PLAYER = new Player();
+    private final List<Packet> packetList = new List<>();
     //attributes
     private String name;
     private boolean searchesMatch;
@@ -20,15 +26,19 @@ public class Player extends Client {
 
 
     public Player() {
-        this.packetManager = packetManager;
-
+        super("NA", 80);
+        this.packetManager = new PacketManager(packetList);
+        
+        packetList.toFirst();
+        packetList.append(new AuthPacket());
+        packetList.append(new SearchPacket());
+        packetList.append(new MatchPacket());
     }
 
 
     @Override
     public void processMessage(String pMessage) {
-
-
+        
     }
 
     public String getName() {
