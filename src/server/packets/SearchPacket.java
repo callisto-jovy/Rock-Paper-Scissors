@@ -1,10 +1,10 @@
 package src.server.packets;
 
-import org.json.JSONObject;
 import src.server.ApplicationServer;
 import src.server.Match;
 import src.server.User;
 import src.util.Packet;
+import src.util.PacketUtil;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -16,11 +16,12 @@ public class SearchPacket extends Packet {
         super("SEAR");
     }
 
-    public void receive(final JSONObject object, final User user) {
-        user.setSearchesMatch(object.getBoolean("payload"));
+    @Override
+    public void receive(PacketUtil input, User parent) {
+        parent.setSearchesMatch(getPayloadBoolean());
         this.setPayload("halt");
 
-        if (user.searchesMatch()) {
+        if (parent.searchesMatch()) {
             CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
                 try {
                     TimeUnit.SECONDS.sleep(5);
@@ -32,7 +33,7 @@ public class SearchPacket extends Packet {
                     final User u = ApplicationServer.INSTANCE.userList.getContent();
                     if (u.searchesMatch()) {
                         //new match found
-                        final Match match = new Match(user, u);
+                        final Match match = new Match(parent, u);
                         ApplicationServer.INSTANCE.matchList.append(match);
                         match.start();
                         return;

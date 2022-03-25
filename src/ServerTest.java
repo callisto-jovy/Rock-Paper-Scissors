@@ -1,30 +1,33 @@
 package src;
 
+import src.client.Player;
 import src.server.ApplicationServer;
-import src.util.LogUtil;
-import src.client.*;
-
-import java.util.logging.Level;
 
 /**
  * Die Test-Klasse ServerTest.
- * Unit tests, to test the server's functionallity 
+ * Unit tests, to test the server's functionality
  *
  * @author Roman
  * @version 1.0
  */
 public class ServerTest {
-    
+
     /**
      * Konstruktor fuer die Test-Klasse ServerTest
      */
     public ServerTest() {
     }
 
+    public static void main(String[] args) {
+        ApplicationServer.INSTANCE.startServer();
+        Player.PLAYER.connect();
+        System.out.println("Player connected:" + Player.PLAYER.isConnected());
+    }
+
     //@BeforeEach
     public void setUp() {
         ApplicationServer.INSTANCE.startServer();
-        final Player player = new Player();
+
 
     }
 

@@ -4,6 +4,7 @@ import org.json.JSONObject;
 import src.util.List;
 import src.util.LogUtil;
 import src.util.Packet;
+import src.util.PacketUtil;
 
 import java.util.logging.Level;
 
@@ -28,9 +29,8 @@ public class PacketManager {
      */
     public Packet processMessage(final String input, User client) {
         //Null-case
-        if (input == null || input.isEmpty()) {
+        if (input == null || input.isEmpty())
             return null;
-        }
 
         final JSONObject jsonObject = new JSONObject(input);
         final int statusCode = jsonObject.optInt("status_code");
@@ -46,8 +46,18 @@ public class PacketManager {
         while (packetList.hasAccess()) {
             final Packet packet = packetList.getContent();
             if (packet.getIdentifier().equals(jsonObject.getString("id"))) { //Match identifier
-                packet.receive(jsonObject, client); //Call the packet's receive method
-                return packet; //Return the packet to later format its data.
+                packet.receive(new PacketUtil(jsonObject), client); //Call the packet's receive method
+
+                if (packet.isPacketEmpty())
+                    return null;
+                else {
+                    final Packet packetCopy = packet;
+                    //Reset packet
+                    packet.getData().remove("payload");
+                    packet.getData().remove("error");
+
+                    return packetCopy; //Return the packet to later format its data.
+                }
             }
             packetList.next();
         }

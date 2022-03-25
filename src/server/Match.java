@@ -1,7 +1,8 @@
 package src.server;
 
-import src.server.packets.*;
-import src.util.PacketFormatter;
+import src.server.packets.MatchFoundPacket;
+import src.server.packets.MatchPacket;
+import src.server.packets.ResultPacket;
 
 public class Match {
 
@@ -42,7 +43,7 @@ public class Match {
 
     public void decideWinner() {
         //One player has already won, return TODO: Close match 
-        if(score1 == 3 || score2 == 3) {
+        if (score1 == 3 || score2 == 3) {
             return;
         }
 
@@ -68,44 +69,43 @@ public class Match {
             }
 
             //Set the winners score
-            if(winner == user1) {
+            if (winner == user1) {
                 score1++;
-            } else if(winner == user2) {
+            } else if (winner == user2) {
                 score2++;
             }
 
             final User looser = winner == user1 ? user2 : user1;
 
             //Match done.
-            if(score1 + score2 >= 3) {
+            if (score1 + score2 >= 3) {
                 //Deduct and increase points
                 looser.deductPoints();
                 winner.increasePoints();
-                
+
                 final ResultPacket rPacket = new ResultPacket(winner, Math.max(score1, score2));
-                
+
                 ApplicationServer.INSTANCE.sendToUser(user1, rPacket);
                 ApplicationServer.INSTANCE.sendToUser(user2, rPacket);
                 //Remove match from ongoing matches
-                
+
                 ApplicationServer.INSTANCE.matchList.toFirst();
-                while(ApplicationServer.INSTANCE.matchList.hasAccess()) {
-                    if(ApplicationServer.INSTANCE.matchList.getContent() == this) {
+                while (ApplicationServer.INSTANCE.matchList.hasAccess()) {
+                    if (ApplicationServer.INSTANCE.matchList.getContent() == this) {
                         ApplicationServer.INSTANCE.matchList.remove();
                         return;
                     }
                     ApplicationServer.INSTANCE.matchList.next();
                 }
-                
-                
+
+
                 //TODO: Set highscore
-                
-                
-            
+
+
             } else {
                 //TODO: Send packet
                 final MatchPacket mPacketUser1 = new MatchPacket(winner, looser, decision2);
-                final  MatchPacket mPacketUser2 = new MatchPacket(winner, looser, decision1);
+                final MatchPacket mPacketUser2 = new MatchPacket(winner, looser, decision1);
 
                 ApplicationServer.INSTANCE.sendToUser(user1, mPacketUser1);
                 ApplicationServer.INSTANCE.sendToUser(user2, mPacketUser2);

@@ -8,10 +8,20 @@ import java.net.Socket;
 
 /*
  * * <p> * Materialien zu den zentralen NRW-Abiturpruefungen im Fach Informatik ab 2018 * </p> * <p> * Klasse src.client.Client * </p> * <p> * Objekte von Unterklassen der abstrakten Klasse src.client.Client ermoeglichen * Netzwerkverbindungen zu einem src.server.Server mittels TCP/IP-Protokoll. Nach * Verbindungsaufbau koennen Zeichenketten (Strings) zum src.server.Server gesendet und von * diesem empfangen werden, wobei der Nachrichtenempfang nebenlaeufig geschieht. * Zur Vereinfachung finden Nachrichtenversand und -empfang zeilenweise statt, * d. h., beim Senden einer Zeichenkette wird ein Zeilentrenner ergaenzt und beim * Empfang wird dieser entfernt. Jede empfangene Nachricht wird einer * Ereignisbehandlungsmethode uebergeben, die in Unterklassen implementiert werden * muss. Es findet nur eine rudimentaere Fehlerbehandlung statt, so dass z.B. * Verbindungsabbrueche nicht zu einem Programmabbruch fuehren. Eine einmal * unterbrochene oder getrennte Verbindung kann nicht reaktiviert werden. * </p> * * @author Qualitaets- und UnterstuetzungsAgentur - Landesinstitut fuer Schule * @version 30.08.2016 */public abstract class Client {
-    private final MessageHandler messageHandler;
 
+    private final String serverIP;
+    private final int serverPort;
+    private MessageHandler messageHandler;
+
+    //Modified by Roman 25.03.2022
     public Client(String pServerIP, int pServerPort) {
-        messageHandler = new MessageHandler(pServerIP, pServerPort);
+        this.serverIP = pServerIP;
+        this.serverPort = pServerPort;
+    }
+
+    //Modified by Roman 25.03.2022, otherwise the packet system is a pain in the ass.
+    public void connect() {
+        this.messageHandler = new MessageHandler(serverIP, serverPort);
     }
 
     public boolean isConnected() {

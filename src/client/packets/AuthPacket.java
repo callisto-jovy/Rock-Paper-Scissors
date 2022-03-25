@@ -1,8 +1,8 @@
 package src.client.packets;
 
-import org.json.JSONObject;
 import src.server.User;
 import src.util.Packet;
+import src.util.PacketUtil;
 
 import javax.swing.*;
 
@@ -13,20 +13,19 @@ public class AuthPacket extends Packet {
     }
 
     @Override
-    public void receive(JSONObject input, User user) {
-        if(input.has("payload")) {
-
-            final String payload = input.getString("payload");
-            if(payload.equals("prompt")) {
-                final String userName = JOptionPane.showInputDialog("Enter username!");
-                setPayload(userName);
-            }
-        } else {
-            final String error = input.getString("error");
+    public void receive(PacketUtil input, User user) {
+        if (input.isError()) {
+            final String error = input.getError();
             JOptionPane.showMessageDialog(null, "Error: " + error);
 
             final String userName = JOptionPane.showInputDialog("Enter username!");
             setPayload(userName);
+        } else if (input.hasPayload()) {
+            final String payload = input.getPayloadString();
+            if (payload.equals("prompt")) {
+                final String userName = JOptionPane.showInputDialog("Enter username!");
+                setPayload(userName);
+            }
         }
     }
 

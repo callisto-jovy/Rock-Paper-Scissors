@@ -27,7 +27,7 @@ public class User {
      */
     private boolean searchesMatch;
     /*
-     * The users total score  
+     * The users total score
      */
     private int totalScore;
 
@@ -43,14 +43,14 @@ public class User {
     public void increasePoints() {
         this.totalScore++;
     }
-    
+
     public void deductPoints() {
-        if(this.totalScore > 0) {
+        if (this.totalScore > 0) {
             this.totalScore--;
         }
-        
+
     }
-    
+
 
     public String getName() {
         return name;

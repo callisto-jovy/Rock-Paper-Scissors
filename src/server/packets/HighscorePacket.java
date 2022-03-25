@@ -1,11 +1,11 @@
 package src.server.packets;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 import src.server.ApplicationServer;
 import src.server.Highscore;
 import src.server.User;
 import src.util.Packet;
+import src.util.PacketUtil;
 
 /**
  * Beschreiben Sie hier die Klasse HighscorePacket.
@@ -20,14 +20,10 @@ public class HighscorePacket extends Packet {
     }
 
 
-    public void send() {
-
-    }
-
-
-    public void receive(final JSONObject obj, User user) {
+    @Override
+    public void receive(PacketUtil input, User parent) {
         ApplicationServer.INSTANCE.highscoreList.toFirst();
-        JSONArray jsonArray = new JSONArray();
+        final JSONArray jsonArray = new JSONArray();
 
         while (ApplicationServer.INSTANCE.highscoreList.hasAccess()) {
             Highscore hs = ApplicationServer.INSTANCE.highscoreList.getContent();
@@ -38,5 +34,10 @@ public class HighscorePacket extends Packet {
 
         setPayload(jsonArray);
     }
+
+    public void send() {
+
+    }
+
 
 }

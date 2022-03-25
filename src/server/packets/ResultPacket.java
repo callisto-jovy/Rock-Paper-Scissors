@@ -1,32 +1,32 @@
 package src.server.packets;
-import org.json.JSONObject;
+
 import src.server.User;
 import src.util.Packet;
+import src.util.PacketUtil;
 
-public class ResultPacket extends Packet 
-{
+public class ResultPacket extends Packet {
+
+    private User winner;
+    private int score;
 
     public ResultPacket() {
         super("RSLT");
     }
-    
-    private User winner;
-    private int score;
-    
+
     public ResultPacket(final User winner, final int score) {
         super("RSLT");
         this.winner = winner;
         this.score = score;
     }
-    
-    
-    public void send() {
-        
+
+
+    @Override
+    public void receive(PacketUtil input, User parent) {
+
     }
 
-    public void receive(final JSONObject obj, final User user) {
-        
-        
+    public void send() {
+
     }
 
 }

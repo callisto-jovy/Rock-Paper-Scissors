@@ -60,6 +60,10 @@ public class ApplicationServer extends Server {
 
     @Override
     public void processMessage(String pClientIP, int pClientPort, String pMessage) {
+        //Check message
+        if (pMessage.isEmpty())
+            return;
+
         //Get user from list to process packets
         userList.toFirst();
         User user = null;

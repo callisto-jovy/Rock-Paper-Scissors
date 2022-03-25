@@ -1,5 +1,6 @@
 package src.util;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import src.server.User;
 
@@ -17,6 +18,7 @@ import src.server.User;
  * "error":"..."
  * }
  * Most likely the error-message or a custom error message is to be found.
+ *
  * @author Roman
  */
 public abstract class Packet {
@@ -38,7 +40,7 @@ public abstract class Packet {
      * @param input  JSONObject, provided by the client (Contains the statuscode and payload, in its most basic from)
      * @param parent The client which sent the packet
      */
-    public abstract void receive(JSONObject input, User parent);
+    public abstract void receive(PacketUtil input, User parent);
 
     public abstract void send();
 
@@ -46,12 +48,56 @@ public abstract class Packet {
         this.basicData.put("status_code", statusCode);
     }
 
-    public void setError(final String error) {
+    public boolean isPacketEmpty() {
+        return !isError() && !hasPayload();
+    }
+
+    protected boolean isError() {
+        return this.basicData.has("error");
+    }
+
+    protected boolean hasPayload() {
+        return this.basicData.has("payload");
+    }
+
+    protected String getError() {
+        return this.basicData.getString("error");
+    }
+
+    protected void setError(final String error) {
         this.setStatusCode(500);
         this.basicData.put("error", error);
     }
 
-    public void setPayload(Object payload) {
+    protected String getPayloadString() {
+        return this.basicData.getString("payload");
+    }
+
+    protected int getPayloadInt() {
+        return this.basicData.getInt("payload");
+    }
+
+    protected JSONObject getPayloadJSON() {
+        return this.basicData.getJSONObject("payload");
+    }
+
+    protected JSONArray getPayloadArray() {
+        return this.basicData.getJSONArray("payload");
+    }
+
+    protected long getPayloadLong() {
+        return this.basicData.getLong("payload");
+    }
+
+    protected boolean getPayloadBoolean() {
+        return this.basicData.getBoolean("payload");
+    }
+
+    protected double getPayloadDouble() {
+        return this.basicData.getDouble("payload");
+    }
+
+    protected void setPayload(Object payload) {
         this.setStatusCode(200);
         this.basicData.put("payload", payload);
     }
