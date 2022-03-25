@@ -36,6 +36,6 @@ public class AuthPacket extends Packet {
 
     @Override
     public void send() {
-        setPayload("Request Username");
+        setPayload("prompt");
     }
 }

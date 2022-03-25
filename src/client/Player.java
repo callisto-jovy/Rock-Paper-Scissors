@@ -6,7 +6,6 @@ import src.util.Packet;
 import src.util.PacketFormatter;
 import java.util.logging.Level;
 
-
 /**
  * Locale Instanz des Clients
  *
@@ -24,21 +23,22 @@ public class Player extends Client {
     private boolean searchesMatch;
     private int scoreInMatch;
 
-
     public Player() {
-        super("NA", 80);
-        this.packetManager = new PacketManager(packetList);
-        
+        super("localhost", 2049);
         packetList.toFirst();
         packetList.append(new AuthPacket());
         packetList.append(new SearchPacket());
         packetList.append(new MatchPacket());
+        
+        this.packetManager = new PacketManager(packetList);
     }
-
 
     @Override
     public void processMessage(String pMessage) {
+        LogUtil.getLogger().log(Level.INFO, "Received message as client: " + pMessage);
         
+        final Packet packet = packetManager.processMessage(pMessage, null);
+        send(PacketFormatter.formatPacket(packet));
     }
 
     public String getName() {

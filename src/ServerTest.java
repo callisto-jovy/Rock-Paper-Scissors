@@ -1,8 +1,8 @@
 package src;
 
-import src.client.Connection;
 import src.server.ApplicationServer;
 import src.util.LogUtil;
+import src.client.*;
 
 import java.util.logging.Level;
 
@@ -24,15 +24,8 @@ public class ServerTest {
     //@BeforeEach
     public void setUp() {
         ApplicationServer.INSTANCE.startServer();
+        final Player player = new Player();
 
-
-        final Connection connection = new Connection("localhost", 80);
-        LogUtil.getLogger().log(Level.INFO, connection.receive());
-
-
-        connection.send("{\"status_code\":200,\"id\":\"AUTH\", \"payload\": \"Ali\"}");
-
-        LogUtil.getLogger().log(Level.INFO, connection.receive());
     }
 
     /**
