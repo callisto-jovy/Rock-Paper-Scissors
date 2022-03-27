@@ -1,8 +1,8 @@
 package src.client.packets;
 
-import org.json.JSONObject;
 import src.server.User;
 import src.util.Packet;
+import src.util.PacketUtil;
 
 public class SearchPacket extends Packet {
 
@@ -11,13 +11,13 @@ public class SearchPacket extends Packet {
     }
 
     @Override
-    public void send() {
-        //this.setSearchingMatch whatever (true);
-        setPayload("halt");
+    public void receive(PacketUtil input, User parent) {
+
     }
 
     @Override
-    public void receive(final JSONObject object, User user) {
-
+    public void send() {
+        //this.setSearchingMatch whatever (true);
+        setPayload("halt");
     }
 }

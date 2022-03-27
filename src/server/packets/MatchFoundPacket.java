@@ -1,9 +1,9 @@
 package src.server.packets;
 
 
-import org.json.JSONObject;
 import src.server.User;
 import src.util.Packet;
+import src.util.PacketUtil;
 
 public class MatchFoundPacket extends Packet {
 
@@ -12,7 +12,7 @@ public class MatchFoundPacket extends Packet {
     }
 
     @Override
-    public void receive(JSONObject input, User parent) {
+    public void receive(PacketUtil input, User parent) {
     }
 
     @Override
