@@ -1,1 +1,0 @@
-aziz war hier.

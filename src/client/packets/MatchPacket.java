@@ -1,23 +1,24 @@
 package src.client.packets;
-import src.server.Packet;
+
 import org.json.JSONObject;
-import org.json.JSONArray;
-import src.server.ApplicationServer;
-import src.server.Highscore;
 import src.server.User;
+import src.util.Packet;
 
 
-public class MatchPacket extends Packet
-{
+public class MatchPacket extends Packet {
+
     public MatchPacket() {
         super("MATC");
     }
-    
-    public void send(JSONObject object, User user){
-        
+
+    @Override
+    public void send() {
+
     }
-    
-    public void receive() {
-        
+
+    @Override
+    public void receive(JSONObject object, User user) {
+
     }
+
 }

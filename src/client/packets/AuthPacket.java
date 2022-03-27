@@ -1,25 +1,25 @@
 package src.client.packets;
 
 import org.json.JSONObject;
-import src.server.ApplicationServer;
-import src.server.Highscore;
-import src.server.Packet;
 import src.server.User;
+import src.util.Packet;
 
 public class AuthPacket extends Packet {
-    
+
     public AuthPacket() {
         super("AUTH");
     }
-    
-    public void receive() {
-        
+
+    @Override
+    public void receive(JSONObject input, User user) {
+
     }
-    
-    public void send(JSONObject input, User user) {
-        
+
+    @Override
+    public void send() {
+
     }
-    
-    
+
+
 }
 

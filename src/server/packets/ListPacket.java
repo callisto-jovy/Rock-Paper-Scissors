@@ -3,8 +3,8 @@ package src.server.packets;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import src.server.ApplicationServer;
-import src.server.Packet;
 import src.server.User;
+import src.util.Packet;
 
 public class ListPacket extends Packet {
 
@@ -16,11 +16,11 @@ public class ListPacket extends Packet {
     public void receive(JSONObject input, User parent) {
         final JSONArray jsonArray = new JSONArray();
 
-        ApplicationServer.USER_LIST.toFirst();
-        while (ApplicationServer.USER_LIST.hasAccess()) {
-            final User user = ApplicationServer.USER_LIST.getContent();
+        ApplicationServer.INSTANCE.userList.toFirst();
+        while (ApplicationServer.INSTANCE.userList.hasAccess()) {
+            final User user = ApplicationServer.INSTANCE.userList.getContent();
             jsonArray.put(user.getName());
-            ApplicationServer.USER_LIST.next();
+            ApplicationServer.INSTANCE.userList.next();
         }
         setPayload(jsonArray);
     }
