@@ -1,20 +1,13 @@
 package src.client;
 
 /**
-*Text genereted by Simple GUI Extension for BlueJ
-*/
-import javax.swing.UIManager.LookAndFeelInfo;
+ * Text genereted by Simple GUI Extension for BlueJ
+ */
+
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
-import javax.swing.border.Border;
-import javax.swing.*;
 
 
 public class GameScreen extends JFrame {
@@ -36,6 +29,7 @@ public class GameScreen extends JFrame {
     private JLabel LblProfilePicSelf;
 
     ClientLogin invoker;
+
     public void setInvoker(ClientLogin pInvoker){
         invoker = pInvoker;
     }
@@ -217,11 +211,6 @@ public class GameScreen extends JFrame {
     //method for generate menu
     public void generateMenu(){
         menuBar = new JMenuBar();
-
-
-
-
-
     }
 
 

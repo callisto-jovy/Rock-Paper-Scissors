@@ -2,18 +2,9 @@ package src.client;
 /**
 *Text genereted by Simple GUI Extension for BlueJ
 */
-import javax.swing.UIManager.LookAndFeelInfo;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
-import javax.swing.border.Border;
+
 import javax.swing.*;
+import java.awt.*;
 
 
 public class LoadingScreen extends JFrame {
@@ -91,12 +82,8 @@ public class LoadingScreen extends JFrame {
 
 
 	 public static void main(String[] args){
-		System.setProperty("swing.defaultlaf", "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				new LoadingScreen();
-			}
-		});
+         System.setProperty("swing.defaultlaf", "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+         javax.swing.SwingUtilities.invokeLater(LoadingScreen::new);
 	}
     
 	public void setLoadingLength(int prz)
