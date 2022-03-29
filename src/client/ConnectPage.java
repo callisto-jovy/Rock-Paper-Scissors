@@ -8,7 +8,6 @@ import java.awt.event.MouseEvent;
 
 public class ConnectPage extends JFrame {
 
-    private JMenuBar menuBar;
     private final JButton BtnConnect;
     private final JLabel LblErrMsgUSR;
     private final JLabel LblErrorIP;
@@ -16,7 +15,6 @@ public class ConnectPage extends JFrame {
     private final JLabel label1;
     private final JLabel label2;
     private final JTextField TFUserName;
-
 
     private ClientLogin invoker;
 
@@ -26,8 +24,6 @@ public class ConnectPage extends JFrame {
         this.setTitle("Connect to Server");
         this.setSize(700, 450);
         //menu generate method
-        //generateMenu();
-        this.setJMenuBar(menuBar);
 
         //pane with null layout
         JPanel contentPane = new JPanel(null);
@@ -145,32 +141,6 @@ public class ConnectPage extends JFrame {
     public void setInvoker(ClientLogin pInvoker) {
         this.invoker = pInvoker;
     }
-
-    //method for generate menu
-    /*public void generateMenu(){
-    menuBar = new JMenuBar();
-
-    JMenu file = new JMenu("File");
-    JMenu tools = new JMenu("Tools");
-    JMenu help = new JMenu("Help");
-
-    JMenuItem open = new JMenuItem("Open   ");
-    JMenuItem save = new JMenuItem("Save   ");
-    JMenuItem exit = new JMenuItem("Exit   ");
-    JMenuItem preferences = new JMenuItem("Preferences   ");
-    JMenuItem about = new JMenuItem("About   ");
-
-    file.add(open);
-    file.add(save);
-    file.addSeparator();
-    file.add(exit);
-    tools.add(preferences);
-    help.add(about);
-
-    menuBar.add(file);
-    menuBar.add(tools);
-    menuBar.add(help);
-    }*/
 
     public static void main(String[] args) {
         try {

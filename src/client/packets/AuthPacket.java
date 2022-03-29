@@ -31,7 +31,7 @@ public class AuthPacket extends Packet {
 
     @Override
     public void send() {
-        //Empty, user does not need to send any auth packes, instead the user is prompted by the server.
+        //Empty, user does not need to send any auth packets, instead the user is prompted by the server.
     }
 
 }

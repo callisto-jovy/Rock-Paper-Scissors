@@ -1,6 +1,7 @@
 package src.client;
 
 import javax.swing.*;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -201,12 +202,12 @@ public class GameScreen extends JFrame {
     }
 
     public static void main(String[] args) {
-        System.setProperty("swing.defaultlaf", "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new GameScreen();
-            }
-        });
+        try {
+            UIManager.setLookAndFeel(NimbusLookAndFeel.class.getCanonicalName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
+        javax.swing.SwingUtilities.invokeLater(GameScreen::new);
     }
 
     public void setInvoker(ClientLogin pInvoker) {

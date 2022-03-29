@@ -1,57 +1,95 @@
 package src.client;
 
-public class ClientLogin
-{
-    ConnectPage c;
-    public GameScreen g;
-    String username;
-    int profilePic = 0;
-    int choice;
-    int points = 0;
+public class ClientLogin {
 
-    public ClientLogin(){
-        c = new ConnectPage();
-        c.setInvoker(this);
+    private final ConnectPage connectPage;
+    public GameScreen gameScreen;
+    private Player player;
+    private int choice;
+    //attributes
+    private String name;
+    private boolean searchesMatch;
+    private int scoreInMatch;
+    private int profilePic;
+
+    public ClientLogin() {
+        this.connectPage = new ConnectPage();
+        connectPage.setInvoker(this);
     }
 
-    public void tryConnect(String pIPAdress, String pUsername){
-        username = pUsername;
-        c.SetIPErrVis(true);
-        c.SetUsrErrVis(true);
-        c.hide();
+    public void tryConnect(String ipAddress, String pUsername) {
+        this.player = new Player(ipAddress);
+        this.name = pUsername;
+
+        connectPage.SetIPErrVis(true);
+        connectPage.SetUsrErrVis(true);
+        connectPage.hide();
+
         startGameScreen();
     }
 
-    void startGameScreen(){
-        g = new GameScreen();
-        g.setInvoker(this);
-        g.setProfilePicSelf(profilePic);
-        g.setProfilePicOpp(profilePic+1);
-        g.setEnemySelection(0);
-        g.setUsernameSelf(username);
-        g.setUsernameOpp(username); //remove
-        g.setOpponentPoints(points);
-        g.setSelfPoints(points);
+    public void startGameScreen() {
+        gameScreen = new GameScreen();
+        gameScreen.setInvoker(this);
+        gameScreen.setProfilePicSelf(profilePic);
+        gameScreen.setProfilePicOpp(profilePic + 1);
+        gameScreen.setEnemySelection(0);
+        gameScreen.setUsernameSelf(getName());
+        gameScreen.setUsernameOpp(getName()); //remove
+        gameScreen.setOpponentPoints(getScoreInMatch());
+        gameScreen.setSelfPoints(getScoreInMatch());
         count();
     }
 
-    public void btnClicked(int pChoice){
+    public void btnClicked(int pChoice) {
         choice = pChoice;
-        g.setSelfSelection(pChoice);
-        g.setEnemySelection(pChoice);//remove
+        gameScreen.setSelfSelection(pChoice);
+        gameScreen.setEnemySelection(pChoice);//remove
     }
 
-    public void setProfilePic(int pPic){
-        profilePic = pPic;
+    public Player getPlayer() {
+        return player;
     }
 
-    synchronized void count(){
-        g.setCounter("4");
-        g.setCounter("3");
-        g.setCounter("2");
-        g.setCounter("1");
-        g.setCounter("TIE!");
-        g.setCounter("WIN!");
-        g.setCounter("LOST!");
+    public ConnectPage getConnectPage() {
+        return connectPage;
+    }
+
+    public GameScreen getGameScreen() {
+        return gameScreen;
+    }
+
+    public int getChoice() {
+        return choice;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isSearchesMatch() {
+        return searchesMatch;
+    }
+
+    public int getScoreInMatch() {
+        return scoreInMatch;
+    }
+
+    public int getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(int pPic) {
+        this.profilePic = pPic;
+    }
+
+    synchronized void count() {
+        gameScreen.setCounter("4");
+        gameScreen.setCounter("3");
+        gameScreen.setCounter("2");
+        gameScreen.setCounter("1");
+        gameScreen.setCounter("TIE!");
+        gameScreen.setCounter("WIN!");
+        gameScreen.setCounter("LOST!");
     }
 }
