@@ -16,11 +16,8 @@ public class ClientLogin
 
     public void tryConnect(String pIPAdress, String pUsername){
         username = pUsername;
-        //try{wait(1000);} catch(Exception e){}
         c.SetIPErrVis(true);
-        //try{wait(1000);} catch(Exception e){}
         c.SetUsrErrVis(true);
-        //try{wait(1000);} catch(Exception e){}
         c.hide();
         startGameScreen();
     }
@@ -49,21 +46,12 @@ public class ClientLogin
     }
 
     synchronized void count(){
-        //while(true){
-            g.setCounter("4");
-            //try{wait(1000);} catch(Exception e){}
-            g.setCounter("3");
-            //try{wait(1000);} catch(Exception e){}
-            g.setCounter("2");
-            //try{wait(1000);} catch(Exception e){}
-            g.setCounter("1");
-            //try{wait(1000);} catch(Exception e){}
-            g.setCounter("TIE!");
-            //try{wait(1000);} catch(Exception e){}
-            g.setCounter("WIN!");
-            //try{wait(1000);} catch(Exception e){}
-            g.setCounter("LOST!");
-            //try{wait(1000);} catch(Exception e){}
-        //}
+        g.setCounter("4");
+        g.setCounter("3");
+        g.setCounter("2");
+        g.setCounter("1");
+        g.setCounter("TIE!");
+        g.setCounter("WIN!");
+        g.setCounter("LOST!");
     }
 }
