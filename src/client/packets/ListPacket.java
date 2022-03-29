@@ -1,35 +1,36 @@
 package src.client.packets;
+//Client
+import org.json.JSONArray;
+import src.server.ApplicationServer;
+import src.server.User;
+import src.util.Packet;
+import src.util.PacketUtil;
+import javax.swing.*;
 
+public class ListPacket extends Packet {
 
-/**
- * Beschreiben Sie hier die Klasse ListPacket.
- * 
- * @author (Ihr Name) 
- * @version (eine Versionsnummer oder ein Datum)
- */
-public class ListPacket
-{
-    // Instanzvariablen - ersetzen Sie das folgende Beispiel mit Ihren Variablen
-    private int x;
-
-    /**
-     * Konstruktor für Objekte der Klasse ListPacket
-     */
-    public ListPacket()
-    {
-        // Instanzvariable initialisieren
-        x = 0;
+    public ListPacket() {
+        super("LIST");
     }
 
-    /**
-     * Ein Beispiel einer Methode - ersetzen Sie diesen Kommentar mit Ihrem eigenen
-     * 
-     * @param  y    ein Beispielparameter für eine Methode
-     * @return        die Summe aus x und y
-     */
-    public int beispielMethode(int y)
-    {
-        // tragen Sie hier den Code ein
-        return x + y;
+    @Override
+    public void receive(PacketUtil input, User parent) {
+        if(input.hasPayload())
+        {
+            final JSONArray playerlistArray = input.getPayloadArray();
+            for(int i = 0; i < playerlistArray.length(); i++) {
+                System.out.println(playerlistArray.get(i));
+            }
+        }
+        else if(input.isError())
+        {
+            final String error = input.getError();
+            JOptionPane.showMessageDialog(null, "Error: " + error);
+        }
+    }
+
+    @Override
+    public void send() {
+        setPayload("nico");
     }
 }
