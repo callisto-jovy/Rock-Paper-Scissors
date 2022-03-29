@@ -121,7 +121,7 @@ public class ConnectPage extends JFrame {
         TFUserName.setText("Player1");
         TFUserName.setVisible(true);
 
-        BtnIcon1 = new JButton(new ImageIcon(getClass().getResource("Icons/fortnite-llama-48.png")));
+        BtnIcon1 = new JButton(new ImageIcon(getClass().getResource("src/client/Icons/fortnite-llama-48.png")));
         BtnIcon1.setBounds(476,50,48,48);
         BtnIcon1.setBackground(new Color(70,70,70));
         BtnIcon1.addMouseListener(new MouseAdapter() {
@@ -129,7 +129,7 @@ public class ConnectPage extends JFrame {
                     invoker.setProfilePic(1); 
                 }  
             });
-        BtnIcon2 = new JButton(new ImageIcon(getClass().getResource("Icons/batman-48.png")));
+        BtnIcon2 = new JButton(new ImageIcon(getClass().getResource("src/client/Icons/batman-48.png")));
         BtnIcon2.setBounds(576,50,48,48);
         BtnIcon2.setBackground(new Color(70,70,70));
         BtnIcon2.addMouseListener(new MouseAdapter() {
@@ -137,7 +137,7 @@ public class ConnectPage extends JFrame {
                     invoker.setProfilePic(2);
                 }  
             });
-        BtnIcon3 = new JButton(new ImageIcon(getClass().getResource("Icons/naruto-48.png")));
+        BtnIcon3 = new JButton(new ImageIcon(getClass().getResource("src/client/Icons/naruto-48.png")));
         BtnIcon3.setBounds(476,150,48,48);
         BtnIcon3.setBackground(new Color(70,70,70));
         BtnIcon3.addMouseListener(new MouseAdapter() {
@@ -145,7 +145,7 @@ public class ConnectPage extends JFrame {
                     invoker.setProfilePic(3);
                 }  
             });
-        BtnIcon4 = new JButton(new ImageIcon(getClass().getResource("Icons/thanos-48.png")));
+        BtnIcon4 = new JButton(new ImageIcon(getClass().getResource("src/client/Icons/thanos-48.png")));
         BtnIcon4.setBounds(576,150,48,48);
         BtnIcon4.setBackground(new Color(70,70,70));
         BtnIcon4.addMouseListener(new MouseAdapter() {
@@ -153,7 +153,7 @@ public class ConnectPage extends JFrame {
                     invoker.setProfilePic(4);
                 }  
             });
-        BtnIcon5 = new JButton(new ImageIcon(getClass().getResource("Icons/darth-vader-48.png")));
+        BtnIcon5 = new JButton(new ImageIcon(getClass().getResource("src/client/Icons/darth-vader-48.png")));
         BtnIcon5.setBounds(476,250,48,48);
         BtnIcon5.setBackground(new Color(70,70,70));
         BtnIcon5.addMouseListener(new MouseAdapter() {
@@ -161,7 +161,7 @@ public class ConnectPage extends JFrame {
                     invoker.setProfilePic(5);
                 }  
             });
-        BtnIcon6 = new JButton(new ImageIcon(getClass().getResource("Icons/super-mario-48.png")));
+        BtnIcon6 = new JButton(new ImageIcon(getClass().getResource("src/client/Icons/super-mario-48.png")));
         BtnIcon6.setBounds(576,250,48,48);
         BtnIcon6.setBackground(new Color(70,70,70));
         BtnIcon6.addMouseListener(new MouseAdapter() {
@@ -169,7 +169,7 @@ public class ConnectPage extends JFrame {
                     invoker.setProfilePic(6);
                 }  
             });
-        BtnIcon7 = new JButton(new ImageIcon(getClass().getResource("Icons/eric-cartman-48.png")));
+        BtnIcon7 = new JButton(new ImageIcon(getClass().getResource("src/client/Icons/eric-cartman-48.png")));
         BtnIcon7.setBounds(476,350,48,48);
         BtnIcon7.setBackground(new Color(70,70,70));
         BtnIcon7.addMouseListener(new MouseAdapter() {
@@ -177,7 +177,7 @@ public class ConnectPage extends JFrame {
                     invoker.setProfilePic(7);
                 }  
             });
-        BtnIcon8 = new JButton(new ImageIcon(getClass().getResource("Icons/john-wick-48.png")));
+        BtnIcon8 = new JButton(new ImageIcon(getClass().getResource("src/client/Icons/john-wick-48.png")));
         BtnIcon8.setBounds(576,350,48,48);
         BtnIcon8.setBackground(new Color(70,70,70));
         BtnIcon8.addMouseListener(new MouseAdapter() {

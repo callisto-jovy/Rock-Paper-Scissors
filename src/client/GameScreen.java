@@ -55,7 +55,7 @@ public class GameScreen extends JFrame {
 
 
         
-        BtnRock = new JButton(new ImageIcon(getClass().getResource("Icons/icons-hand-felsen.png")));
+        BtnRock = new JButton(new ImageIcon(getClass().getResource("src/client/Icons/icons-hand-felsen.png")));
         BtnRock.setBounds(208,480,64,64);
         BtnRock.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
@@ -69,7 +69,7 @@ public class GameScreen extends JFrame {
         BtnRock.setText("Rock");
         BtnRock.setVisible(true);
 
-        BtnPaper = new JButton(new ImageIcon(getClass().getResource("Icons/icons-hand-papier.png")));
+        BtnPaper = new JButton(new ImageIcon(getClass().getResource("src/client/Icons/icons-hand-papier.png")));
         BtnPaper.setBounds(368,480,64,64);
         BtnPaper.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
@@ -83,7 +83,7 @@ public class GameScreen extends JFrame {
         BtnPaper.setText("Paper");
         BtnPaper.setVisible(true);
         
-        BtnScissors = new JButton(new ImageIcon(getClass().getResource("Icons/icons-hand-schere.png")));
+        BtnScissors = new JButton(new ImageIcon(getClass().getResource("src/client/Icons/icons-hand-schere.png")));
         BtnScissors.setBounds(528,480,64,64);
         BtnScissors.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
@@ -241,13 +241,13 @@ public class GameScreen extends JFrame {
                 LblOppResult.setText("?");
                 break;
             case 1:
-                LblOppResult.setIcon(new ImageIcon(getClass().getResource("Icons/icons-hand-felsen.png")));
+                LblOppResult.setIcon(new ImageIcon(getClass().getResource("src/client/Icons/icons-hand-felsen.png")));
                 break;
             case 2:
-                LblOppResult.setIcon(new ImageIcon(getClass().getResource("Icons/icons-hand-papier.png")));
+                LblOppResult.setIcon(new ImageIcon(getClass().getResource("src/client/Icons/icons-hand-papier.png")));
                 break;
             case 3:
-                LblOppResult.setIcon(new ImageIcon(getClass().getResource("Icons/icons-hand-schere.png")));
+                LblOppResult.setIcon(new ImageIcon(getClass().getResource("src/client/Icons/icons-hand-schere.png")));
                 break;
         }
     }
@@ -258,13 +258,13 @@ public class GameScreen extends JFrame {
                 LblSelfResult.setText("?");
                 break;
             case 1:
-                LblSelfResult.setIcon(new ImageIcon(getClass().getResource("Icons/icons-hand-felsen.png")));
+                LblSelfResult.setIcon(new ImageIcon(getClass().getResource("src/client/Icons/icons-hand-felsen.png")));
                 break;
             case 2:
-                LblSelfResult.setIcon(new ImageIcon(getClass().getResource("Icons/icons-hand-papier.png")));
+                LblSelfResult.setIcon(new ImageIcon(getClass().getResource("src/client/Icons/icons-hand-papier.png")));
                 break;
             case 3:
-                LblSelfResult.setIcon(new ImageIcon(getClass().getResource("Icons/icons-hand-schere.png")));
+                LblSelfResult.setIcon(new ImageIcon(getClass().getResource("src/client/Icons/icons-hand-schere.png")));
                 break;
         }
     }
@@ -305,28 +305,28 @@ public class GameScreen extends JFrame {
                 LblProfilePicSelf.setText("?");
                 break;
             case 1:
-                LblProfilePicSelf.setIcon(new ImageIcon(getClass().getResource("Icons/fortnite-llama-96.png")));
+                LblProfilePicSelf.setIcon(new ImageIcon(getClass().getResource("src/client/Icons/fortnite-llama-96.png")));
                 break;
             case 2:
-                LblProfilePicSelf.setIcon(new ImageIcon(getClass().getResource("Icons/batman-96.png")));
+                LblProfilePicSelf.setIcon(new ImageIcon(getClass().getResource("src/client/Icons/batman-96.png")));
                 break;
             case 3:
-                LblProfilePicSelf.setIcon(new ImageIcon(getClass().getResource("Icons/naruto-96.png")));
+                LblProfilePicSelf.setIcon(new ImageIcon(getClass().getResource("src/client/Icons/naruto-96.png")));
                 break;
             case 4:
-                LblProfilePicSelf.setIcon(new ImageIcon(getClass().getResource("Icons/thanos-96.png")));
+                LblProfilePicSelf.setIcon(new ImageIcon(getClass().getResource("src/client/Icons/thanos-96.png")));
                 break;
             case 5:
-                LblProfilePicSelf.setIcon(new ImageIcon(getClass().getResource("Icons/darth-vader-96.png")));
+                LblProfilePicSelf.setIcon(new ImageIcon(getClass().getResource("src/client/Icons/darth-vader-96.png")));
                 break;
             case 6:
-                LblProfilePicSelf.setIcon(new ImageIcon(getClass().getResource("Icons/super-mario-96.png")));
+                LblProfilePicSelf.setIcon(new ImageIcon(getClass().getResource("src/client/Icons/super-mario-96.png")));
                 break;
             case 7:
-                LblProfilePicSelf.setIcon(new ImageIcon(getClass().getResource("Icons/eric-cartman-96.png")));
+                LblProfilePicSelf.setIcon(new ImageIcon(getClass().getResource("src/client/Icons/eric-cartman-96.png")));
                 break;
             case 8:
-                LblProfilePicSelf.setIcon(new ImageIcon(getClass().getResource("Icons/john-wick-96.png")));
+                LblProfilePicSelf.setIcon(new ImageIcon(getClass().getResource("src/client/Icons/john-wick-96.png")));
                 break;
             }
     }
@@ -337,28 +337,28 @@ public class GameScreen extends JFrame {
                 LblProfilePicOpp.setText("?");
                 break;
             case 1:
-                LblProfilePicOpp.setIcon(new ImageIcon(getClass().getResource("Icons/fortnite-llama-96.png")));
+                LblProfilePicOpp.setIcon(new ImageIcon(getClass().getResource("src/client/Icons/fortnite-llama-96.png")));
                 break;
             case 2:
-                 LblProfilePicOpp.setIcon(new ImageIcon(getClass().getResource("Icons/batman-96.png")));
+                 LblProfilePicOpp.setIcon(new ImageIcon(getClass().getResource("src/client/Icons/batman-96.png")));
                 break;
             case 3:
-                 LblProfilePicOpp.setIcon(new ImageIcon(getClass().getResource("Icons/naruto-96.png")));
+                 LblProfilePicOpp.setIcon(new ImageIcon(getClass().getResource("src/client/Icons/naruto-96.png")));
                 break;
             case 4:
-                 LblProfilePicOpp.setIcon(new ImageIcon(getClass().getResource("Icons/thanos-96.png")));
+                 LblProfilePicOpp.setIcon(new ImageIcon(getClass().getResource("src/client/Icons/thanos-96.png")));
                 break;
             case 5:
-                 LblProfilePicOpp.setIcon(new ImageIcon(getClass().getResource("Icons/darth-vader-96.png")));
+                 LblProfilePicOpp.setIcon(new ImageIcon(getClass().getResource("src/client/Icons/darth-vader-96.png")));
                 break;
             case 6:
-                 LblProfilePicOpp.setIcon(new ImageIcon(getClass().getResource("Icons/super-mario-96.png")));
+                 LblProfilePicOpp.setIcon(new ImageIcon(getClass().getResource("src/client/Icons/super-mario-96.png")));
                 break;
             case 7:
-                 LblProfilePicOpp.setIcon(new ImageIcon(getClass().getResource("Icons/eric-cartman-96.png")));
+                 LblProfilePicOpp.setIcon(new ImageIcon(getClass().getResource("src/client/Icons/eric-cartman-96.png")));
                 break;
             case 8:
-                 LblProfilePicOpp.setIcon(new ImageIcon(getClass().getResource("Icons/john-wick-96.png")));
+                 LblProfilePicOpp.setIcon(new ImageIcon(getClass().getResource("src/client/Icons/john-wick-96.png")));
                 break;
             }
     }
