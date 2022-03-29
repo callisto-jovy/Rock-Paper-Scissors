@@ -1,5 +1,5 @@
 package src.server;
-
+import org.json.*;
 /**
  * Basic User class, in order to manage all the users.
  * This class contains such things as the user's name, ip and port. Further, the class points to the users individual packet manager,
@@ -19,23 +19,41 @@ public class User {
      */
     private final int clientPort;
     /**
-     * The users name, will be null before the user "authenticates" himself (Can be used as an indicator whether the user is authenticated
+     * The user's name, will be null before the user "authenticates" himself (Can be used as an indicator whether the user is authenticated
      */
     private String name;
     /**
      * Toggle whether the user is searching for a match
      */
     private boolean searchesMatch;
-    /*
-     * The users total score
+    /**
+     * The user's total score
      */
     private int totalScore;
-
+    /**
+     * The user's profilePicture 
+     */
+    private int profilePicture;
+    
     public User(String clientIP, int clientPort) {
         this.clientIP = clientIP;
         this.clientPort = clientPort;
     }
-
+    
+    public JSONObject toJSON() {
+        return new JSONObject()
+        .put("username", name)
+        .put("profile_picture", profilePicture);
+    }
+    
+    public void setProfilePicture(final int picture) {
+        this.profilePicture = picture;
+    }
+    
+    public int getProfilePicture() {
+        return profilePicture;
+    }
+    
     public int getScore() {
         return totalScore;
     }
@@ -50,7 +68,6 @@ public class User {
         }
 
     }
-
 
     public String getName() {
         return name;

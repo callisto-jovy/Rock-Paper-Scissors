@@ -5,6 +5,7 @@ import src.server.Highscore;
 import src.server.User;
 import src.util.Packet;
 import src.util.PacketUtil;
+import org.json.*;
 
 public class AuthPacket extends Packet {
 
@@ -15,8 +16,11 @@ public class AuthPacket extends Packet {
     @Override
     public void receive(PacketUtil input, User parent) {
         if (input.hasPayload()) {
-            final String userName = input.getPayloadString();
-
+            final JSONObject payload = input.getPayloadJSON();
+            
+            final String userName = payload.getString("username");
+            final int profilePicture = payload.getInt("profile_picture");
+            
             if (userName.isEmpty()) {
                 setError("Your username may not be null");
                 return;
@@ -32,6 +36,7 @@ public class AuthPacket extends Packet {
             }
 
             parent.setName(userName);
+            parent.setProfilePicture(profilePicture);
         }
     }
 

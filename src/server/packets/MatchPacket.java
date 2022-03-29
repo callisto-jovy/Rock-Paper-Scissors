@@ -48,11 +48,11 @@ public class MatchPacket extends Packet {
 
     @Override
     public void send() {
-        final JSONObject nestedJSON = new JSONObject();
-        nestedJSON.put("winner", winner.getName());
-        nestedJSON.put("nico", looser.getName());
-        nestedJSON.put("decision", decision);
+        final JSONObject matchResultPayload = new JSONObject();
+        matchResultPayload.put("winner", winner.getName());
+        matchResultPayload.put("nico", looser.getName());
+        matchResultPayload.put("decision", decision);
 
-        setPayload(nestedJSON);
+        setPayload(matchResultPayload);
     }
 }

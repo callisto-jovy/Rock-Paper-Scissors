@@ -22,25 +22,7 @@ public class SearchPacket extends Packet {
         this.setPayload("halt");
 
         if (parent.searchesMatch()) {
-            CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
-                try {
-                    TimeUnit.SECONDS.sleep(5);
-                } catch (InterruptedException e) {
-                    throw new IllegalStateException(e);
-                }
-                ApplicationServer.INSTANCE.userList.toFirst();
-                while (ApplicationServer.INSTANCE.userList.hasAccess()) {
-                    final User u = ApplicationServer.INSTANCE.userList.getContent();
-                    if (u.searchesMatch()) {
-                        //new match found
-                        final Match match = new Match(parent, u);
-                        ApplicationServer.INSTANCE.matchList.append(match);
-                        match.start();
-                        return;
-                    }
-                    ApplicationServer.INSTANCE.userList.next();
-                }
-            });
+            ApplicationServer.INSTANCE.matchQueue.add(parent);
         }
     }
 

@@ -7,8 +7,11 @@ import src.util.PacketUtil;
 
 public class MatchFoundPacket extends Packet {
 
-    public MatchFoundPacket() {
+    private final User enemy;
+    
+    public MatchFoundPacket(final User enemy) {
         super("MFND");
+        this.enemy = enemy;
     }
 
     @Override
@@ -16,7 +19,7 @@ public class MatchFoundPacket extends Packet {
     }
 
     @Override
-    public void send() {
-        setPayload("match found");
+    public void send() {        
+        setPayload(enemy.toJSON());
     }
 }

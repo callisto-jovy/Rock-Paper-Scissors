@@ -23,6 +23,9 @@ public class Match {
     public Match(User user1, User user2) {
         this.user1 = user1;
         this.user2 = user2;
+        
+        user1.setSearchesMatch(false);
+        user2.setSearchesMatch(false);
     }
 
     public User getUser1() {
@@ -118,9 +121,8 @@ public class Match {
     }
 
     public void start() {
-        final MatchFoundPacket matchFoundPacket = new MatchFoundPacket();
         //Send a packet which indicates that a match has been found to both users.
-        ApplicationServer.INSTANCE.sendToUser(user1, matchFoundPacket);
-        ApplicationServer.INSTANCE.sendToUser(user2, matchFoundPacket);
+        ApplicationServer.INSTANCE.sendToUser(user1, new MatchFoundPacket(user2));
+        ApplicationServer.INSTANCE.sendToUser(user2, new MatchFoundPacket(user1));
     }
 }

@@ -3,6 +3,7 @@ package src.server.packets;
 import src.server.User;
 import src.util.Packet;
 import src.util.PacketUtil;
+import org.json.*;
 
 public class ResultPacket extends Packet {
 
@@ -19,14 +20,16 @@ public class ResultPacket extends Packet {
         this.score = score;
     }
 
-
     @Override
     public void receive(PacketUtil input, User parent) {
-
+        //Receive empty
     }
 
     public void send() {
-
+        final JSONObject payloadWinner = new JSONObject();
+        payloadWinner.put("winner", winner.getName());
+        payloadWinner.put("score", score);
+        
+        setPayload(payloadWinner);
     }
-
 }

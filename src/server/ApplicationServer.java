@@ -1,12 +1,12 @@
 package src.server;
 
 import src.server.packets.*;
-import src.util.List;
-import src.util.LogUtil;
-import src.util.Packet;
-import src.util.PacketFormatter;
-
+import src.util.*;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.Timer;
 import java.util.logging.Level;
+import java.util.TimerTask;
 
 public class ApplicationServer extends Server {
 
@@ -25,10 +25,16 @@ public class ApplicationServer extends Server {
      */
     public final List<Highscore> highscoreList = new List<>();
     /**
-     * List of all matches
+     * List of all ongoing matches
      */
     public final List<Match> matchList = new List<>();
-
+    /**
+     * Queue with all users which are searching for a match
+     */
+    public final Queue<User> matchQueue = new ConcurrentLinkedQueue<>();
+    /**
+     * Private list with all packets that the server may receive
+     */
     private final List<Packet> packetList = new List<>();
 
     public ApplicationServer() {
@@ -40,9 +46,32 @@ public class ApplicationServer extends Server {
         packetList.append(new AuthPacket());
         packetList.append(new ListPacket());
         packetList.append(new HighscorePacket());
-        packetList.append(new MatchFoundPacket());
         packetList.append(new MatchPacket());
         packetList.append(new SearchPacket());
+
+        //Initiate search task:
+        final Timer timer = new Timer(); // Instantiate Timer Object
+        timer.scheduleAtFixedRate(new TimerTask() {
+                public void run() {
+                    LogUtil.getLogger().log(Level.INFO, "Executing match task, matching users...");
+                    final User latestSearching = matchQueue.poll();
+                    if(latestSearching == null) 
+                        return;
+                        
+                    final User nextSearching = matchQueue.peek();
+                    if(nextSearching == null) {
+                        matchQueue.add(latestSearching);
+                    } else {
+                        final User next = matchQueue.poll();
+                        
+                        final Match match = new Match(next, latestSearching);
+                        ApplicationServer.INSTANCE.matchList.append(match);
+                        match.start();
+                    }
+                    
+                }
+            }, 5000, 1000);
+
     }
 
     @Override
@@ -91,15 +120,25 @@ public class ApplicationServer extends Server {
     @Override
     public void processClosingConnection(String pClientIP, int pClientPort) {
         //Remove user from list if disconnected
+        User toRemove = null;
+
         userList.toFirst();
         while (userList.hasAccess()) {
             final User user = userList.getContent();
             if (user.getClientIP().equals(pClientIP) && user.getClientPort() == pClientPort) {
+                toRemove = user;
                 userList.remove();
                 break;
             }
             userList.next();
         }
+
+        //Remove user from search queue
+        if(toRemove != null)
+            matchQueue.remove(toRemove);
+
+        //TODO: Remove user from match & if necessary close match (
+
     }
 
     public void sendToUser(final User user, final Packet packet) {
