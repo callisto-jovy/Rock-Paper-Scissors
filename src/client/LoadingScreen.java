@@ -1,7 +1,4 @@
 package src.client;
-/**
-*Text genereted by Simple GUI Extension for BlueJ
-*/
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,21 +6,20 @@ import java.awt.*;
 
 public class LoadingScreen extends JFrame {
 
-	private JMenuBar menuBar;
-	private JLabel label1;
-	private JPanel panel1;
-	private JPanel panel2;
+    private JMenuBar menuBar;
+    private final JLabel label1;
+    private final JPanel panel1;
+    private final JPanel panel2;
 
-	//Constructor 
-	public LoadingScreen(){
+    //Constructor
+    public LoadingScreen() {
+        this.setTitle("Loading...");
+        this.setSize(500, 400);
+        //menu generate method
+        generateMenu();
+        this.setJMenuBar(menuBar);
 
-		this.setTitle("GUI_project");
-		this.setSize(500,400);
-		//menu generate method
-		generateMenu();
-		this.setJMenuBar(menuBar);
-
-		//pane with null layout
+        //pane with null layout
 		JPanel contentPane = new JPanel(null);
 		contentPane.setPreferredSize(new Dimension(500,400));
 		contentPane.setBackground(new Color(70,70,70));
@@ -78,8 +74,6 @@ public class LoadingScreen extends JFrame {
 
 
 	}
-
-
 
 	 public static void main(String[] args){
          System.setProperty("swing.defaultlaf", "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
