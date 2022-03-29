@@ -13,12 +13,12 @@ public class MatchPacket extends Packet {
 
     @Override
     public void send() {
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
     }
 
     @Override
     public void receive(PacketUtil input, User user) {
-
+        
     }
 
 }
