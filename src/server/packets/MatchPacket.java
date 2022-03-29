@@ -52,7 +52,7 @@ public class MatchPacket extends Packet {
         matchResultPayload.put("winner", winner.getName());
         matchResultPayload.put("nico", looser.getName());
         matchResultPayload.put("decision", decision);
-
+        
         setPayload(matchResultPayload);
     }
 }
