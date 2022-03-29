@@ -10,7 +10,7 @@ import src.util.PacketUtil;
 public class MatchPacket extends Packet {
 
     private User winner, looser;
-    private int decision;
+    private int decision;                                                                               
 
     public MatchPacket() {
         super("MTCH");
@@ -43,7 +43,7 @@ public class MatchPacket extends Packet {
             }
             ApplicationServer.INSTANCE.matchList.next();
         }
-
+        
     }
 
     @Override
