@@ -16,7 +16,7 @@ import javax.swing.border.Border;
 import javax.swing.*;
 
 
-public class GUI_project extends JFrame {
+public class LoadingScreen extends JFrame {
 
 	private JMenuBar menuBar;
 	private JLabel label1;
@@ -24,7 +24,7 @@ public class GUI_project extends JFrame {
 	private JPanel panel2;
 
 	//Constructor 
-	public GUI_project(){
+	public LoadingScreen(){
 
 		this.setTitle("GUI_project");
 		this.setSize(500,400);
@@ -94,7 +94,7 @@ public class GUI_project extends JFrame {
 		System.setProperty("swing.defaultlaf", "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				new GUI_project();
+				new LoadingScreen();
 			}
 		});
 	}
