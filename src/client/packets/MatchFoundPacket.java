@@ -1,35 +1,26 @@
 package src.client.packets;
+//Client
 
+import src.server.User;
+import src.util.Packet;
+import src.util.PacketUtil;
 
-/**
- * Beschreiben Sie hier die Klasse MatchFoundPacket.
- * 
- * @author (Ihr Name) 
- * @version (eine Versionsnummer oder ein Datum)
- */
-public class MatchFoundPacket
-{
-    // Instanzvariablen - ersetzen Sie das folgende Beispiel mit Ihren Variablen
-    private int x;
+public class MatchFoundPacket extends Packet {
 
-    /**
-     * Konstruktor für Objekte der Klasse MatchFoundPacket
-     */
-    public MatchFoundPacket()
-    {
-        // Instanzvariable initialisieren
-        x = 0;
+    private final User enemy;
+    
+    public MatchFoundPacket(final User enemy) {
+        super("MFND");
+        this.enemy = enemy;
     }
 
-    /**
-     * Ein Beispiel einer Methode - ersetzen Sie diesen Kommentar mit Ihrem eigenen
-     * 
-     * @param  y    ein Beispielparameter für eine Methode
-     * @return        die Summe aus x und y
-     */
-    public int beispielMethode(int y)
-    {
-        // tragen Sie hier den Code ein
-        return x + y;
+    @Override
+    public void receive(PacketUtil input, User parent) {
+        parent.setSearchesMatch(false);
+    }
+
+    @Override
+    public void send() {        
+        setPayload(enemy.toJSON());
     }
 }
