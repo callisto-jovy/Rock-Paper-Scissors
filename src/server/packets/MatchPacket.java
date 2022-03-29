@@ -13,11 +13,11 @@ public class MatchPacket extends Packet {
     private int decision;
 
     public MatchPacket() {
-        super("MATC");
+        super("MTCH");
     }
 
     public MatchPacket(final User winner, final User looser, final int dec) {
-        super("MATC");
+        super("MTCH");
         this.winner = winner;
         this.looser = looser;
         this.decision = dec;

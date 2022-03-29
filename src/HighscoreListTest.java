@@ -1,15 +1,13 @@
 package src;
 
 
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import src.client.Player;
-import src.client.packets.*;
-import src.util.*;
-
+import src.client.packets.HighscorePacket;
 import src.server.ApplicationServer;
+import src.util.PacketFormatter;
 
 
 /**
@@ -36,13 +34,12 @@ public class HighscoreListTest
     {
         ApplicationServer.INSTANCE.startServer();
         Player.PLAYER.connect();
-        
 
     }
-    
+
     @Test
-    public void test() {
-        HighscorePacket packet = new HighscorePacket();
+    public void highscoreTest() {
+        final HighscorePacket packet = new HighscorePacket();
         packet.send();
         Player.PLAYER.send(PacketFormatter.formatPacket(packet));
     }
