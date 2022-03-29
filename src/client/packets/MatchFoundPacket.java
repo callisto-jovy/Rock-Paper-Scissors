@@ -21,6 +21,6 @@ public class MatchFoundPacket extends Packet {
 
     @Override
     public void send() {        
-        setPayload(enemy.toJSON());
+        
     }
 }
