@@ -3,20 +3,14 @@ package src.client;
 /**
  *Text genereted by Simple GUI Extension for BlueJ
  */
-import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.*;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
-import javax.swing.border.Border;
-import javax.swing.*;
 
 public class ConnectPage extends JFrame {
+
     private JMenuBar menuBar;
     private JButton BtnConnect;
     private JLabel LblErrMsgUSR;
@@ -41,7 +35,7 @@ public class ConnectPage extends JFrame {
     }
     //Constructor 
     public ConnectPage(){
-
+        this.setResizable(false);
         this.setTitle("Connect to Server");
         this.setSize(700,450);
         //menu generate method
@@ -63,7 +57,7 @@ public class ConnectPage extends JFrame {
         BtnConnect.setVisible(true);
         BtnConnect.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
-                    invoker.tryConnect(TFIPAdress.getText(), TFUserName.getText()); 
+                    invoker.tryConnect(TFIPAdress.getText(), TFUserName.getText());
                 }  
             });
 
@@ -238,14 +232,16 @@ public class ConnectPage extends JFrame {
     menuBar.add(help);
     }*/
 
-    public static void main(String[] args){
-        System.setProperty("swing.defaultlaf", "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    new ConnectPage();
-                }
-            });
+    public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel(NimbusLookAndFeel.class.getCanonicalName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
+
+        javax.swing.SwingUtilities.invokeLater(ConnectPage::new);
     }
+
 
     public void SetIPErrVis(boolean b){
         LblErrorIP.setVisible(b);
