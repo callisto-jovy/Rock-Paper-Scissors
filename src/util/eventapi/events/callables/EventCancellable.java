@@ -1,6 +1,9 @@
 package src.util.eventapi.events.callables;
 
 
+import src.util.eventapi.events.Cancellable;
+import src.util.eventapi.events.Event;
+
 /**
  * Abstract example implementation of the Cancellable interface.
  *
