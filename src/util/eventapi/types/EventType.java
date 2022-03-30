@@ -1,4 +1,4 @@
-package com.darkmagician6.eventapi.types;
+package src.util.eventapi.types;
 
 /**
  * Types that can be used for typed events.
