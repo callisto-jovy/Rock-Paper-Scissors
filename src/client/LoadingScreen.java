@@ -7,22 +7,21 @@ import java.awt.*;
 
 public class LoadingScreen extends JFrame {
 
-    private final JLabel label1;
-    private final JPanel panel1;
-    private final JPanel panel2;
+	private final JPanel panel2;
 
     //Constructor
     public LoadingScreen() {
 		this.setTitle("Loading...");
 		this.setSize(500, 400);
+		this.setResizable(false);
 
 		//pane with null layout
-		JPanel contentPane = new JPanel(null);
+		final JPanel contentPane = new JPanel(null);
 		contentPane.setPreferredSize(new Dimension(500, 400));
 		contentPane.setBackground(new Color(70, 70, 70));
 
 
-		label1 = new JLabel();
+		final JLabel label1 = new JLabel();
 		label1.setBounds(100, 150, 300, 100);
 		label1.setBackground(new Color(214, 217, 223));
 		label1.setForeground(new Color(0, 0, 0));
@@ -31,7 +30,7 @@ public class LoadingScreen extends JFrame {
 		label1.setText("SEARCH");
 		label1.setVisible(true);
 
-		panel1 = new JPanel(null);
+		final JPanel panel1 = new JPanel(null);
 		panel1.setBorder(BorderFactory.createEtchedBorder(1));
 		panel1.setBounds(102, 230, 290, 19);
 		panel1.setBackground(new Color(214, 217, 223));

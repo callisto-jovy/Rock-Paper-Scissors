@@ -25,15 +25,13 @@ public class GameScreen extends JFrame {
     private final JLabel LblProfilePicOpp;
     private final JLabel LblProfilePicSelf;
 
-    ClientLogin invoker;
 
     //Constructor
     public GameScreen() {
-
         this.setTitle("Rock Paper Scissors");
         this.setSize(800, 600);
+        this.setResizable(false);
         //menu generate method
-        generateMenu();
         this.setJMenuBar(menuBar);
 
         //pane with null layout
@@ -46,7 +44,7 @@ public class GameScreen extends JFrame {
         BtnRock.setBounds(208, 480, 64, 64);
         BtnRock.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                invoker.btnClicked(1);
+                Player.INSTANCE.btnClicked(1);
             }
         });
         BtnRock.setBackground(new Color(50, 50, 50));
@@ -60,7 +58,7 @@ public class GameScreen extends JFrame {
         BtnPaper.setBounds(368, 480, 64, 64);
         BtnPaper.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                invoker.btnClicked(2);
+                Player.INSTANCE.btnClicked(2);
             }
         });
         BtnPaper.setBackground(new Color(50, 50, 50));
@@ -74,7 +72,7 @@ public class GameScreen extends JFrame {
         BtnScissors.setBounds(528, 480, 64, 64);
         BtnScissors.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                invoker.btnClicked(3);
+                Player.INSTANCE.btnClicked(3);
             }
         });
         BtnScissors.setBackground(new Color(50, 50, 50));
@@ -193,7 +191,7 @@ public class GameScreen extends JFrame {
         contentPane.add(LblProfilePicOpp);
         contentPane.add(LblProfilePicSelf);
 
-        //adding panel to JFrame and seting of window position and close operation
+        //adding panel to JFrame and setting of window position and close operation
         this.add(contentPane);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
@@ -210,18 +208,9 @@ public class GameScreen extends JFrame {
         javax.swing.SwingUtilities.invokeLater(GameScreen::new);
     }
 
-    public void setInvoker(ClientLogin pInvoker) {
-        invoker = pInvoker;
-    }
-
-    //method for generate menu
-    public void generateMenu() {
-        menuBar = new JMenuBar();
-    }
-
-    public void setEnemySelection(int s) { //0: nichts; 1: rock; 2: paper; 3: scissors
+    public void setEnemySelection(int s) { //-1: nichts; 0: rock; 1: paper; 2: scissors
         switch (s) {
-            case 0:
+            case -1:
                 LblOppResult.setText("?");
                 break;
             case 1:

@@ -16,8 +16,6 @@ public class ConnectPage extends JFrame {
     private final JLabel label2;
     private final JTextField TFUserName;
 
-    private ClientLogin invoker;
-
     //Constructor
     public ConnectPage() {
         this.setResizable(false);
@@ -40,7 +38,7 @@ public class ConnectPage extends JFrame {
         BtnConnect.setVisible(true);
         BtnConnect.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                invoker.tryConnect(TFIPAdress.getText(), TFUserName.getText());
+                Player.INSTANCE.tryConnect(TFIPAdress.getText(), TFUserName.getText());
             }
         });
 
@@ -99,6 +97,7 @@ public class ConnectPage extends JFrame {
         TFUserName.setVisible(true);
 
 
+        //Add avatar selector
         for (int i = 1, yOffset = 0; i <= 8; i++) {
             final JButton profileButton = new JButton(new ImageIcon(getClass().getResource("/src/client/icons/48/" + i + ".png")));
             profileButton.setBackground(new Color(70, 70, 70));
@@ -114,7 +113,7 @@ public class ConnectPage extends JFrame {
             profileButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    invoker.setProfilePic(selected);
+                    Player.INSTANCE.setProfilePic(selected);
                     super.mouseClicked(e);
                 }
             });
@@ -130,16 +129,12 @@ public class ConnectPage extends JFrame {
         contentPane.add(TFUserName);
 
 
-        //adding panel to JFrame and seting of window position and close operation
+        //adding panel to JFrame and setting of window position and close operation
         this.add(contentPane);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.pack();
         this.setVisible(true);
-    }
-
-    public void setInvoker(ClientLogin pInvoker) {
-        this.invoker = pInvoker;
     }
 
     public static void main(String[] args) {

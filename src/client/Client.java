@@ -1,10 +1,15 @@
 package src.client;
 
+import src.util.LogUtil;
+import src.util.eventapi.EventManager;
+import src.util.events.IPErrorEvent;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.logging.Level;
 
 /*
  * * <p> * Materialien zu den zentralen NRW-Abiturpruefungen im Fach Informatik ab 2018 * </p> * <p> * Klasse src.client.Client * </p> * <p> * Objekte von Unterklassen der abstrakten Klasse src.client.Client ermoeglichen * Netzwerkverbindungen zu einem src.server.Server mittels TCP/IP-Protokoll. Nach * Verbindungsaufbau koennen Zeichenketten (Strings) zum src.server.Server gesendet und von * diesem empfangen werden, wobei der Nachrichtenempfang nebenlaeufig geschieht. * Zur Vereinfachung finden Nachrichtenversand und -empfang zeilenweise statt, * d. h., beim Senden einer Zeichenkette wird ein Zeilentrenner ergaenzt und beim * Empfang wird dieser entfernt. Jede empfangene Nachricht wird einer * Ereignisbehandlungsmethode uebergeben, die in Unterklassen implementiert werden * muss. Es findet nur eine rudimentaere Fehlerbehandlung statt, so dass z.B. * Verbindungsabbrueche nicht zu einem Programmabbruch fuehren. Eine einmal * unterbrochene oder getrennte Verbindung kann nicht reaktiviert werden. * </p> * * @author Qualitaets- und UnterstuetzungsAgentur - Landesinstitut fuer Schule * @version 30.08.2016 */public abstract class Client {
@@ -29,6 +34,8 @@ import java.net.Socket;
     }
 
     public void send(String pMessage) {
+        //Modified by Roman 30.03.2022
+        LogUtil.getLogger().log(Level.INFO, "Sending message to server: " + pMessage);
         messageHandler.send(pMessage);
     }
 
@@ -86,6 +93,7 @@ import java.net.Socket;
                     socket = null;
                     toServer = null;
                     fromServer = null;
+                    EventManager.call(new IPErrorEvent()); //Modified by Roman 30.03.2022
                 }
             }
 

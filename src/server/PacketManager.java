@@ -51,12 +51,7 @@ public class PacketManager {
                 if (packet.isPacketEmpty())
                     return null;
                 else {
-                    final Packet packetCopy = packet;
-                    //Reset packet
-                    packet.getData().remove("payload");
-                    packet.getData().remove("error");
-
-                    return packetCopy; //Return the packet to later format its data.
+                    return packet; //Return the packet to later format its data.
                 }
             }
             packetList.next();

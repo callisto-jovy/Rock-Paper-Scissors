@@ -1,12 +1,16 @@
 package src.server;
 
 import src.server.packets.*;
-import src.util.*;
+import src.util.List;
+import src.util.LogUtil;
+import src.util.Packet;
+import src.util.PacketFormatter;
+
 import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.Timer;
-import java.util.logging.Level;
 import java.util.TimerTask;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.logging.Level;
 
 public class ApplicationServer extends Server {
 
@@ -113,6 +117,9 @@ public class ApplicationServer extends Server {
             //Send the formatted packet to the sender if the packet has to send anything at all.
             if (returnToSender != null) {
                 send(user.getClientIP(), user.getClientPort(), PacketFormatter.formatPacket(returnToSender));
+                //Reset packet (must be done)
+                returnToSender.getData().remove("payload");
+                returnToSender.getData().remove("error");
             }
         }
     }

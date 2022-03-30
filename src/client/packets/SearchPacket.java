@@ -1,5 +1,6 @@
 package src.client.packets;
 
+import src.client.Player;
 import src.server.User;
 import src.util.Packet;
 import src.util.PacketUtil;
@@ -17,7 +18,6 @@ public class SearchPacket extends Packet {
 
     @Override
     public void send() {
-        //this.setSearchingMatch whatever (true);
-        setPayload("halt");
+        setPayload(Player.INSTANCE.searchesMatch());
     }
 }

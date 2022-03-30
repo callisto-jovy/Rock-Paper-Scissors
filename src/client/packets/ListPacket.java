@@ -1,10 +1,11 @@
 package src.client.packets;
 //Client
+
 import org.json.JSONArray;
-import src.server.ApplicationServer;
 import src.server.User;
 import src.util.Packet;
 import src.util.PacketUtil;
+
 import javax.swing.*;
 
 public class ListPacket extends Packet {
@@ -15,11 +16,10 @@ public class ListPacket extends Packet {
 
     @Override
     public void receive(PacketUtil input, User parent) {
-        if(input.hasPayload())
-        {
-            final JSONArray playerlistArray = input.getPayloadArray();
-            for(int i = 0; i < playerlistArray.length(); i++) {
-                System.out.println(playerlistArray.get(i));
+        if(input.hasPayload()) {
+            final JSONArray playerListArray = input.getPayloadArray();
+            for (int i = 0; i < playerListArray.length(); i++) {
+                System.out.println(playerListArray.get(i));
             }
         }
         else if(input.isError())
