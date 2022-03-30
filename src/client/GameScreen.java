@@ -9,21 +9,17 @@ import java.awt.event.MouseEvent;
 
 public class GameScreen extends JFrame {
 
-    private JMenuBar menuBar;
-    private final JButton BtnPaper;
-    private final JButton BtnRock;
-    private final JButton BtnScissors;
     private final JLabel LblCountdown;
-    private final JLabel LblDoppelrPunkt;
     private final JLabel LblErr;
-    private final JLabel LblOppPoints;
+    private final JLabel LblEnemyPoints;
     private final JLabel LblOppResult;
     private final JLabel LblSelfPoints;
     private final JLabel LblSelfResult;
     private final JLabel LblUserNameOpp;
     private final JLabel LblUserNameSelf;
-    private final JLabel LblProfilePicOpp;
     private final JLabel LblProfilePicSelf;
+
+    private int enemyPoints;
 
 
     //Constructor
@@ -31,56 +27,53 @@ public class GameScreen extends JFrame {
         this.setTitle("Rock Paper Scissors");
         this.setSize(800, 600);
         this.setResizable(false);
-        //menu generate method
-        this.setJMenuBar(menuBar);
-
         //pane with null layout
-        JPanel contentPane = new JPanel(null);
+        final JPanel contentPane = new JPanel(null);
         contentPane.setPreferredSize(new Dimension(800, 600));
         contentPane.setBackground(new Color(50, 50, 50));
 
 
-        BtnRock = new JButton(new ImageIcon(getClass().getResource("/src/client/icons/icons-hand-felsen.png")));
-        BtnRock.setBounds(208, 480, 64, 64);
-        BtnRock.addMouseListener(new MouseAdapter() {
+        final JButton btnRock = new JButton(new ImageIcon(getClass().getResource("/src/client/icons/icons-hand-felsen.png")));
+        btnRock.setBounds(208, 480, 64, 64);
+        btnRock.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
                 Player.INSTANCE.btnClicked(1);
             }
         });
-        BtnRock.setBackground(new Color(50, 50, 50));
-        BtnRock.setForeground(new Color(0, 0, 0));
-        BtnRock.setEnabled(true);
-        BtnRock.setFont(new Font("sansserif", 0, 12));
-        BtnRock.setText("Rock");
-        BtnRock.setVisible(true);
+        btnRock.setBackground(new Color(50, 50, 50));
+        btnRock.setForeground(new Color(0, 0, 0));
+        btnRock.setEnabled(true);
+        btnRock.setFont(new Font("sansserif", 0, 12));
+        btnRock.setText("Rock");
+        btnRock.setVisible(true);
 
-        BtnPaper = new JButton(new ImageIcon(getClass().getResource("/src/client/icons/icons-hand-papier.png")));
-        BtnPaper.setBounds(368, 480, 64, 64);
-        BtnPaper.addMouseListener(new MouseAdapter() {
+        final JButton btnPaper = new JButton(new ImageIcon(getClass().getResource("/src/client/icons/icons-hand-papier.png")));
+        btnPaper.setBounds(368, 480, 64, 64);
+        btnPaper.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
                 Player.INSTANCE.btnClicked(2);
             }
         });
-        BtnPaper.setBackground(new Color(50, 50, 50));
-        BtnPaper.setForeground(new Color(0, 0, 0));
-        BtnPaper.setEnabled(true);
-        BtnPaper.setFont(new Font("sansserif", 0, 12));
-        BtnPaper.setText("Paper");
-        BtnPaper.setVisible(true);
+        btnPaper.setBackground(new Color(50, 50, 50));
+        btnPaper.setForeground(new Color(0, 0, 0));
+        btnPaper.setEnabled(true);
+        btnPaper.setFont(new Font("sansserif", 0, 12));
+        btnPaper.setText("Paper");
+        btnPaper.setVisible(true);
 
-        BtnScissors = new JButton(new ImageIcon(getClass().getResource("/src/client/icons/icons-hand-schere.png")));
-        BtnScissors.setBounds(528, 480, 64, 64);
-        BtnScissors.addMouseListener(new MouseAdapter() {
+        final JButton btnScissors = new JButton(new ImageIcon(getClass().getResource("/src/client/icons/icons-hand-schere.png")));
+        btnScissors.setBounds(528, 480, 64, 64);
+        btnScissors.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
                 Player.INSTANCE.btnClicked(3);
             }
         });
-        BtnScissors.setBackground(new Color(50, 50, 50));
-        BtnScissors.setForeground(new Color(0, 0, 0));
-        BtnScissors.setEnabled(true);
-        BtnScissors.setFont(new Font("sansserif", 0, 12));
-        BtnScissors.setText("Scissors");
-        BtnScissors.setVisible(true);
+        btnScissors.setBackground(new Color(50, 50, 50));
+        btnScissors.setForeground(new Color(0, 0, 0));
+        btnScissors.setEnabled(true);
+        btnScissors.setFont(new Font("sansserif", 0, 12));
+        btnScissors.setText("Scissors");
+        btnScissors.setVisible(true);
 
         LblCountdown = new JLabel();
         LblCountdown.setBounds(200, 240, 400, 90);
@@ -91,14 +84,14 @@ public class GameScreen extends JFrame {
         LblCountdown.setText("3");
         LblCountdown.setVisible(true);
 
-        LblDoppelrPunkt = new JLabel();
-        LblDoppelrPunkt.setBounds(640, 260, 10, 40);
-        LblDoppelrPunkt.setBackground(new Color(214, 217, 223));
-        LblDoppelrPunkt.setForeground(new Color(210, 210, 210));
-        LblDoppelrPunkt.setEnabled(true);
-        LblDoppelrPunkt.setFont(new Font("SansSerif", 1, 24));
-        LblDoppelrPunkt.setText(":");
-        LblDoppelrPunkt.setVisible(true);
+        JLabel lblDoppelrPunkt = new JLabel();
+        lblDoppelrPunkt.setBounds(640, 260, 10, 40);
+        lblDoppelrPunkt.setBackground(new Color(214, 217, 223));
+        lblDoppelrPunkt.setForeground(new Color(210, 210, 210));
+        lblDoppelrPunkt.setEnabled(true);
+        lblDoppelrPunkt.setFont(new Font("SansSerif", 1, 24));
+        lblDoppelrPunkt.setText(":");
+        lblDoppelrPunkt.setVisible(true);
 
         LblErr = new JLabel();
         LblErr.setBounds(47, 241, 400, 20);
@@ -109,14 +102,14 @@ public class GameScreen extends JFrame {
         LblErr.setText("Err 404");
         LblErr.setVisible(false);
 
-        LblOppPoints = new JLabel();
-        LblOppPoints.setBounds(600, 200, 90, 40);
-        LblOppPoints.setBackground(new Color(214, 217, 223));
-        LblOppPoints.setForeground(new Color(255, 50, 50));
-        LblOppPoints.setEnabled(true);
-        LblOppPoints.setFont(new Font("SansSerif", 1, 18));
-        LblOppPoints.setText("3");
-        LblOppPoints.setVisible(true);
+        LblEnemyPoints = new JLabel();
+        LblEnemyPoints.setBounds(600, 200, 90, 40);
+        LblEnemyPoints.setBackground(new Color(214, 217, 223));
+        LblEnemyPoints.setForeground(new Color(255, 50, 50));
+        LblEnemyPoints.setEnabled(true);
+        LblEnemyPoints.setFont(new Font("SansSerif", 1, 18));
+        LblEnemyPoints.setText("3");
+        LblEnemyPoints.setVisible(true);
 
         LblOppResult = new JLabel();
         LblOppResult.setBounds(443, 153, 64, 64);
@@ -163,11 +156,11 @@ public class GameScreen extends JFrame {
         LblUserNameSelf.setText("Player1");
         LblUserNameSelf.setVisible(true);
 
-        LblProfilePicOpp = new JLabel();
-        LblProfilePicOpp.setBounds(340, 75, 96, 96);
-        LblProfilePicOpp.setBackground(new Color(214, 217, 223));
-        LblProfilePicOpp.setEnabled(true);
-        LblProfilePicOpp.setVisible(true);
+        JLabel lblProfilePicOpp = new JLabel();
+        lblProfilePicOpp.setBounds(340, 75, 96, 96);
+        lblProfilePicOpp.setBackground(new Color(214, 217, 223));
+        lblProfilePicOpp.setEnabled(true);
+        lblProfilePicOpp.setVisible(true);
 
         LblProfilePicSelf = new JLabel();
         LblProfilePicSelf.setBounds(100, 380, 96, 96);
@@ -176,19 +169,19 @@ public class GameScreen extends JFrame {
         LblProfilePicSelf.setVisible(true);
 
         //adding components to contentPane panel
-        contentPane.add(BtnPaper);
-        contentPane.add(BtnRock);
-        contentPane.add(BtnScissors);
+        contentPane.add(btnPaper);
+        contentPane.add(btnRock);
+        contentPane.add(btnScissors);
         contentPane.add(LblCountdown);
-        contentPane.add(LblDoppelrPunkt);
+        contentPane.add(lblDoppelrPunkt);
         contentPane.add(LblErr);
-        contentPane.add(LblOppPoints);
+        contentPane.add(LblEnemyPoints);
         contentPane.add(LblOppResult);
         contentPane.add(LblSelfPoints);
         contentPane.add(LblSelfResult);
         contentPane.add(LblUserNameOpp);
         contentPane.add(LblUserNameSelf);
-        contentPane.add(LblProfilePicOpp);
+        contentPane.add(lblProfilePicOpp);
         contentPane.add(LblProfilePicSelf);
 
         //adding panel to JFrame and setting of window position and close operation
@@ -242,8 +235,13 @@ public class GameScreen extends JFrame {
         }
     }
 
-    public void setOpponentPoints(int points) {
-        LblOppPoints.setText(points + "");
+    public int getEnemyPoints() {
+        return enemyPoints;
+    }
+
+    public void setEnemyPoints(int points) {
+        this.enemyPoints = points;
+        LblEnemyPoints.setText(points + "");
     }
 
     public void setSelfPoints(int points) {
@@ -258,7 +256,7 @@ public class GameScreen extends JFrame {
         LblUserNameSelf.setText(name);
     }
 
-    public void setUsernameOpp(String name) {
+    public void setUsernameEnemy(String name) {
         LblUserNameOpp.setText(name);
     }
 
@@ -273,14 +271,6 @@ public class GameScreen extends JFrame {
     }
 
     public void setProfilePicSelf(int pPic) {
-        if (pPic == 0) {
-            LblProfilePicSelf.setText("?");
-        } else {
-            LblProfilePicSelf.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/96/" + pPic + ".png")));
-        }
-    }
-
-    public void setProfilePicOpp(int pPic) {
         if (pPic == 0) {
             LblProfilePicSelf.setText("?");
         } else {

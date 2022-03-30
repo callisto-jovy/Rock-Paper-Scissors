@@ -1,12 +1,10 @@
 package src;
 
 import src.client.Player;
-import src.server.ApplicationServer;
 
-public class Main {
+public class MainClient {
 
     public static void main(String[] args) {
-        ApplicationServer.INSTANCE.startServer();
         Player.INSTANCE.displayConnectPage();
     }
 }

@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class LoadingScreen extends JFrame {
 
-	private final JPanel panel2;
+	private final JProgressBar progressBar;
 
     //Constructor
     public LoadingScreen() {
@@ -39,19 +39,19 @@ public class LoadingScreen extends JFrame {
 		panel1.setFont(new Font("sansserif", Font.PLAIN, 12));
 		panel1.setVisible(true);
 
-		panel2 = new JPanel(null);
-		panel2.setBorder(BorderFactory.createEtchedBorder(1));
-		panel2.setBounds(102, 230, 150, 19);
-		panel2.setBackground(new Color(0, 217, 0));
-		panel2.setForeground(new Color(0, 0, 0));
-		panel2.setEnabled(true);
-		panel2.setFont(new Font("sansserif", Font.PLAIN, 12));
-		panel2.setVisible(true);
+		progressBar = new JProgressBar();
+		progressBar.setBorder(BorderFactory.createEtchedBorder(1));
+		progressBar.setBounds(102, 230, 150, 19);
+		progressBar.setBackground(new Color(0, 217, 0));
+		progressBar.setForeground(new Color(0, 0, 0));
+		progressBar.setEnabled(true);
+		progressBar.setFont(new Font("sansserif", Font.PLAIN, 12));
+		progressBar.setVisible(true);
 
 		//adding components to contentPane panel
 		contentPane.add(label1);
 		contentPane.add(panel1);
-		contentPane.add(panel2);
+		contentPane.add(progressBar);
 
 		//adding panel to JFrame and seting of window position and close operation
 		this.add(contentPane);
@@ -71,7 +71,7 @@ public class LoadingScreen extends JFrame {
 	}
 
 	public void setLoadingLength(int prz) {
-		panel2.setBounds(102, 230, prz * 290, 19);
+		progressBar.setValue(prz);
 	}
 }
         

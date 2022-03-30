@@ -1,39 +1,40 @@
 package src.client.packets;
 
 import org.json.JSONObject;
+import src.client.Player;
 import src.server.User;
 import src.util.Packet;
 import src.util.PacketUtil;
+import src.util.eventapi.EventManager;
+import src.util.events.MatchEvent;
+
+import javax.swing.*;
 
 public class MatchPacket extends Packet {
-
-    private int decision;
 
     public MatchPacket() {
         super("MATC");
     }
 
     @Override
-    public void send() {
-        final JSONObject matchResultPayload = new JSONObject();
-        //needs decision
-        matchResultPayload.put("decision", decision);
-        setPayload(matchResultPayload);
+    public void receive(PacketUtil input, User user) {
+        final JSONObject payloadJSON = input.getPayloadJSON();
+
+        if (input.hasPayload()) {
+            final int decisionEnemy = payloadJSON.getInt("decision");
+            final String winner = payloadJSON.getString("winner");
+            final String looser = payloadJSON.getString("nico");
+            EventManager.call(new MatchEvent(winner, looser, decisionEnemy));
+        } else if (input.isError()) {
+            JOptionPane.showMessageDialog(null, "Error: " + input.getError());
+        }
     }
 
     @Override
-    public void receive(PacketUtil input, User user) {
-        final JSONObject decision = input.getPayloadJSON();
-
-        if (decision.has("decision")) {
-            final int enemyDecision = input.getPayloadInt();
-            //optical enemyDecision=?
-
-        } else {
-            //show Winner, show looser
-        }
-
+    public void send() {
+        setPayload(Player.INSTANCE.getDecision());
     }
+
 }
 
 

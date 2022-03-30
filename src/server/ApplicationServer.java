@@ -67,15 +67,14 @@ public class ApplicationServer extends Server {
                         matchQueue.add(latestSearching);
                     } else {
                         final User next = matchQueue.poll();
-                        
+
                         final Match match = new Match(next, latestSearching);
                         ApplicationServer.INSTANCE.matchList.append(match);
                         match.start();
                     }
-                    
-                }
-            }, 5000, 100000);
 
+                }
+        }, 0, 100000);
     }
 
     @Override
