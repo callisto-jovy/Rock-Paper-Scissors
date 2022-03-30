@@ -2,6 +2,7 @@ package src.util.eventapi;
 
 import src.util.eventapi.events.Event;
 import src.util.eventapi.events.EventStoppable;
+import src.util.eventapi.types.Priority;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -164,7 +165,7 @@ public final class EventManager {
     private static void sortListValue(Class<? extends Event> indexClass) {
         List<MethodData> sortedList = new CopyOnWriteArrayList<MethodData>();
 
-        for (final byte priority : com.darkmagician6.eventapi.types.Priority.VALUE_ARRAY) {
+        for (final byte priority : Priority.VALUE_ARRAY) {
             for (final MethodData data : REGISTRY_MAP.get(indexClass)) {
                 if (data.getPriority() == priority) {
                     sortedList.add(data);

@@ -1,6 +1,7 @@
 package src.util.eventapi;
 
-import com.darkmagician6.eventapi.types.Priority;
+
+import src.util.eventapi.types.Priority;
 
 import java.lang.annotation.*;
 

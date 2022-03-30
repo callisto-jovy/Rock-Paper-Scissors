@@ -1,4 +1,7 @@
-package src.util.eventapi.events;
+package src.util.eventapi.events.callables;
+
+import src.util.eventapi.events.Event;
+import src.util.eventapi.events.Typed;
 
 /**
  * Abstract example implementation of the Typed interface.
