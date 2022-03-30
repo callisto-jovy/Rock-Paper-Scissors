@@ -70,7 +70,7 @@ public class ApplicationServer extends Server {
                     }
                     
                 }
-            }, 5000, 1000);
+            }, 5000, 100000);
 
     }
 
