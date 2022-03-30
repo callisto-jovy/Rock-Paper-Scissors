@@ -22,6 +22,8 @@ public class GameScreen extends JFrame {
     private int enemyPoints;
 
 
+    //TODO: Array for buttons
+
     //Constructor
     public GameScreen() {
         this.setTitle("Rock Paper Scissors");
@@ -37,7 +39,7 @@ public class GameScreen extends JFrame {
         btnRock.setBounds(208, 480, 64, 64);
         btnRock.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                Player.INSTANCE.btnClicked(1);
+                Player.INSTANCE.btnClicked(0);
             }
         });
         btnRock.setBackground(new Color(50, 50, 50));
@@ -51,7 +53,7 @@ public class GameScreen extends JFrame {
         btnPaper.setBounds(368, 480, 64, 64);
         btnPaper.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                Player.INSTANCE.btnClicked(2);
+                Player.INSTANCE.btnClicked(1);
             }
         });
         btnPaper.setBackground(new Color(50, 50, 50));
@@ -65,7 +67,7 @@ public class GameScreen extends JFrame {
         btnScissors.setBounds(528, 480, 64, 64);
         btnScissors.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                Player.INSTANCE.btnClicked(3);
+                Player.INSTANCE.btnClicked(2);
             }
         });
         btnScissors.setBackground(new Color(50, 50, 50));
@@ -218,18 +220,18 @@ public class GameScreen extends JFrame {
         }
     }
 
-    public void setSelfSelection(int s) { //0: nichts; 1: rock; 2: paper; 3: scissors
+    public void setSelfSelection(int s) { //-1: nichts; 1: rock; 2: paper; 3: scissors
         switch (s) {
-            case 0:
+            case -1:
                 LblSelfResult.setText("?");
                 break;
-            case 1:
+            case 0:
                 LblSelfResult.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/icons-hand-felsen.png")));
                 break;
-            case 2:
+            case 1:
                 LblSelfResult.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/icons-hand-papier.png")));
                 break;
-            case 3:
+            case 2:
                 LblSelfResult.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/icons-hand-schere.png")));
                 break;
         }

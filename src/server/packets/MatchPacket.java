@@ -10,7 +10,7 @@ import src.util.PacketUtil;
 public class MatchPacket extends Packet {
 
     private User winner, looser;
-    private int decision;                                                                               
+    private int decision;
 
     public MatchPacket() {
         super("MTCH");
@@ -26,24 +26,23 @@ public class MatchPacket extends Packet {
 
     @Override
     public void receive(PacketUtil input, User parent) {
-        ApplicationServer.INSTANCE.matchList.next();
         final int decision = input.getPayloadInt();
 
+        ApplicationServer.INSTANCE.matchList.toFirst();
         while (ApplicationServer.INSTANCE.matchList.hasAccess()) {
             final Match match = ApplicationServer.INSTANCE.matchList.getContent();
-
-            if (match.getUser1() == parent) {
+            if (match.getUser1().equals(parent)) {
                 match.setDecision1(decision);
                 match.decideWinner();
                 return;
-            } else if (match.getUser2() == parent) {
+            } else if (match.getUser2().equals(parent)) {
                 match.setDecision2(decision);
                 match.decideWinner();
                 return;
             }
             ApplicationServer.INSTANCE.matchList.next();
         }
-        
+
     }
 
     @Override
@@ -52,7 +51,7 @@ public class MatchPacket extends Packet {
         matchResultPayload.put("winner", winner.getName());
         matchResultPayload.put("nico", looser.getName());
         matchResultPayload.put("decision", decision);
-        
+
         setPayload(matchResultPayload);
     }
 }

@@ -33,6 +33,7 @@ public class Player {
     private LoadingScreen loadingScreen;
 
     public Player() {
+        //TODO: Profile pictures..
         EventManager.register(this); //Register as event receiver
         /*
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -128,7 +129,10 @@ public class Player {
             scoreInMatch++;
             gameScreen.setSelfPoints(scoreInMatch);
         }
+        //"Clear" canvas
         blockInput = false;
+        gameScreen.setEnemySelection(-1);
+        gameScreen.setSelfSelection(-1);
     }
 
     public PlayerClient getPlayer() {

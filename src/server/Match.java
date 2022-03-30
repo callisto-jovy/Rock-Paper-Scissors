@@ -49,6 +49,7 @@ public class Match {
         if (score1 == 3 || score2 == 3) {
             return;
         }
+        //TODO: Stalemate
 
         if (decision1 != -1 && decision2 != -1) {
             //Stone beats scissors (user 1)
@@ -123,5 +124,18 @@ public class Match {
         //Send a packet which indicates that a match has been found to both users.
         ApplicationServer.INSTANCE.sendToUser(user1, new MatchFoundPacket(user2));
         ApplicationServer.INSTANCE.sendToUser(user2, new MatchFoundPacket(user1));
+    }
+
+    @Override
+    public String toString() {
+        return "Match{" +
+                "user1=" + user1 +
+                ", user2=" + user2 +
+                ", winner=" + winner +
+                ", decision1=" + decision1 +
+                ", decision2=" + decision2 +
+                ", score1=" + score1 +
+                ", score2=" + score2 +
+                '}';
     }
 }

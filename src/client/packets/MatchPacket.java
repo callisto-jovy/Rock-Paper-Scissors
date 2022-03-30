@@ -13,7 +13,7 @@ import javax.swing.*;
 public class MatchPacket extends Packet {
 
     public MatchPacket() {
-        super("MATC");
+        super("MTCH");
     }
 
     @Override
