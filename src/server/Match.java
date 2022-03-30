@@ -106,7 +106,6 @@ public class Match {
 
 
             } else {
-                //TODO: Send packet
                 final MatchPacket mPacketUser1 = new MatchPacket(winner, looser, decision2);
                 final MatchPacket mPacketUser2 = new MatchPacket(winner, looser, decision1);
 

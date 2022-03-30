@@ -109,4 +109,9 @@ public abstract class Packet {
     public String getIdentifier() {
         return identifier;
     }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

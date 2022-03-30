@@ -15,7 +15,7 @@ public class HighscorePacket extends Packet {
 
 
     @Override
-    public void receive(PacketUtil input, User parent) {        
+    public void receive(PacketUtil input, User parent) {
         ApplicationServer.INSTANCE.highscoreList.toFirst();
         final JSONArray jsonArray = new JSONArray();
 
@@ -27,11 +27,9 @@ public class HighscorePacket extends Packet {
         }
         setPayload(jsonArray);
     }
-    
+
     @Override
     public void send() {
-        
+
     }
-
-
 }

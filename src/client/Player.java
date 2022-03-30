@@ -1,79 +1,159 @@
 package src.client;
 
-import src.client.packets.AuthPacket;
-import src.client.packets.MatchPacket;
 import src.client.packets.SearchPacket;
-import src.server.PacketManager;
-import src.util.List;
 import src.util.LogUtil;
-import src.util.Packet;
 import src.util.PacketFormatter;
+import src.util.eventapi.EventManager;
+import src.util.eventapi.EventTarget;
+import src.util.events.AuthPacketEvent;
+import src.util.events.IPErrorEvent;
+import src.util.events.MatchFoundEvent;
+import src.util.events.UsernameErrorEvent;
 
 import java.util.logging.Level;
 
-/**
- * Locale Instanz des Clients
- *
- * @author marcel
- * @version beta
- */
-public class Player extends Client {
+public class Player {
 
-    public static final Player PLAYER = new Player();
-    //Management of the Packets
-    private final PacketManager packetManager;
+    public static final Player INSTANCE = new Player();
+
+
+    private PlayerClient playerClient;
+    private int choice;
     //attributes
     private String name;
-    private boolean searchesMatch;
+    private boolean searchesMatch = true;
     private int scoreInMatch;
+    private int profilePic;
+
+    /* ----------Screens---------- */
+    private ConnectPage connectPage;
+    private GameScreen gameScreen;
+    private LoadingScreen loadingScreen;
 
     public Player() {
-        super("localhost", 2049);
-        final List<Packet> packetList = new List<>();
-        packetList.toFirst();
-        packetList.append(new AuthPacket());
-        packetList.append(new SearchPacket());
-        packetList.append(new MatchPacket());
-        this.packetManager = new PacketManager(packetList);
+        EventManager.register(this); //Register as event receiver
+        /*
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            EventManager.unregister(this);
+        }));
+
+         */
     }
 
-    @Override
-    public void processMessage(String pMessage) {
-        if (pMessage.isEmpty())
-            return;
+    public void displayConnectPage() {
+        this.connectPage = new ConnectPage(); //New connect page
+    }
 
-        LogUtil.getLogger().log(Level.INFO, "Received message as client: " + pMessage);
+    public void tryConnect(String ipAddress, String pUsername) {
+        LogUtil.getLogger().log(Level.INFO, "Trying to connect to server: " + ipAddress);
+        this.playerClient = new PlayerClient(ipAddress);
+        this.playerClient.connect(); //Connect to host
+        this.name = pUsername;
+    }
 
-        final Packet packet = packetManager.processMessage(pMessage, null);
-        if (packet != null)
-            send(PacketFormatter.formatPacket(packet));
+    @EventTarget
+    public void setIPError(final IPErrorEvent event) {
+        if (connectPage != null)
+            connectPage.SetIPErrVis(true);
+    }
+
+    @EventTarget
+    public void usernameError(final UsernameErrorEvent event) {
+        if (connectPage != null)
+            connectPage.SetUsrErrVis(true);
+    }
+
+
+    @EventTarget
+    public void startGameScreen(final AuthPacketEvent event) {
+        connectPage.setVisible(false);
+        connectPage.dispose();
+
+        final SearchPacket searchPacket = new SearchPacket();
+        searchPacket.send();
+        getPlayer().send(PacketFormatter.formatPacket(searchPacket));
+
+        //Set loading screen
+        this.loadingScreen = new LoadingScreen();
+        //Loading animation
+        for (int i = 0; i < 100; i++) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            loadingScreen.setLoadingLength(i);
+        }
+    }
+
+    @EventTarget
+    public void matchFound(final MatchFoundEvent event) {
+        this.searchesMatch = false; //Not longer searching
+
+        loadingScreen.setVisible(false);
+        loadingScreen.dispose();
+
+        this.gameScreen = new GameScreen();
+        gameScreen.setProfilePicSelf(profilePic);
+        gameScreen.setProfilePicOpp(event.getEnemyProfilePicture());
+        gameScreen.setEnemySelection(-1); //None selected
+        gameScreen.setUsernameSelf(getName());
+        gameScreen.setUsernameOpp(event.getEnemyName());
+        gameScreen.setOpponentPoints(0);
+        gameScreen.setSelfPoints(getScoreInMatch());
+        this.count();
+    }
+
+
+    public void btnClicked(int pChoice) {
+        choice = pChoice;
+        gameScreen.setSelfSelection(pChoice);
+        gameScreen.setEnemySelection(pChoice);//remove
+    }
+
+    public PlayerClient getPlayer() {
+        return playerClient;
+    }
+
+    public ConnectPage getConnectPage() {
+        return connectPage;
+    }
+
+    public GameScreen getGameScreen() {
+        return gameScreen;
+    }
+
+    public int getChoice() {
+        return choice;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String pName) {
-        this.name = pName;
-    }
-
-    public boolean getSearchesMatch() {
+    public boolean searchesMatch() {
         return searchesMatch;
-    }
-
-    public void setSearchesMatch(boolean pSearchesMatch) {
-        this.searchesMatch = pSearchesMatch;
     }
 
     public int getScoreInMatch() {
         return scoreInMatch;
     }
 
-    public void setScoreInMatch(int pScoreInMatch) {
-        this.scoreInMatch = pScoreInMatch;
+    public int getProfilePic() {
+        return profilePic;
     }
 
-    public PacketManager getPacketManager() {
-        return packetManager;
+    public void setProfilePic(int pPic) {
+        this.profilePic = pPic;
+    }
+
+    public synchronized void count() {
+        gameScreen.setCounter("4");
+        gameScreen.setCounter("3");
+        gameScreen.setCounter("2");
+        gameScreen.setCounter("1");
+        gameScreen.setCounter("TIE!");
+        gameScreen.setCounter("WIN!");
+        gameScreen.setCounter("LOST!");
     }
 }

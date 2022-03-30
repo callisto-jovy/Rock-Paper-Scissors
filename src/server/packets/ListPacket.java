@@ -1,5 +1,5 @@
 package src.server.packets;
-
+//Server
 import org.json.JSONArray;
 import src.server.ApplicationServer;
 import src.server.User;
