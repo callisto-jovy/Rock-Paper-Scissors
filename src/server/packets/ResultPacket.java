@@ -17,7 +17,7 @@ public class ResultPacket extends Packet {
     public ResultPacket(final User winner, final int score) {
         super("RSLT");
         this.winner = winner;
-        this.score = score;
+        //this.score = score;
     }
 
     @Override
@@ -28,8 +28,8 @@ public class ResultPacket extends Packet {
     public void send() {
         final JSONObject payloadWinner = new JSONObject();
         payloadWinner.put("winner", winner.getName());
-        payloadWinner.put("score", score);
-        
+        //payloadWinner.put("score", score);
+                                
         setPayload(payloadWinner);
     }
 }
