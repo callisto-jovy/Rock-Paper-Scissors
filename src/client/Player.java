@@ -30,7 +30,7 @@ public class Player {
     /* ----------Screens---------- */
     private ConnectPage connectPage;
     private GameScreen gameScreen;
-    private LoadingScreen loadingScreen;
+    private SearchingScreen searchingScreen;
 
     public Player() {
         //TODO: Profile pictures..
@@ -77,7 +77,7 @@ public class Player {
         getPlayer().send(PacketFormatter.formatPacket(searchPacket));
 
         //Set loading screen
-        this.loadingScreen = new LoadingScreen();
+        this.searchingScreen = new SearchingScreen();
         //Loading animation
         for (int i = 0; i < 100; i++) {
             try {
@@ -85,7 +85,7 @@ public class Player {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            loadingScreen.setLoadingLength(i);
+            searchingScreen.setLoadingLength(i);
         }
     }
 
@@ -94,8 +94,8 @@ public class Player {
         this.searchesMatch = false; //No longer searching
         this.scoreInMatch = 0; //Reset
 
-        loadingScreen.setVisible(false);
-        loadingScreen.dispose();
+        searchingScreen.setVisible(false);
+        searchingScreen.dispose();
 
         this.gameScreen = new GameScreen();
         gameScreen.setProfilePicSelf(event.getEnemyProfilePicture());
