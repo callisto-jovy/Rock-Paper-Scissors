@@ -2,6 +2,7 @@ package src.server;
 
 import src.server.packets.MatchFoundPacket;
 import src.server.packets.MatchPacket;
+import src.server.packets.MatchStalematePacket;
 import src.server.packets.ResultPacket;
 
 public class Match {
@@ -23,7 +24,7 @@ public class Match {
     public Match(User user1, User user2) {
         this.user1 = user1;
         this.user2 = user2;
-        
+
         user1.setSearchesMatch(false);
         user2.setSearchesMatch(false);
     }
@@ -45,11 +46,19 @@ public class Match {
     }
 
     public void decideWinner() {
-        //One player has already won, return TODO: Close match 
+        //One player has already won, return
         if (score1 == 3 || score2 == 3) {
+            //TODO: Close match
+
+            return;
+        } else if (decision1 == decision2) {
+            final MatchStalematePacket stalematePacket = new MatchStalematePacket();
+            stalematePacket.send();
+
+            ApplicationServer.INSTANCE.sendToUser(user1, stalematePacket);
+            ApplicationServer.INSTANCE.sendToUser(user2, stalematePacket);
             return;
         }
-        //TODO: Stalemate
 
         if (decision1 != -1 && decision2 != -1) {
             //Stone beats scissors (user 1)
@@ -83,42 +92,48 @@ public class Match {
 
             //Match done.
             if (score1 + score2 >= 3) {
-                //Deduct and increase points
-                looser.deductPoints();
-                winner.increasePoints();
-
-                final ResultPacket rPacket = new ResultPacket(winner, Math.max(score1, score2));
-
-                ApplicationServer.INSTANCE.sendToUser(user1, rPacket);
-                ApplicationServer.INSTANCE.sendToUser(user2, rPacket);
-                //Remove match from ongoing matches
-
-                ApplicationServer.INSTANCE.matchList.toFirst();
-                while (ApplicationServer.INSTANCE.matchList.hasAccess()) {
-                    if (ApplicationServer.INSTANCE.matchList.getContent() == this) {
-                        ApplicationServer.INSTANCE.matchList.remove();
-                        return;
-                    }
-                    ApplicationServer.INSTANCE.matchList.next();
-                }
-
-
+                this.matchDone(looser);
                 //TODO: Set highscore
-
-
             } else {
-                final MatchPacket mPacketUser1 = new MatchPacket(winner, looser, decision2);
-                final MatchPacket mPacketUser2 = new MatchPacket(winner, looser, decision1);
-
-                ApplicationServer.INSTANCE.sendToUser(user1, mPacketUser1);
-                ApplicationServer.INSTANCE.sendToUser(user2, mPacketUser2);
-
-                //Reset decisions
-                decision1 = -1;
-                decision2 = -1;
+                this.closeRound(looser);
             }
         }
     }
+
+    private void closeRound(final User looser) {
+        final MatchPacket mPacketUser1 = new MatchPacket(winner, looser, decision2);
+        final MatchPacket mPacketUser2 = new MatchPacket(winner, looser, decision1);
+
+        ApplicationServer.INSTANCE.sendToUser(user1, mPacketUser1);
+        ApplicationServer.INSTANCE.sendToUser(user2, mPacketUser2);
+
+        //Reset decisions
+        this.decision1 = -1;
+        this.decision2 = -1;
+    }
+
+    private void matchDone(final User looser) {
+        //Deduct and increase points
+        looser.deductPoints();
+        winner.increasePoints();
+
+        final ResultPacket rPacket = new ResultPacket(winner, Math.max(score1, score2));
+
+        ApplicationServer.INSTANCE.sendToUser(user1, rPacket);
+        ApplicationServer.INSTANCE.sendToUser(user2, rPacket);
+        //Remove match from ongoing matches
+
+        ApplicationServer.INSTANCE.matchList.toFirst();
+        while (ApplicationServer.INSTANCE.matchList.hasAccess()) {
+            if (ApplicationServer.INSTANCE.matchList.getContent() == this) {
+                ApplicationServer.INSTANCE.matchList.remove();
+                return;
+            }
+            ApplicationServer.INSTANCE.matchList.next();
+        }
+
+    }
+
 
     public void start() {
         //Send a packet which indicates that a match has been found to both users.

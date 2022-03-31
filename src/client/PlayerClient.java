@@ -29,6 +29,7 @@ public class PlayerClient extends Client {
         packetList.append(new MatchFoundPacket());
         packetList.append(new ListPacket());
         packetList.append(new ResultPacket());
+        packetList.append(new MatchStalematePacket());
         this.packetManager = new PacketManager(packetList);
     }
 

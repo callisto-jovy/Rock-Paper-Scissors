@@ -121,6 +121,18 @@ public class Player {
     }
 
     @EventTarget
+    public void matchStalemate(final MatchStalemateEvent event) {
+        this.clearGameScreen();
+    }
+
+    private void clearGameScreen() {
+        blockInput = false;
+        gameScreen.setEnemySelection(-1);
+        gameScreen.setSelfSelection(-1);
+        gameScreen.setCounter("GO!");
+    }
+
+    @EventTarget
     public void matchRound(final MatchEvent event) {
         gameScreen.setEnemySelection(event.getEnemyDecision());
         if (event.getLooser().equals(name)) {
@@ -130,9 +142,19 @@ public class Player {
             gameScreen.setSelfPoints(scoreInMatch);
         }
         //"Clear" canvas
-        blockInput = false;
-        gameScreen.setEnemySelection(-1);
-        gameScreen.setSelfSelection(-1);
+        this.clearGameScreen();
+    }
+
+    @EventTarget
+    public void resultMatch(final ResultEvent event) {
+        if (event.getWinner().equals(name)) {
+            gameScreen.setCounter("YOU WIN!");
+        } else {
+            gameScreen.setCounter("YOU LOOSE!");
+            gameScreen.setEnemyPoints(event.getScore());
+        }
+
+        this.clearGameScreen();
     }
 
     public PlayerClient getPlayer() {

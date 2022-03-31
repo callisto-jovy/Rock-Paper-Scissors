@@ -18,9 +18,9 @@ public class MatchPacket extends Packet {
 
     @Override
     public void receive(PacketUtil input, User user) {
-        final JSONObject payloadJSON = input.getPayloadJSON();
-
         if (input.hasPayload()) {
+            final JSONObject payloadJSON = input.getPayloadJSON();
+
             final int decisionEnemy = payloadJSON.getInt("decision");
             final String winner = payloadJSON.getString("winner");
             final String looser = payloadJSON.getString("nico");

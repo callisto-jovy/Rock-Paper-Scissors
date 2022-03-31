@@ -7,7 +7,7 @@ public class MatchEvent implements Event {
     private final String winner, looser;
     private final int enemyDecision;
 
-    public MatchEvent(String winner, String looser, int enemyDecision) {
+    public MatchEvent(final String winner, final String looser, final int enemyDecision) {
         this.winner = winner;
         this.looser = looser;
         this.enemyDecision = enemyDecision;
