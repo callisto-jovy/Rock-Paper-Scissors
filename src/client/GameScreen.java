@@ -110,7 +110,7 @@ public class GameScreen extends JFrame {
         LblEnemyPoints.setForeground(new Color(255, 50, 50));
         LblEnemyPoints.setEnabled(true);
         LblEnemyPoints.setFont(new Font("SansSerif", 1, 18));
-        LblEnemyPoints.setText("3");
+        LblEnemyPoints.setText("");
         LblEnemyPoints.setVisible(true);
 
         LblOppResult = new JLabel();
@@ -119,7 +119,7 @@ public class GameScreen extends JFrame {
         LblOppResult.setForeground(new Color(140, 140, 140));
         LblOppResult.setEnabled(true);
         LblOppResult.setFont(new Font("SansSerif", 0, 40));
-        LblOppResult.setText("?");
+        LblOppResult.setText("");
         LblOppResult.setVisible(true);
 
         LblSelfPoints = new JLabel();
@@ -128,7 +128,7 @@ public class GameScreen extends JFrame {
         LblSelfPoints.setForeground(new Color(100, 100, 255));
         LblSelfPoints.setEnabled(true);
         LblSelfPoints.setFont(new Font("SansSerif", 1, 32));
-        LblSelfPoints.setText("5");
+        LblSelfPoints.setText("");
         LblSelfPoints.setVisible(true);
 
         LblSelfResult = new JLabel();
@@ -137,7 +137,7 @@ public class GameScreen extends JFrame {
         LblSelfResult.setForeground(new Color(140, 140, 140));
         LblSelfResult.setEnabled(true);
         LblSelfResult.setFont(new Font("SansSerif", 0, 40));
-        LblSelfResult.setText("?");
+        LblSelfResult.setText("");
         LblSelfResult.setVisible(true);
 
         LblUserNameOpp = new JLabel();
