@@ -47,20 +47,22 @@ public class Match {
 
     public void decideWinner() {
         //One player has already won, return
-        if (score1 == 3 || score2 == 3) {
-            //TODO: Close match
-
-            return;
-        } else if (decision1 == decision2) {
-            final MatchStalematePacket stalematePacket = new MatchStalematePacket();
-            stalematePacket.send();
-
-            ApplicationServer.INSTANCE.sendToUser(user1, stalematePacket);
-            ApplicationServer.INSTANCE.sendToUser(user2, stalematePacket);
+        if ((score1 == 3 || score2 == 3) && (score1 != score2)) {
+            final User looser = score1 > score2 ? user2 : user1;
+            this.matchDone(looser);
             return;
         }
 
         if (decision1 != -1 && decision2 != -1) {
+            //Stalemate
+            if (decision1 == decision2) {
+                final MatchStalematePacket stalematePacket = new MatchStalematePacket();
+                stalematePacket.send();
+
+                ApplicationServer.INSTANCE.sendToUser(user1, stalematePacket);
+                ApplicationServer.INSTANCE.sendToUser(user2, stalematePacket);
+                return;
+            }
             //Stone beats scissors (user 1)
             if (decision1 == 0 && decision2 == 2) {
                 winner = user1;
@@ -93,7 +95,6 @@ public class Match {
             //Match done.
             if (score1 + score2 >= 3) {
                 this.matchDone(looser);
-                //TODO: Set highscore
             } else {
                 this.closeRound(looser);
             }
@@ -131,9 +132,21 @@ public class Match {
             }
             ApplicationServer.INSTANCE.matchList.next();
         }
-
+        //Highscore list
+        ApplicationServer.INSTANCE.highscoreList.toFirst();
+        while (ApplicationServer.INSTANCE.highscoreList.hasAccess()) {
+            //If user is already in the list:
+            final Highscore hs = ApplicationServer.INSTANCE.highscoreList.getContent();
+            if (hs.getName().equals(winner.getName())) {
+                hs.setScore(hs.getScore() + 1);
+                return;
+            }
+            ApplicationServer.INSTANCE.highscoreList.next();
+        }
+        //User not in high score list
+        ApplicationServer.INSTANCE.highscoreList.toFirst();
+        ApplicationServer.INSTANCE.highscoreList.append(new Highscore(winner.getName(), 1));
     }
-
 
     public void start() {
         //Send a packet which indicates that a match has been found to both users.
