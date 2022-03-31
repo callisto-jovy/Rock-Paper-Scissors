@@ -34,48 +34,29 @@ public class GameScreen extends JFrame {
         contentPane.setPreferredSize(new Dimension(800, 600));
         contentPane.setBackground(new Color(50, 50, 50));
 
+        final String[] strings = {"Rock", "Paper", "Scissors"};
 
-        final JButton btnRock = new JButton(new ImageIcon(getClass().getResource("/src/client/icons/icons-hand-felsen.png")));
-        btnRock.setBounds(208, 480, 64, 64);
-        btnRock.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent evt) {
-                Player.INSTANCE.btnClicked(0);
-            }
-        });
-        btnRock.setBackground(new Color(50, 50, 50));
-        btnRock.setForeground(new Color(0, 0, 0));
-        btnRock.setEnabled(true);
-        btnRock.setFont(new Font("sansserif", 0, 12));
-        btnRock.setText("Rock");
-        btnRock.setVisible(true);
+        int xOffset = 0;
+        for (int i = 0; i < strings.length; i++) {
+            final JButton btnRock = new JButton(new ImageIcon(getClass().getResource("/src/client/icons/selection/" + i + ".png")));
 
-        final JButton btnPaper = new JButton(new ImageIcon(getClass().getResource("/src/client/icons/icons-hand-papier.png")));
-        btnPaper.setBounds(368, 480, 64, 64);
-        btnPaper.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent evt) {
-                Player.INSTANCE.btnClicked(1);
-            }
-        });
-        btnPaper.setBackground(new Color(50, 50, 50));
-        btnPaper.setForeground(new Color(0, 0, 0));
-        btnPaper.setEnabled(true);
-        btnPaper.setFont(new Font("sansserif", 0, 12));
-        btnPaper.setText("Paper");
-        btnPaper.setVisible(true);
+            btnRock.setBounds(208 + xOffset, 480, 64, 64);
+            int finalI = i;
+            btnRock.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent evt) {
+                    Player.INSTANCE.btnClicked(finalI);
+                }
+            });
+            btnRock.setBackground(new Color(50, 50, 50));
+            btnRock.setForeground(new Color(0, 0, 0));
+            btnRock.setEnabled(true);
+            btnRock.setFont(new Font("sansserif", 0, 12));
+            btnRock.setText(strings[i]);
+            btnRock.setVisible(true);
 
-        final JButton btnScissors = new JButton(new ImageIcon(getClass().getResource("/src/client/icons/icons-hand-schere.png")));
-        btnScissors.setBounds(528, 480, 64, 64);
-        btnScissors.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent evt) {
-                Player.INSTANCE.btnClicked(2);
-            }
-        });
-        btnScissors.setBackground(new Color(50, 50, 50));
-        btnScissors.setForeground(new Color(0, 0, 0));
-        btnScissors.setEnabled(true);
-        btnScissors.setFont(new Font("sansserif", 0, 12));
-        btnScissors.setText("Scissors");
-        btnScissors.setVisible(true);
+            contentPane.add(btnRock);
+            xOffset += 180;
+        }
 
         LblCountdown = new JLabel();
         LblCountdown.setBounds(200, 240, 400, 90);
@@ -86,7 +67,7 @@ public class GameScreen extends JFrame {
         LblCountdown.setText("3");
         LblCountdown.setVisible(true);
 
-        JLabel lblDoppelrPunkt = new JLabel();
+        final JLabel lblDoppelrPunkt = new JLabel();
         lblDoppelrPunkt.setBounds(640, 260, 10, 40);
         lblDoppelrPunkt.setBackground(new Color(214, 217, 223));
         lblDoppelrPunkt.setForeground(new Color(210, 210, 210));
@@ -171,9 +152,6 @@ public class GameScreen extends JFrame {
         LblProfilePicSelf.setVisible(true);
 
         //adding components to contentPane panel
-        contentPane.add(btnPaper);
-        contentPane.add(btnRock);
-        contentPane.add(btnScissors);
         contentPane.add(LblCountdown);
         contentPane.add(lblDoppelrPunkt);
         contentPane.add(LblErr);
@@ -209,13 +187,13 @@ public class GameScreen extends JFrame {
                 LblOppResult.setText("?");
                 break;
             case 1:
-                LblOppResult.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/icons-hand-felsen.png")));
+                LblOppResult.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/selection/0.png")));
                 break;
             case 2:
-                LblOppResult.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/icons-hand-papier.png")));
+                LblOppResult.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/selection/1.png")));
                 break;
             case 3:
-                LblOppResult.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/icons-hand-schere.png")));
+                LblOppResult.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/selection/2.png")));
                 break;
         }
     }
@@ -226,13 +204,13 @@ public class GameScreen extends JFrame {
                 LblSelfResult.setText("?");
                 break;
             case 0:
-                LblSelfResult.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/icons-hand-felsen.png")));
+                LblSelfResult.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/selection/0.png")));
                 break;
             case 1:
-                LblSelfResult.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/icons-hand-papier.png")));
+                LblSelfResult.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/selection/1.png")));
                 break;
             case 2:
-                LblSelfResult.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/icons-hand-schere.png")));
+                LblSelfResult.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/selection/2.png")));
                 break;
         }
     }

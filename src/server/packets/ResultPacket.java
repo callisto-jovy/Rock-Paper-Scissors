@@ -1,9 +1,9 @@
 package src.server.packets;
 
+import org.json.JSONObject;
 import src.server.User;
 import src.util.Packet;
 import src.util.PacketUtil;
-import org.json.*;
 
 public class ResultPacket extends Packet {
 
@@ -28,7 +28,7 @@ public class ResultPacket extends Packet {
     public void send() {
         final JSONObject payloadWinner = new JSONObject();
         payloadWinner.put("winner", winner.getName());
-        //payloadWinner.put("score", score);
+        payloadWinner.put("score", score);
                                 
         setPayload(payloadWinner);
     }

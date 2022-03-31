@@ -153,8 +153,10 @@ public class Player {
             gameScreen.setCounter("YOU LOOSE!");
             gameScreen.setEnemyPoints(event.getScore());
         }
+        //Remove game screen, connect page
+        gameScreen.setVisible(false);
 
-        this.clearGameScreen();
+        connectPage.setVisible(true);
     }
 
     public PlayerClient getPlayer() {

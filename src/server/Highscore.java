@@ -3,10 +3,14 @@ package src.server;
 public class Highscore {
 
     private final String name;
-    private final int score;
+    private int score;
 
     public Highscore(String name, int score) {
         this.name = name;
+        this.score = score;
+    }
+
+    public void setScore(int score) {
         this.score = score;
     }
 
