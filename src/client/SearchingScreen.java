@@ -5,12 +5,12 @@ import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import java.awt.*;
 
 
-public class LoadingScreen extends JFrame {
+public class SearchingScreen extends JFrame {
 
 	private final JProgressBar progressBar;
 
     //Constructor
-    public LoadingScreen() {
+    public SearchingScreen() {
 		this.setTitle("Loading...");
 		this.setSize(500, 400);
 		this.setResizable(false);
@@ -67,7 +67,7 @@ public class LoadingScreen extends JFrame {
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
-		javax.swing.SwingUtilities.invokeLater(LoadingScreen::new);
+		javax.swing.SwingUtilities.invokeLater(SearchingScreen::new);
 	}
 
 	public void setLoadingLength(int prz) {
