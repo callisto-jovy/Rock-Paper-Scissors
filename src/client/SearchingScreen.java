@@ -22,12 +22,12 @@ public class SearchingScreen extends JFrame {
 
 
 		final JLabel label1 = new JLabel();
-		label1.setBounds(100, 150, 300, 100);
+		label1.setBounds(100, 150, 400, 100);
 		label1.setBackground(new Color(214, 217, 223));
 		label1.setForeground(new Color(0, 0, 0));
 		label1.setEnabled(true);
-		label1.setFont(new Font("SansSerif", Font.PLAIN, 70));
-		label1.setText("SEARCH");
+		label1.setFont(new Font("SansSerif", Font.PLAIN, 40));
+		label1.setText("Searching Match...");
 		label1.setVisible(true);
 
 		final JPanel panel1 = new JPanel(null);
