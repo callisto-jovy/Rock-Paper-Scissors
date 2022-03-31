@@ -22,8 +22,6 @@ public class GameScreen extends JFrame {
     private int enemyPoints;
 
 
-    //TODO: Array for buttons
-
     //Constructor
     public GameScreen() {
         this.setTitle("Rock Paper Scissors");
@@ -44,13 +42,13 @@ public class GameScreen extends JFrame {
             int finalI = i;
             btnRock.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
-                    Player.INSTANCE.btnClicked(finalI);
+                    Player.INSTANCE.lockInChoice(finalI);
                 }
             });
             btnRock.setBackground(new Color(50, 50, 50));
             btnRock.setForeground(new Color(0, 0, 0));
             btnRock.setEnabled(true);
-            btnRock.setFont(new Font("sansserif", 0, 12));
+            btnRock.setFont(new Font("sansserif", Font.PLAIN, 12));
             btnRock.setText(strings[i]);
             btnRock.setVisible(true);
 
@@ -63,7 +61,7 @@ public class GameScreen extends JFrame {
         LblCountdown.setBackground(new Color(214, 217, 223));
         LblCountdown.setForeground(new Color(210, 210, 210));
         LblCountdown.setEnabled(true);
-        LblCountdown.setFont(new Font("SansSerif", 1, 70));
+        LblCountdown.setFont(new Font("SansSerif", Font.BOLD, 70));
         LblCountdown.setText("3");
         LblCountdown.setVisible(true);
 
@@ -72,7 +70,7 @@ public class GameScreen extends JFrame {
         lblDoppelrPunkt.setBackground(new Color(214, 217, 223));
         lblDoppelrPunkt.setForeground(new Color(210, 210, 210));
         lblDoppelrPunkt.setEnabled(true);
-        lblDoppelrPunkt.setFont(new Font("SansSerif", 1, 24));
+        lblDoppelrPunkt.setFont(new Font("SansSerif", Font.BOLD, 24));
         lblDoppelrPunkt.setText(":");
         lblDoppelrPunkt.setVisible(true);
 
@@ -81,7 +79,7 @@ public class GameScreen extends JFrame {
         LblErr.setBackground(new Color(255, 0, 0));
         LblErr.setForeground(new Color(255, 0, 0));
         LblErr.setEnabled(true);
-        LblErr.setFont(new Font("sansserif", 0, 12));
+        LblErr.setFont(new Font("sansserif", Font.PLAIN, 12));
         LblErr.setText("Err 404");
         LblErr.setVisible(false);
 
@@ -90,7 +88,7 @@ public class GameScreen extends JFrame {
         LblEnemyPoints.setBackground(new Color(214, 217, 223));
         LblEnemyPoints.setForeground(new Color(255, 50, 50));
         LblEnemyPoints.setEnabled(true);
-        LblEnemyPoints.setFont(new Font("SansSerif", 1, 18));
+        LblEnemyPoints.setFont(new Font("SansSerif", Font.BOLD, 18));
         LblEnemyPoints.setText("");
         LblEnemyPoints.setVisible(true);
 
@@ -99,7 +97,7 @@ public class GameScreen extends JFrame {
         LblOppResult.setBackground(new Color(180, 180, 180));
         LblOppResult.setForeground(new Color(140, 140, 140));
         LblOppResult.setEnabled(true);
-        LblOppResult.setFont(new Font("SansSerif", 0, 40));
+        LblOppResult.setFont(new Font("SansSerif", Font.PLAIN, 40));
         LblOppResult.setText("");
         LblOppResult.setVisible(true);
 
@@ -108,7 +106,7 @@ public class GameScreen extends JFrame {
         LblSelfPoints.setBackground(new Color(214, 217, 223));
         LblSelfPoints.setForeground(new Color(100, 100, 255));
         LblSelfPoints.setEnabled(true);
-        LblSelfPoints.setFont(new Font("SansSerif", 1, 32));
+        LblSelfPoints.setFont(new Font("SansSerif", Font.BOLD, 32));
         LblSelfPoints.setText("");
         LblSelfPoints.setVisible(true);
 
@@ -117,7 +115,7 @@ public class GameScreen extends JFrame {
         LblSelfResult.setBackground(new Color(180, 180, 180));
         LblSelfResult.setForeground(new Color(140, 140, 140));
         LblSelfResult.setEnabled(true);
-        LblSelfResult.setFont(new Font("SansSerif", 0, 40));
+        LblSelfResult.setFont(new Font("SansSerif", Font.PLAIN, 40));
         LblSelfResult.setText("");
         LblSelfResult.setVisible(true);
 
@@ -126,7 +124,7 @@ public class GameScreen extends JFrame {
         LblUserNameOpp.setBackground(new Color(214, 217, 223));
         LblUserNameOpp.setForeground(new Color(255, 50, 50));
         LblUserNameOpp.setEnabled(true);
-        LblUserNameOpp.setFont(new Font("SansSerif", 1, 18));
+        LblUserNameOpp.setFont(new Font("SansSerif", Font.BOLD, 18));
         LblUserNameOpp.setText("Player2");
         LblUserNameOpp.setVisible(true);
 
@@ -135,11 +133,11 @@ public class GameScreen extends JFrame {
         LblUserNameSelf.setBackground(new Color(214, 217, 223));
         LblUserNameSelf.setForeground(new Color(100, 100, 255));
         LblUserNameSelf.setEnabled(true);
-        LblUserNameSelf.setFont(new Font("SansSerif", 1, 32));
+        LblUserNameSelf.setFont(new Font("SansSerif", Font.BOLD, 32));
         LblUserNameSelf.setText("Player1");
         LblUserNameSelf.setVisible(true);
 
-        JLabel lblProfilePicOpp = new JLabel();
+        final JLabel lblProfilePicOpp = new JLabel();
         lblProfilePicOpp.setBounds(340, 75, 96, 96);
         lblProfilePicOpp.setBackground(new Color(214, 217, 223));
         lblProfilePicOpp.setEnabled(true);
@@ -181,37 +179,21 @@ public class GameScreen extends JFrame {
         javax.swing.SwingUtilities.invokeLater(GameScreen::new);
     }
 
-    public void setEnemySelection(int s) { //-1: nichts; 0: rock; 1: paper; 2: scissors
-        switch (s) {
-            case -1:
-                LblOppResult.setText("?");
-                break;
-            case 1:
-                LblOppResult.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/selection/0.png")));
-                break;
-            case 2:
-                LblOppResult.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/selection/1.png")));
-                break;
-            case 3:
-                LblOppResult.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/selection/2.png")));
-                break;
+    public void setEnemySelection(int selection) { //-1: nichts; 0: rock; 1: paper; 2: scissors
+        if (selection == -1) {
+            LblOppResult.setText("?");
+            LblOppResult.setIcon(null);// Reset icon
+        } else {
+            LblOppResult.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/selection/" + selection + ".png")));
         }
     }
 
-    public void setSelfSelection(int s) { //-1: nichts; 1: rock; 2: paper; 3: scissors
-        switch (s) {
-            case -1:
-                LblSelfResult.setText("?");
-                break;
-            case 0:
-                LblSelfResult.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/selection/0.png")));
-                break;
-            case 1:
-                LblSelfResult.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/selection/1.png")));
-                break;
-            case 2:
-                LblSelfResult.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/selection/2.png")));
-                break;
+    public void setSelfSelection(int selection) { //-1: nichts; 1: rock; 2: paper; 3: scissors
+        if (selection == -1) {
+            LblSelfResult.setText("?");
+            LblSelfResult.setIcon(null); //Reset icon
+        } else {
+            LblSelfResult.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/selection/" + selection + ".png")));
         }
     }
 

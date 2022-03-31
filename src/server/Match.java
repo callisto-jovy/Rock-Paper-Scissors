@@ -61,6 +61,7 @@ public class Match {
 
                 ApplicationServer.INSTANCE.sendToUser(user1, stalematePacket);
                 ApplicationServer.INSTANCE.sendToUser(user2, stalematePacket);
+                this.resetDecisions();
                 return;
             }
             //Stone beats scissors (user 1)
@@ -108,6 +109,10 @@ public class Match {
         ApplicationServer.INSTANCE.sendToUser(user1, mPacketUser1);
         ApplicationServer.INSTANCE.sendToUser(user2, mPacketUser2);
 
+        this.resetDecisions();
+    }
+
+    private void resetDecisions() {
         //Reset decisions
         this.decision1 = -1;
         this.decision2 = -1;

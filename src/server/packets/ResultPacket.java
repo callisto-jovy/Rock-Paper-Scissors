@@ -17,7 +17,7 @@ public class ResultPacket extends Packet {
     public ResultPacket(final User winner, final int score) {
         super("RSLT");
         this.winner = winner;
-        //this.score = score;
+        this.score = score;
     }
 
     @Override

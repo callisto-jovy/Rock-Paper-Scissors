@@ -79,13 +79,10 @@ public class Player {
         //Set loading screen
         this.searchingScreen = new SearchingScreen();
         //Loading animation
-        for (int i = 0; i < 100; i++) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            searchingScreen.setLoadingLength(i);
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
@@ -98,24 +95,32 @@ public class Player {
         searchingScreen.dispose();
 
         this.gameScreen = new GameScreen();
+        //Set profile pictures...
         gameScreen.setProfilePicSelf(event.getEnemyProfilePicture());
-        gameScreen.setEnemySelection(-1); //None selected
-        gameScreen.setUsernameSelf(getName());
+        //Set usernames
         gameScreen.setUsernameEnemy(event.getEnemyName());
+        gameScreen.setUsernameSelf(getName());
+        //"Clear canvas"
+        this.clearGameScreen();
+        //Set enemy's points (Set points to 0)
         gameScreen.setEnemyPoints(0);
-        gameScreen.setSelfPoints(getScoreInMatch());
-        this.count();
+        gameScreen.setSelfPoints(getScoreInMatch()); //At this point equal to 0
     }
 
 
-    public void btnClicked(int pChoice) {
-        if (!blockInput) {
+    public void lockInChoice(int pChoice) {
+        if (!blockInput) { //Don't do anything if the input is blocked
             this.decision = pChoice;
+            //Reset decisions
+            this.resetDecisions();
+
+
             gameScreen.setSelfSelection(pChoice);
             //Send match packet
             final MatchPacket matchPacket = new MatchPacket();
             matchPacket.send();
             getPlayer().send(PacketFormatter.formatPacket(matchPacket));
+            //Block any future input
             blockInput = true;
         }
     }
@@ -123,41 +128,52 @@ public class Player {
     @EventTarget
     public void matchStalemate(final MatchStalemateEvent event) {
         this.clearGameScreen();
-    }
-
-    private void clearGameScreen() {
-        blockInput = false;
-        gameScreen.setEnemySelection(-1);
-        gameScreen.setSelfSelection(-1);
-        gameScreen.setCounter("GO!");
+        gameScreen.setCounter("TIE!");
     }
 
     @EventTarget
     public void matchRound(final MatchEvent event) {
         gameScreen.setEnemySelection(event.getEnemyDecision());
         if (event.getLooser().equals(name)) {
+            gameScreen.setCounter("YOU LOOSE!");
             gameScreen.setEnemyPoints(gameScreen.getEnemyPoints() + 1);
         } else {
             scoreInMatch++;
             gameScreen.setSelfPoints(scoreInMatch);
+            gameScreen.setCounter("YOU WIN!");
         }
-        //"Clear" canvas
-        this.clearGameScreen();
+        this.blockInput = false; //Remove input block (Don't clear the canvas anymore, the enemy's decision shall be visible till the next selection)
     }
 
     @EventTarget
     public void resultMatch(final ResultEvent event) {
         if (event.getWinner().equals(name)) {
-            gameScreen.setCounter("YOU WIN!");
+            gameScreen.setCounter("YOU WON!");
         } else {
-            gameScreen.setCounter("YOU LOOSE!");
+            gameScreen.setCounter("YOU LOST!");
             gameScreen.setEnemyPoints(event.getScore());
         }
+        //TODO: Maybe wait for keypress?
+
         //Remove game screen, connect page
         gameScreen.setVisible(false);
-
         connectPage.setVisible(true);
     }
+
+    /**
+     * Resets the gamescreen to its starting look
+     */
+    private void clearGameScreen() {
+        blockInput = false; //Disable input block
+        this.resetDecisions(); // Reset decisions
+    }
+
+    private void resetDecisions() {
+        gameScreen.setEnemySelection(-1); //Reset decisions
+        gameScreen.setSelfSelection(-1);
+        gameScreen.setCounter("GO!");
+    }
+
 
     public PlayerClient getPlayer() {
         return playerClient;

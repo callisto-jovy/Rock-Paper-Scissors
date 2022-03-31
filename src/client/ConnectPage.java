@@ -1,5 +1,7 @@
 package src.client;
 
+import src.util.namegen.Nomen;
+
 import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import java.awt.*;
@@ -8,12 +10,9 @@ import java.awt.event.MouseEvent;
 
 public class ConnectPage extends JFrame {
 
-    private final JButton BtnConnect;
     private final JLabel LblErrMsgUSR;
     private final JLabel LblErrorIP;
     private final JTextField TFIPAdress;
-    private final JLabel label1;
-    private final JLabel label2;
     private final JTextField TFUserName;
 
     //Constructor
@@ -24,19 +23,19 @@ public class ConnectPage extends JFrame {
         //menu generate method
 
         //pane with null layout
-        JPanel contentPane = new JPanel(null);
+        final JPanel contentPane = new JPanel(null);
         contentPane.setPreferredSize(new Dimension(700, 450));
         contentPane.setBackground(new Color(50, 50, 50));
 
-        BtnConnect = new JButton();
-        BtnConnect.setBounds(187, 280, 120, 40);
-        BtnConnect.setBackground(new Color(70, 70, 70));
-        BtnConnect.setForeground(new Color(210, 210, 210));
-        BtnConnect.setEnabled(true);
-        BtnConnect.setFont(new Font("sansserif", 0, 12));
-        BtnConnect.setText("Connect");
-        BtnConnect.setVisible(true);
-        BtnConnect.addMouseListener(new MouseAdapter() {
+        final JButton btnConnect = new JButton();
+        btnConnect.setBounds(187, 280, 120, 40);
+        btnConnect.setBackground(new Color(70, 70, 70));
+        btnConnect.setForeground(new Color(210, 210, 210));
+        btnConnect.setEnabled(true);
+        btnConnect.setFont(new Font("sansserif", 0, 12));
+        btnConnect.setText("Connect");
+        btnConnect.setVisible(true);
+        btnConnect.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
                 Player.INSTANCE.tryConnect(TFIPAdress.getText(), TFUserName.getText());
             }
@@ -69,7 +68,7 @@ public class ConnectPage extends JFrame {
         TFIPAdress.setText("10.147.48.");
         TFIPAdress.setVisible(true);
 
-        label1 = new JLabel();
+        final JLabel label1 = new JLabel();
         label1.setBounds(90, 120, 100, 40);
         label1.setBackground(new Color(255, 255, 255));
         label1.setForeground(new Color(210, 210, 210));
@@ -78,7 +77,7 @@ public class ConnectPage extends JFrame {
         label1.setText("Enter Server IP:");
         label1.setVisible(true);
 
-        label2 = new JLabel();
+        final JLabel label2 = new JLabel();
         label2.setBounds(90, 170, 100, 40);
         label2.setBackground(new Color(214, 217, 223));
         label2.setForeground(new Color(210, 210, 210));
@@ -93,7 +92,7 @@ public class ConnectPage extends JFrame {
         TFUserName.setForeground(new Color(210, 210, 210));
         TFUserName.setEnabled(true);
         TFUserName.setFont(new Font("sansserif", 0, 12));
-        TFUserName.setText("Player1");
+        TFUserName.setText(Nomen.randomName());
         TFUserName.setVisible(true);
 
 
@@ -120,7 +119,7 @@ public class ConnectPage extends JFrame {
             contentPane.add(profileButton);
         }
         //adding components to contentPane panel
-        contentPane.add(BtnConnect);
+        contentPane.add(btnConnect);
         contentPane.add(LblErrMsgUSR);
         contentPane.add(LblErrorIP);
         contentPane.add(TFIPAdress);

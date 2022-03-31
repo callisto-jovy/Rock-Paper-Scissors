@@ -42,7 +42,6 @@ public class MatchPacket extends Packet {
             }
             ApplicationServer.INSTANCE.matchList.next();
         }
-
     }
 
     @Override

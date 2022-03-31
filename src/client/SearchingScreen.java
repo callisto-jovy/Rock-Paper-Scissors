@@ -30,18 +30,11 @@ public class SearchingScreen extends JFrame {
 		label1.setText("Searching Match...");
 		label1.setVisible(true);
 
-		final JPanel panel1 = new JPanel(null);
-		panel1.setBorder(BorderFactory.createEtchedBorder(1));
-		panel1.setBounds(102, 230, 290, 19);
-		panel1.setBackground(new Color(214, 217, 223));
-		panel1.setForeground(new Color(0, 0, 0));
-		panel1.setEnabled(true);
-		panel1.setFont(new Font("sansserif", Font.PLAIN, 12));
-		panel1.setVisible(true);
 
 		progressBar = new JProgressBar();
 		progressBar.setBorder(BorderFactory.createEtchedBorder(1));
-		progressBar.setBounds(102, 230, 150, 19);
+		progressBar.setIndeterminate(true);
+		progressBar.setBounds(102, 230, 290, 19);
 		progressBar.setBackground(new Color(0, 217, 0));
 		progressBar.setForeground(new Color(0, 0, 0));
 		progressBar.setEnabled(true);
@@ -50,7 +43,6 @@ public class SearchingScreen extends JFrame {
 
 		//adding components to contentPane panel
 		contentPane.add(label1);
-		contentPane.add(panel1);
 		contentPane.add(progressBar);
 
 		//adding panel to JFrame and seting of window position and close operation
