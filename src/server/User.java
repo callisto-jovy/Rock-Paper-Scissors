@@ -31,29 +31,49 @@ public class User {
      */
     private int totalScore;
     /**
-     * The user's profilePicture 
+     * The user's profilePicture (used if the user did not provide a custom profile picture) 
      */
     private int profilePicture;
-    
+
+    /**
+     * Base64 String with the user's custom profile picture (null if none is given)
+     */
+    private String customPicture;
+
     public User(String clientIP, int clientPort) {
         this.clientIP = clientIP;
         this.clientPort = clientPort;
     }
-    
+
     public JSONObject toJSON() {
-        return new JSONObject()
+        final JSONObject object = new JSONObject();
+
+        object
         .put("username", name)
         .put("profile_picture", profilePicture);
+
+        if(customPicture != null) 
+            object.put("custom_profile_picture", customPicture);
+
+        return object;
     }
-    
+
+    public void setCustomProfilePicture(final String base64)   {
+        this.customPicture = base64;
+    }
+
     public void setProfilePicture(final int picture) {
         this.profilePicture = picture;
     }
-    
+
     public int getProfilePicture() {
         return profilePicture;
     }
-    
+
+    public String getCustomProfilePictureBase64String() {
+        return this.customPicture;
+    }
+
     public int getScore() {
         return totalScore;
     }

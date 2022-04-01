@@ -7,6 +7,12 @@ import src.util.PacketFormatter;
 import src.util.eventapi.EventManager;
 import src.util.eventapi.EventTarget;
 import src.util.events.*;
+import java.awt.*;
+import javax.swing.JFileChooser;
+import java.io.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.ImageIcon;
 
 import java.util.logging.Level;
 
@@ -24,8 +30,11 @@ public class Player {
     private boolean searchesMatch = true;
     private int scoreInMatch;
     private int profilePic;
+    private ImageIcon profilePicImg;
     private int decision;
     private boolean blockInput;
+    
+    private String customProfilePicture;
 
     /* ----------Screens---------- */
     private ConnectPage connectPage;
@@ -96,7 +105,9 @@ public class Player {
 
         this.gameScreen = new GameScreen();
         //Set profile pictures...
-        gameScreen.setProfilePicSelf(event.getEnemyProfilePicture());
+        if(profilePicImg == null) gameScreen.setProfilePicSelf(profilePic);
+        else gameScreen.setProfilePicSelf(profilePicImg);
+        gameScreen.setProfilePicEnemy(event.getEnemyProfilePicture());
         //Set usernames
         gameScreen.setUsernameEnemy(event.getEnemyName());
         gameScreen.setUsernameSelf(getName());
@@ -148,9 +159,13 @@ public class Player {
     @EventTarget
     public void resultMatch(final ResultEvent event) {
         if (event.getWinner().equals(name)) {
-            gameScreen.setCounter("YOU WON!");
+            //gameScreen.setCounter("YOU WON!");
+            gameScreen.setVisible(false);
+            WinnerScreen win = new WinnerScreen();
         } else {
-            gameScreen.setCounter("YOU LOST!");
+            //gameScreen.setCounter("YOU LOST!");
+            gameScreen.setVisible(false);
+            LoserScreen loser = new LoserScreen();
             gameScreen.setEnemyPoints(event.getScore());
         }
         //TODO: Maybe wait for keypress?
@@ -173,7 +188,24 @@ public class Player {
         gameScreen.setSelfSelection(-1);
         gameScreen.setCounter("GO!");
     }
+    
+    public void chooseProfilePic(){
+        JFileChooser chooser = new JFileChooser();
+        FileFilter filter = new FileNameExtensionFilter("Bilder","gif", "png", "jpg");
+        chooser.setFileFilter(filter);
+        chooser.showOpenDialog(null);
+        File f = chooser.getSelectedFile();
+        String filename = f.getAbsolutePath();
+        profilePicImg = new ImageIcon(new ImageIcon(filename).getImage().getScaledInstance(96, 96, Image.SCALE_DEFAULT));
+       }
 
+    public String getCustomProfilePic() {
+        return customProfilePicture;
+    }
+    
+    public void setCustomProfilePicture(final String customBase64) {
+        this.customProfilePicture = customBase64;
+    }
 
     public PlayerClient getPlayer() {
         return playerClient;

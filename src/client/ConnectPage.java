@@ -9,7 +9,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class ConnectPage extends JFrame {
-
     private final JLabel LblErrMsgUSR;
     private final JLabel LblErrorIP;
     private final JTextField TFIPAdress;
@@ -28,7 +27,7 @@ public class ConnectPage extends JFrame {
         contentPane.setBackground(new Color(50, 50, 50));
 
         final JButton btnConnect = new JButton();
-        btnConnect.setBounds(187, 280, 120, 40);
+        btnConnect.setBounds(187, 250, 120, 40);
         btnConnect.setBackground(new Color(70, 70, 70));
         btnConnect.setForeground(new Color(210, 210, 210));
         btnConnect.setEnabled(true);
@@ -36,10 +35,24 @@ public class ConnectPage extends JFrame {
         btnConnect.setText("Connect");
         btnConnect.setVisible(true);
         btnConnect.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent evt) {
-                Player.INSTANCE.tryConnect(TFIPAdress.getText(), TFUserName.getText());
-            }
-        });
+                public void mouseClicked(MouseEvent evt) {
+                    Player.INSTANCE.tryConnect(TFIPAdress.getText(), TFUserName.getText());
+                }
+            });
+
+        JButton btnChooseImg = new JButton();
+        btnChooseImg.setBounds(300, 350, 140, 48);
+        btnChooseImg.setBackground(new Color(70, 70, 70));
+        btnChooseImg.setForeground(new Color(210, 210, 210));
+        btnChooseImg.setEnabled(true);
+        btnChooseImg.setFont(new Font("sansserif", 0, 12));
+        btnChooseImg.setText("Chosse Profile Pic");
+        btnChooseImg.setVisible(true);
+        btnChooseImg.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent evt) {
+                    Player.INSTANCE.chooseProfilePic();
+                }
+            });
 
         LblErrMsgUSR = new JLabel();
         LblErrMsgUSR.setBounds(210, 225, 190, 20);
@@ -95,7 +108,6 @@ public class ConnectPage extends JFrame {
         TFUserName.setText(Nomen.randomName());
         TFUserName.setVisible(true);
 
-
         //Add avatar selector
         for (int i = 1, yOffset = 0; i < 9; i++) {
             final JButton profileButton = new JButton(new ImageIcon(getClass().getResource("/src/client/icons/48/" + i + ".png")));
@@ -104,18 +116,18 @@ public class ConnectPage extends JFrame {
             if (i % 2 == 0) {
                 profileButton.setBounds(576, 50 + yOffset, 48, 48);
                 yOffset += 100;
-            } else {
+            } else  {
                 profileButton.setBounds(476, 50 + yOffset, 48, 48);
             }
-            
+
             final int selected = i;
             profileButton.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    Player.INSTANCE.setProfilePic(selected);
-                    super.mouseClicked(e);
-                }
-            });
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        Player.INSTANCE.setProfilePic(selected);
+                        super.mouseClicked(e);
+                    }
+                });
             contentPane.add(profileButton);
         }
         //adding components to contentPane panel
@@ -126,7 +138,7 @@ public class ConnectPage extends JFrame {
         contentPane.add(label1);
         contentPane.add(label2);
         contentPane.add(TFUserName);
-
+        contentPane.add(btnChooseImg);
 
         //adding panel to JFrame and setting of window position and close operation
         this.add(contentPane);

@@ -19,8 +19,9 @@ public class MatchFoundPacket extends Packet {
     public void receive(PacketUtil input, User parent) {
         if (input.hasPayload()) {
             final JSONObject enemyJSON = input.getPayloadJSON();
-            EventManager.call(new MatchFoundEvent(enemyJSON.getString("username"), enemyJSON.getInt("profile_picture")));
-            //  parent.setSearchesMatch(false); //TODO: Will not work, please fix
+            final String enemyCustomProfilePictureBase64String = enemyJSON.optString("custom_profile_picture", null);
+            
+            EventManager.call(new MatchFoundEvent(enemyJSON.getString("username"), enemyJSON.getInt("profile_picture"), enemyCustomProfilePictureBase64String));
         } else if (input.isError()) {
             JOptionPane.showMessageDialog(null, "Error: " + input.getError());
         }
