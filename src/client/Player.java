@@ -196,7 +196,7 @@ public class Player {
         chooser.showOpenDialog(null);
         File f = chooser.getSelectedFile();
         String filename = f.getAbsolutePath();
-        profilePicImg = new ImageIcon(new ImageIcon("path").getImage().getScaledInstance(96, 96, Image.SCALE_DEFAULT));
+        profilePicImg = new ImageIcon(new ImageIcon(filename).getImage().getScaledInstance(96, 96, Image.SCALE_DEFAULT));
        }
 
     public String getCustomProfilePic() {
