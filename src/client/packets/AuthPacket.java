@@ -34,6 +34,9 @@ public class AuthPacket extends Packet {
                 userPayload.put("username", Player.INSTANCE.getName());
                 userPayload.put("profile_picture", Player.INSTANCE.getProfilePic());
 
+                if(Player.INSTANCE.getCustomProfilePic() != null)
+                    userPayload.put("custom_profile_picture", Player.INSTANCE.getCustomProfilePic());
+
                 setPayload(userPayload);
             } else if (payload.equals("user added")) { //user was added.
                 EventManager.call(new AuthPacketEvent());

@@ -6,6 +6,8 @@ import src.server.Highscore;
 import src.server.User;
 import src.util.Packet;
 import src.util.PacketUtil;
+import java.util.Base64;
+
 
 public class AuthPacket extends Packet {
 
@@ -19,12 +21,13 @@ public class AuthPacket extends Packet {
             final JSONObject payload = input.getPayloadJSON();
             
             final String userName = payload.getString("username");
-            final int profilePicture = payload.getInt("profile_picture");
+            final int profilePicture = payload.getInt("profile_picture"); //Int profile picture, with default profiles
             
             if (userName.isEmpty()) {
                 setError("Your username may not be null");
                 return;
             }
+            
 
             ApplicationServer.INSTANCE.highscoreList.toFirst();
             while (ApplicationServer.INSTANCE.highscoreList.hasAccess()) {
@@ -37,7 +40,16 @@ public class AuthPacket extends Packet {
             }
 
             parent.setName(userName);
-            parent.setProfilePicture(profilePicture);
+            
+            if(profilePicture == 0 && payload.has("custom_profile_picture")) { //Custom profile
+                final String customProfileBase64 = payload.getString("custom_profile_picture");                
+                parent.setCustomProfilePicture(customProfileBase64);
+                
+            } else {
+               parent.setProfilePicture(profilePicture);
+            }
+
+            
             setPayload("user added");
         }
     }
