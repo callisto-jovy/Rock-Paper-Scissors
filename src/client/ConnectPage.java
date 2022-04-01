@@ -103,9 +103,9 @@ public class ConnectPage extends JFrame {
 
             if (i % 2 == 0) {
                 profileButton.setBounds(576, 50 + yOffset, 48, 48);
-            } else if (i > 2) {
+                 yOffset += 100;
+            } else  {
                 profileButton.setBounds(476, 50 + yOffset, 48, 48);
-                yOffset += 100;
             }
 
             final int selected = i;

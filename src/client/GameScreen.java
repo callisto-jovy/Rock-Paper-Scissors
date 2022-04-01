@@ -57,7 +57,7 @@ public class GameScreen extends JFrame {
         }
 
         LblCountdown = new JLabel();
-        LblCountdown.setBounds(200, 240, 400, 90);
+        LblCountdown.setBounds(200, 240, 500, 90);
         LblCountdown.setBackground(new Color(214, 217, 223));
         LblCountdown.setForeground(new Color(210, 210, 210));
         LblCountdown.setEnabled(true);
@@ -233,6 +233,14 @@ public class GameScreen extends JFrame {
     }
 
     public void setProfilePicSelf(int pPic) {
+        if (pPic == 0) {
+            LblProfilePicSelf.setText("?");
+        } else {
+            LblProfilePicSelf.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/96/" + pPic + ".png")));
+        }
+    }
+    
+    public void setProfilePicEnemy(int pPic) {
         if (pPic == 0) {
             LblProfilePicSelf.setText("?");
         } else {
