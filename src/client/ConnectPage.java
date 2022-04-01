@@ -97,17 +97,17 @@ public class ConnectPage extends JFrame {
 
 
         //Add avatar selector
-        for (int i = 1, yOffset = 0; i <= 8; i++) {
+        for (int i = 1, yOffset = 0; i < 9; i++) {
             final JButton profileButton = new JButton(new ImageIcon(getClass().getResource("/src/client/icons/48/" + i + ".png")));
             profileButton.setBackground(new Color(70, 70, 70));
 
             if (i % 2 == 0) {
                 profileButton.setBounds(576, 50 + yOffset, 48, 48);
-            } else if (i > 2) {
-                profileButton.setBounds(476, 50 + yOffset, 48, 48);
                 yOffset += 100;
+            } else {
+                profileButton.setBounds(476, 50 + yOffset, 48, 48);
             }
-
+            
             final int selected = i;
             profileButton.addMouseListener(new MouseAdapter() {
                 @Override
