@@ -7,6 +7,8 @@ import src.util.PacketFormatter;
 import src.util.eventapi.EventManager;
 import src.util.eventapi.EventTarget;
 import src.util.events.*;
+import javax.swing.JFileChooser;
+import java.io.File;
 
 import java.util.logging.Level;
 
@@ -173,6 +175,15 @@ public class Player {
         gameScreen.setEnemySelection(-1); //Reset decisions
         gameScreen.setSelfSelection(-1);
         gameScreen.setCounter("GO!");
+    }
+    
+    public void chooseProfilePic(){
+        JFileChooser chooser = new JFileChooser();
+        
+        chooser.showOpenDialog(null);
+        File f = chooser.getSelectedFile();
+        String filename = f.getAbsolutePath();
+        //Runtime.getRuntime().exec("explorer.exe / select,", "");
     }
 
 

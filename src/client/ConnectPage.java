@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+
 public class ConnectPage extends JFrame {
 
     private final JLabel LblErrMsgUSR;
@@ -28,7 +29,7 @@ public class ConnectPage extends JFrame {
         contentPane.setBackground(new Color(50, 50, 50));
 
         final JButton btnConnect = new JButton();
-        btnConnect.setBounds(187, 280, 120, 40);
+        btnConnect.setBounds(187, 250, 120, 40);
         btnConnect.setBackground(new Color(70, 70, 70));
         btnConnect.setForeground(new Color(210, 210, 210));
         btnConnect.setEnabled(true);
@@ -38,6 +39,20 @@ public class ConnectPage extends JFrame {
         btnConnect.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
                 Player.INSTANCE.tryConnect(TFIPAdress.getText(), TFUserName.getText());
+            }
+        });
+        
+        JButton btnChooseImg = new JButton();
+        btnChooseImg.setBounds(300, 350, 140, 48);
+        btnChooseImg.setBackground(new Color(70, 70, 70));
+        btnChooseImg.setForeground(new Color(210, 210, 210));
+        btnChooseImg.setEnabled(true);
+        btnChooseImg.setFont(new Font("sansserif", 0, 12));
+        btnChooseImg.setText("Chosse Profile Pic");
+        btnChooseImg.setVisible(true);
+        btnChooseImg.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                Player.INSTANCE.chooseProfilePic();
             }
         });
 
@@ -126,6 +141,7 @@ public class ConnectPage extends JFrame {
         contentPane.add(label1);
         contentPane.add(label2);
         contentPane.add(TFUserName);
+        contentPane.add(btnChooseImg);
 
 
         //adding panel to JFrame and setting of window position and close operation
