@@ -28,6 +28,8 @@ public class Player {
     private int profilePic;
     private int decision;
     private boolean blockInput;
+    
+    private String customProfilePicture;
 
     /* ----------Screens---------- */
     private ConnectPage connectPage;
@@ -186,6 +188,13 @@ public class Player {
         //Runtime.getRuntime().exec("explorer.exe / select,", "");
     }
 
+    public String getCustomProfilePic() {
+        return customProfilePicture;
+    }
+    
+    public void setCustomProfilePicture(final String customBase64) {
+        this.customProfilePicture = customBase64;
+    }
 
     public PlayerClient getPlayer() {
         return playerClient;
