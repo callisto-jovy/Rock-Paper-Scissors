@@ -239,4 +239,12 @@ public class GameScreen extends JFrame {
             LblProfilePicSelf.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/96/" + pPic + ".png")));
         }
     }
+    
+    public void setProfilePicEnemy(int pPic) {
+        if (pPic == 0) {
+            LblProfilePicSelf.setText("?");
+        } else {
+            LblProfilePicSelf.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/96/" + pPic + ".png")));
+        }
+    }
 }
