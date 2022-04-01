@@ -7,10 +7,12 @@ import src.util.PacketFormatter;
 import src.util.eventapi.EventManager;
 import src.util.eventapi.EventTarget;
 import src.util.events.*;
+import java.awt.*;
 import javax.swing.JFileChooser;
 import java.io.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.ImageIcon;
 
 import java.util.logging.Level;
 
@@ -28,6 +30,7 @@ public class Player {
     private boolean searchesMatch = true;
     private int scoreInMatch;
     private int profilePic;
+    private ImageIcon profilePicImg;
     private int decision;
     private boolean blockInput;
     
@@ -102,7 +105,8 @@ public class Player {
 
         this.gameScreen = new GameScreen();
         //Set profile pictures...
-        gameScreen.setProfilePicSelf(profilePic);
+        if(profilePicImg == null) gameScreen.setProfilePicSelf(profilePic);
+        else gameScreen.setProfilePicSelf(profilePicImg);
         gameScreen.setProfilePicEnemy(event.getEnemyProfilePicture());
         //Set usernames
         gameScreen.setUsernameEnemy(event.getEnemyName());
@@ -188,7 +192,8 @@ public class Player {
         chooser.showOpenDialog(null);
         File f = chooser.getSelectedFile();
         String filename = f.getAbsolutePath();
-    }
+        profilePicImg = new ImageIcon(new ImageIcon("path").getImage().getScaledInstance(96, 96, Image.SCALE_DEFAULT));
+       }
 
     public String getCustomProfilePic() {
         return customProfilePicture;

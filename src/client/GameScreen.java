@@ -240,11 +240,19 @@ public class GameScreen extends JFrame {
         }
     }
     
+    public void setProfilePicSelf(ImageIcon img){
+        LblProfilePicSelf.setIcon(img);
+    }
+    
     public void setProfilePicEnemy(int pPic) {
         if (pPic == 0) {
             LblProfilePicSelf.setText("?");
         } else {
             LblProfilePicSelf.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/96/" + pPic + ".png")));
         }
+    }
+    
+    public void setProfilePicEnemy(ImageIcon img){
+        LblProfilePicSelf.setIcon(img);
     }
 }
