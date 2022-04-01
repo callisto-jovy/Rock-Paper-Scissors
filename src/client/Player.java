@@ -8,7 +8,9 @@ import src.util.eventapi.EventManager;
 import src.util.eventapi.EventTarget;
 import src.util.events.*;
 import javax.swing.JFileChooser;
-import java.io.File;
+import java.io.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileFilter;
 
 import java.util.logging.Level;
 
@@ -181,11 +183,11 @@ public class Player {
     
     public void chooseProfilePic(){
         JFileChooser chooser = new JFileChooser();
-        
+        FileFilter filter = new FileNameExtensionFilter("Bilder","gif", "png", "jpg");
+        chooser.setFileFilter(filter);
         chooser.showOpenDialog(null);
         File f = chooser.getSelectedFile();
         String filename = f.getAbsolutePath();
-        //Runtime.getRuntime().exec("explorer.exe / select,", "");
     }
 
     public String getCustomProfilePic() {
