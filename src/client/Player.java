@@ -153,9 +153,13 @@ public class Player {
     @EventTarget
     public void resultMatch(final ResultEvent event) {
         if (event.getWinner().equals(name)) {
-            gameScreen.setCounter("YOU WON!");
+            //gameScreen.setCounter("YOU WON!");
+            gameScreen.setVisible(false);
+            WinnerScreen win = new WinnerScreen();
         } else {
-            gameScreen.setCounter("YOU LOST!");
+            //gameScreen.setCounter("YOU LOST!");
+            gameScreen.setVisible(false);
+            LoserScreen loser = new LoserScreen();
             gameScreen.setEnemyPoints(event.getScore());
         }
         //TODO: Maybe wait for keypress?
