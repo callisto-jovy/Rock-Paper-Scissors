@@ -2,18 +2,18 @@ package src.client;
 
 import src.client.packets.MatchPacket;
 import src.client.packets.SearchPacket;
+import src.util.ImageUtil;
 import src.util.LogUtil;
 import src.util.PacketFormatter;
 import src.util.eventapi.EventManager;
 import src.util.eventapi.EventTarget;
 import src.util.events.*;
-import java.awt.*;
-import javax.swing.JFileChooser;
-import java.io.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.ImageIcon;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 
 public class Player {
@@ -30,10 +30,9 @@ public class Player {
     private boolean searchesMatch = true;
     private int scoreInMatch;
     private int profilePic;
-    private ImageIcon profilePicImg;
     private int decision;
     private boolean blockInput;
-    
+
     private String customProfilePicture;
 
     /* ----------Screens---------- */
@@ -105,9 +104,15 @@ public class Player {
 
         this.gameScreen = new GameScreen();
         //Set profile pictures...
-        if(profilePicImg == null) gameScreen.setProfilePicSelf(profilePic);
-        else gameScreen.setProfilePicSelf(profilePicImg);
-        gameScreen.setProfilePicEnemy(event.getEnemyProfilePicture());
+        if (customProfilePicture == null)
+            gameScreen.setProfilePicSelf(profilePic);
+        else
+            gameScreen.setProfilePicSelf(ImageUtil.getImageIcon(customProfilePicture));
+
+        event.getCustomProfilePicture().ifPresentOrElse(
+                s -> gameScreen.setProfilePicEnemy(ImageUtil.getImageIcon(s)),
+                () -> gameScreen.setProfilePicEnemy(event.getEnemyProfilePicture()));
+
         //Set usernames
         gameScreen.setUsernameEnemy(event.getEnemyName());
         gameScreen.setUsernameSelf(getName());
@@ -117,7 +122,6 @@ public class Player {
         gameScreen.setEnemyPoints(0);
         gameScreen.setSelfPoints(getScoreInMatch()); //At this point equal to 0
     }
-
 
     public void lockInChoice(int pChoice) {
         if (!blockInput) { //Don't do anything if the input is blocked
@@ -188,21 +192,28 @@ public class Player {
         gameScreen.setSelfSelection(-1);
         gameScreen.setCounter("GO!");
     }
-    
-    public void chooseProfilePic(){
-        JFileChooser chooser = new JFileChooser();
-        FileFilter filter = new FileNameExtensionFilter("Bilder","gif", "png", "jpg");
+
+    public void chooseProfilePic() {
+        final JFileChooser chooser = new JFileChooser();
+        final FileFilter filter = new FileNameExtensionFilter("Bilder", "gif", "png", "jpg");
         chooser.setFileFilter(filter);
         chooser.showOpenDialog(null);
-        File f = chooser.getSelectedFile();
-        String filename = f.getAbsolutePath();
-        profilePicImg = new ImageIcon(new ImageIcon(filename).getImage().getScaledInstance(96, 96, Image.SCALE_DEFAULT));
-       }
+        final File chosenFile = chooser.getSelectedFile();
+
+        try {
+            this.customProfilePicture = ImageUtil.getImageBase64FromFile(chosenFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+            customProfilePicture = null;
+        }
+
+    }
+
 
     public String getCustomProfilePic() {
         return customProfilePicture;
     }
-    
+
     public void setCustomProfilePicture(final String customBase64) {
         this.customProfilePicture = customBase64;
     }
