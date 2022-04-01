@@ -96,7 +96,8 @@ public class Player {
 
         this.gameScreen = new GameScreen();
         //Set profile pictures...
-        gameScreen.setProfilePicSelf(event.getEnemyProfilePicture());
+        gameScreen.setProfilePicSelf(profilePic);
+        gameScreen.setProfilePicEnemy(event.getEnemyProfilePicture());
         //Set usernames
         gameScreen.setUsernameEnemy(event.getEnemyName());
         gameScreen.setUsernameSelf(getName());
