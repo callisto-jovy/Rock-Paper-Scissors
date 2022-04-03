@@ -47,9 +47,7 @@ public class Match {
 
     public void decideWinner() {
         //One player has already won, return
-        if ((score1 == 3 || score2 == 3) && (score1 != score2)) {
-            final User looser = score1 > score2 ? user2 : user1;
-            this.matchDone(looser);
+        if (checkWinner()) {
             return;
         }
 
@@ -94,12 +92,19 @@ public class Match {
             final User looser = winner == user1 ? user2 : user1;
 
             //Match done.
-            if (score1 + score2 >= 3) {
-                this.matchDone(looser);
-            } else {
+            if (!checkWinner())
                 this.closeRound(looser);
-            }
         }
+    }
+
+    private boolean checkWinner() {
+        //One player has already won, return
+        if ((score1 == 3 || score2 == 3) && (score1 != score2)) {
+            final User looser = score1 > score2 ? user2 : user1;
+            this.matchDone(looser);
+            return true;
+        }
+        return false;
     }
 
     private void closeRound(final User looser) {
@@ -127,8 +132,8 @@ public class Match {
 
         ApplicationServer.INSTANCE.sendToUser(user1, rPacket);
         ApplicationServer.INSTANCE.sendToUser(user2, rPacket);
-        //Remove match from ongoing matches
 
+        //Remove match from ongoing matches
         ApplicationServer.INSTANCE.matchList.toFirst();
         while (ApplicationServer.INSTANCE.matchList.hasAccess()) {
             if (ApplicationServer.INSTANCE.matchList.getContent() == this) {
@@ -148,6 +153,7 @@ public class Match {
             }
             ApplicationServer.INSTANCE.highscoreList.next();
         }
+        System.out.println("Adding user to highscore list");
         //User not in high score list
         ApplicationServer.INSTANCE.highscoreList.toFirst();
         ApplicationServer.INSTANCE.highscoreList.append(new Highscore(winner.getName(), 1));

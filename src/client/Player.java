@@ -1,10 +1,9 @@
 package src.client;
 
-import src.client.packets.MatchPacket;
-import src.client.packets.SearchPacket;
+import src.client.packets.*;
+import src.client.screens.*;
 import src.util.ImageUtil;
 import src.util.LogUtil;
-import src.util.PacketFormatter;
 import src.util.eventapi.EventManager;
 import src.util.eventapi.EventTarget;
 import src.util.events.*;
@@ -36,12 +35,12 @@ public class Player {
     private String customProfilePicture;
 
     /* ----------Screens---------- */
-    private ConnectPage connectPage;
+    private ConnectScreen connectPage;
     private GameScreen gameScreen;
     private SearchingScreen searchingScreen;
+    private MainMenuScreen mainMenuScreen;
 
     public Player() {
-        //TODO: Profile pictures..
         EventManager.register(this); //Register as event receiver
         /*
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -52,45 +51,85 @@ public class Player {
     }
 
     public void displayConnectPage() {
-        this.connectPage = new ConnectPage(); //New connect page
+        this.connectPage = new ConnectScreen(); //New connect page
     }
 
     public void tryConnect(String ipAddress, String pUsername) {
-        LogUtil.getLogger().log(Level.INFO, "Trying to connect to server: " + ipAddress);
-        this.playerClient = new PlayerClient(ipAddress);
-        this.playerClient.connect(); //Connect to host
-        this.name = pUsername;
-    }
+        if (playerClient != null && playerClient.isConnected()) {
+            this.name = pUsername;
 
-    @EventTarget
-    public void setIPError(final IPErrorEvent event) {
-        if (connectPage != null)
-            connectPage.SetIPErrVis(true);
+            final AuthPacket authPacket = new AuthPacket();
+            authPacket.send();
+            getPlayer().sendPacket(authPacket);
+        } else {
+            LogUtil.getLogger().log(Level.INFO, "Trying to connect to server: " + ipAddress);
+            this.playerClient = new PlayerClient(ipAddress);
+            this.playerClient.connect(); //Connect to host
+            this.name = pUsername;
+        }
     }
-
-    @EventTarget
-    public void usernameError(final UsernameErrorEvent event) {
-        if (connectPage != null)
-            connectPage.SetUsrErrVis(true);
-    }
-
 
     @EventTarget
     public void startGameScreen(final AuthPacketEvent event) {
         connectPage.setVisible(false);
         connectPage.dispose();
+        //Display Main Menu
+        this.displayMainMenu();
+    }
+
+    public void displayMainMenu() {
+        this.mainMenuScreen = new MainMenuScreen();
+    }
+
+    @EventTarget
+    public void searchMatch(final SearchMatchEvent event) {
+        this.searchesMatch = true; //Set the player's status to searching...
+
+        mainMenuScreen.setVisible(false);
+        mainMenuScreen.dispose();
 
         final SearchPacket searchPacket = new SearchPacket();
         searchPacket.send();
-        getPlayer().send(PacketFormatter.formatPacket(searchPacket));
-
+        getPlayer().sendPacket(searchPacket);
         //Set loading screen
         this.searchingScreen = new SearchingScreen();
+
         //Loading animation
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    @EventTarget
+    public void retrieveActiveUsers(final RetrieveActiveUsersEvent event) {
+        if (mainMenuScreen != null) {
+            final ListPacket listPacket = new ListPacket();
+            listPacket.send();
+            getPlayer().sendPacket(listPacket);
+        }
+    }
+
+    @EventTarget
+    public void receiveActiveUsers(final ReceiveActiveUsersEvent event) {
+        if (mainMenuScreen != null) {
+            //This is very bad and inefficient. Too bad...
+            mainMenuScreen.getActiveUserList().clear();
+            for (int i = 0; i < event.getUserListArray().length(); i++) {
+                final String username = event.getUserListArray().getString(i);
+                if (!username.equals(getName()))
+                    mainMenuScreen.getActiveUserList().addElement(username);
+            }
+        }
+    }
+
+    @EventTarget
+    public void retrieveHighscoreList(final RetrieveHighscoreListEvent event) {
+        if (mainMenuScreen != null) {
+            final HighscorePacket highscorePacket = new HighscorePacket();
+            highscorePacket.send();
+            getPlayer().sendPacket(highscorePacket);
         }
     }
 
@@ -129,12 +168,11 @@ public class Player {
             //Reset decisions
             this.resetDecisions();
 
-
             gameScreen.setSelfSelection(pChoice);
             //Send match packet
             final MatchPacket matchPacket = new MatchPacket();
             matchPacket.send();
-            getPlayer().send(PacketFormatter.formatPacket(matchPacket));
+            getPlayer().sendPacket(matchPacket);
             //Block any future input
             blockInput = true;
         }
@@ -163,20 +201,14 @@ public class Player {
     @EventTarget
     public void resultMatch(final ResultEvent event) {
         if (event.getWinner().equals(name)) {
-            //gameScreen.setCounter("YOU WON!");
-            gameScreen.setVisible(false);
-            WinnerScreen win = new WinnerScreen();
+            new WinnerScreen();
         } else {
-            //gameScreen.setCounter("YOU LOST!");
-            gameScreen.setVisible(false);
-            LoserScreen loser = new LoserScreen();
             gameScreen.setEnemyPoints(event.getScore());
+            new LoserScreen();
         }
-        //TODO: Maybe wait for keypress?
-
         //Remove game screen, connect page
         gameScreen.setVisible(false);
-        connectPage.setVisible(true);
+        gameScreen.dispose();
     }
 
     /**
@@ -202,13 +234,24 @@ public class Player {
 
         try {
             this.customProfilePicture = ImageUtil.getImageBase64FromFile(chosenFile);
+            this.connectPage.setCustomImageButtonTooltip(chosenFile.getName());
         } catch (IOException e) {
             e.printStackTrace();
             customProfilePicture = null;
         }
-
     }
 
+    @EventTarget
+    public void setIPError(final IPErrorEvent event) {
+        if (connectPage != null)
+            connectPage.setIPErrVis(true);
+    }
+
+    @EventTarget
+    public void usernameError(final UsernameErrorEvent event) {
+        if (connectPage != null)
+            connectPage.setUsrErrVis(true);
+    }
 
     public String getCustomProfilePic() {
         return customProfilePicture;
@@ -222,7 +265,7 @@ public class Player {
         return playerClient;
     }
 
-    public ConnectPage getConnectPage() {
+    public ConnectScreen getConnectPage() {
         return connectPage;
     }
 
@@ -252,15 +295,5 @@ public class Player {
 
     public void setProfilePic(int pPic) {
         this.profilePic = pPic;
-    }
-
-    public synchronized void count() {
-        gameScreen.setCounter("4");
-        gameScreen.setCounter("3");
-        gameScreen.setCounter("2");
-        gameScreen.setCounter("1");
-        gameScreen.setCounter("TIE!");
-        gameScreen.setCounter("WIN!");
-        gameScreen.setCounter("LOST!");
     }
 }

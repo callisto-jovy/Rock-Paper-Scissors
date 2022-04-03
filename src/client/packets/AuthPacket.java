@@ -9,8 +9,6 @@ import src.util.eventapi.EventManager;
 import src.util.events.AuthPacketEvent;
 import src.util.events.UsernameErrorEvent;
 
-import javax.swing.*;
-
 public class AuthPacket extends Packet {
 
     public AuthPacket() {
@@ -21,11 +19,8 @@ public class AuthPacket extends Packet {
     public void receive(PacketUtil input, User user) {
         if (input.isError()) {
             final String error = input.getError();
-            JOptionPane.showMessageDialog(null, "Error: " + error);
-            EventManager.call(new UsernameErrorEvent());
-
-            final String userName = JOptionPane.showInputDialog("Enter username!");
-            setPayload(userName);
+            //JOptionPane.showMessageDialog(null, "Error: " + error);
+            EventManager.call(new UsernameErrorEvent(error));
         } else if (input.hasPayload()) {
             final JSONObject userPayload = new JSONObject();
 
@@ -34,7 +29,7 @@ public class AuthPacket extends Packet {
                 userPayload.put("username", Player.INSTANCE.getName());
                 userPayload.put("profile_picture", Player.INSTANCE.getProfilePic());
 
-                if(Player.INSTANCE.getCustomProfilePic() != null)
+                if (Player.INSTANCE.getCustomProfilePic() != null)
                     userPayload.put("custom_profile_picture", Player.INSTANCE.getCustomProfilePic());
 
                 setPayload(userPayload);
@@ -46,7 +41,15 @@ public class AuthPacket extends Packet {
 
     @Override
     public void send() {
-        //Empty, user does not need to send any auth packets, instead the user is prompted by the server.
+        final JSONObject userPayload = new JSONObject();
+
+        userPayload.put("username", Player.INSTANCE.getName());
+        userPayload.put("profile_picture", Player.INSTANCE.getProfilePic());
+
+        if (Player.INSTANCE.getCustomProfilePic() != null)
+            userPayload.put("custom_profile_picture", Player.INSTANCE.getCustomProfilePic());
+
+        setPayload(userPayload);
     }
 
 }

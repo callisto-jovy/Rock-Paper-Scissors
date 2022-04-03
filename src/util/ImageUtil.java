@@ -10,22 +10,30 @@ import java.io.IOException;
 import java.util.Base64;
 
 public class ImageUtil {
-
+    /**
+     * Converts a base64 string (which must contain image data) to an imageicon
+     *
+     * @param base64 base64 string to be decoded with image data
+     * @return an imageicon constructed with the data obtained from the base64 encoded string
+     */
     public static ImageIcon getImageIcon(final String base64) {
         final byte[] bytes = Base64.getDecoder().decode(base64);
         return new ImageIcon(bytes);
     }
 
+    /**
+     * Converts an image (via file) to a string and resizes it in the process to 96 x 96 pixels
+     *
+     * @param file image file to be encoded
+     * @return a string with the image's data encoded in base64
+     * @throws IOException IORead/IOWrite
+     */
     public static String getImageBase64FromFile(final File file) throws IOException {
         final String fileExtension = file.getName().substring(file.getName().lastIndexOf(".") + 1); //Get file extension
         final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         final BufferedImage readImage = ImageIO.read(file);
-        final Image scaledImage = readImage.getScaledInstance(96, 96, Image.SCALE_DEFAULT);
-
-
+        final Image scaledImage = readImage.getScaledInstance(96, 96, Image.SCALE_SMOOTH);
         ImageIO.write(toBufferedImage(scaledImage), fileExtension, byteArrayOutputStream);
-
-        System.out.println("Base64:" + Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray()));
         return Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray());
     }
 

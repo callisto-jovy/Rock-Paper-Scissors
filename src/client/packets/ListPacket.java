@@ -5,6 +5,8 @@ import org.json.JSONArray;
 import src.server.User;
 import src.util.Packet;
 import src.util.PacketUtil;
+import src.util.eventapi.EventManager;
+import src.util.events.ReceiveActiveUsersEvent;
 
 import javax.swing.*;
 
@@ -18,9 +20,8 @@ public class ListPacket extends Packet {
     public void receive(PacketUtil input, User parent) {
         if(input.hasPayload()) {
             final JSONArray playerListArray = input.getPayloadArray();
-            for (int i = 0; i < playerListArray.length(); i++) {
-                System.out.println(playerListArray.get(i));
-            }
+            EventManager.call(new ReceiveActiveUsersEvent(playerListArray));
+
         }
         else if(input.isError())
         {

@@ -1,4 +1,6 @@
-package src.client;
+package src.client.screens;
+
+import src.client.Player;
 
 import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
@@ -18,9 +20,9 @@ public class GameScreen extends JFrame {
     private final JLabel LblUserNameOpp;
     private final JLabel LblUserNameSelf;
     private final JLabel LblProfilePicSelf;
+    private final JLabel LblProfilePicEnemy;
 
     private int enemyPoints;
-
 
     //Constructor
     public GameScreen() {
@@ -98,7 +100,6 @@ public class GameScreen extends JFrame {
         LblOppResult.setForeground(new Color(140, 140, 140));
         LblOppResult.setEnabled(true);
         LblOppResult.setFont(new Font("SansSerif", Font.PLAIN, 40));
-        LblOppResult.setText("");
         LblOppResult.setVisible(true);
 
         LblSelfPoints = new JLabel();
@@ -107,7 +108,6 @@ public class GameScreen extends JFrame {
         LblSelfPoints.setForeground(new Color(100, 100, 255));
         LblSelfPoints.setEnabled(true);
         LblSelfPoints.setFont(new Font("SansSerif", Font.BOLD, 32));
-        LblSelfPoints.setText("");
         LblSelfPoints.setVisible(true);
 
         LblSelfResult = new JLabel();
@@ -116,7 +116,6 @@ public class GameScreen extends JFrame {
         LblSelfResult.setForeground(new Color(140, 140, 140));
         LblSelfResult.setEnabled(true);
         LblSelfResult.setFont(new Font("SansSerif", Font.PLAIN, 40));
-        LblSelfResult.setText("");
         LblSelfResult.setVisible(true);
 
         LblUserNameOpp = new JLabel();
@@ -149,6 +148,13 @@ public class GameScreen extends JFrame {
         LblProfilePicSelf.setEnabled(true);
         LblProfilePicSelf.setVisible(true);
 
+        LblProfilePicEnemy = new JLabel();
+        LblProfilePicEnemy.setBounds(336, 106, 96, 96);
+        LblProfilePicEnemy.setBackground(new Color(214, 217, 223));
+        LblProfilePicEnemy.setEnabled(true);
+        LblProfilePicEnemy.setVisible(true);
+
+
         //adding components to contentPane panel
         contentPane.add(LblCountdown);
         contentPane.add(lblDoppelrPunkt);
@@ -161,6 +167,7 @@ public class GameScreen extends JFrame {
         contentPane.add(LblUserNameSelf);
         contentPane.add(lblProfilePicOpp);
         contentPane.add(LblProfilePicSelf);
+        contentPane.add(LblProfilePicEnemy);
 
         //adding panel to JFrame and setting of window position and close operation
         this.add(contentPane);
@@ -239,20 +246,20 @@ public class GameScreen extends JFrame {
             LblProfilePicSelf.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/96/" + pPic + ".png")));
         }
     }
-    
-    public void setProfilePicSelf(ImageIcon img){
+
+    public void setProfilePicSelf(ImageIcon img) {
         LblProfilePicSelf.setIcon(img);
     }
-    
+
     public void setProfilePicEnemy(int pPic) {
         if (pPic == 0) {
-            LblProfilePicSelf.setText("?");
+            LblProfilePicEnemy.setText("?");
         } else {
-            LblProfilePicSelf.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/96/" + pPic + ".png")));
+            LblProfilePicEnemy.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/96/" + pPic + ".png")));
         }
     }
-    
-    public void setProfilePicEnemy(ImageIcon img){
-        LblProfilePicSelf.setIcon(img);
+
+    public void setProfilePicEnemy(ImageIcon img) {
+        LblProfilePicEnemy.setIcon(img);
     }
 }

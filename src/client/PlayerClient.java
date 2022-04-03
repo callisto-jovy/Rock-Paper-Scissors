@@ -1,11 +1,7 @@
 package src.client;
 
 import src.client.packets.*;
-import src.server.PacketManager;
-import src.util.List;
-import src.util.LogUtil;
-import src.util.Packet;
-import src.util.PacketFormatter;
+import src.util.*;
 
 import java.util.logging.Level;
 
@@ -47,6 +43,10 @@ public class PlayerClient extends Client {
             packet.getData().remove("payload");
             packet.getData().remove("error");
         }
+    }
+
+    public void sendPacket(final Packet packet) {
+        this.send(PacketFormatter.formatPacket(packet));
     }
 
     public PacketManager getPacketManager() {

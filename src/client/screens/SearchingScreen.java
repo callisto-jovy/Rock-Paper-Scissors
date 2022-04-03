@@ -1,4 +1,4 @@
-package src.client;
+package src.client.screens;
 
 import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;

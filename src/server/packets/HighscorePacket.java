@@ -16,11 +16,12 @@ public class HighscorePacket extends Packet {
 
     @Override
     public void receive(PacketUtil input, User parent) {
-        ApplicationServer.INSTANCE.highscoreList.toFirst();
         final JSONArray jsonArray = new JSONArray();
 
+        ApplicationServer.INSTANCE.highscoreList.toFirst();
         while (ApplicationServer.INSTANCE.highscoreList.hasAccess()) {
             final Highscore hs = ApplicationServer.INSTANCE.highscoreList.getContent();
+            System.out.println("Highscore: " + hs);
             jsonArray.put(hs.getName() + ":" + hs.getScore());
 
             ApplicationServer.INSTANCE.highscoreList.next();

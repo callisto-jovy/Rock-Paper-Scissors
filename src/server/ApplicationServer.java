@@ -1,10 +1,7 @@
 package src.server;
 
 import src.server.packets.*;
-import src.util.List;
-import src.util.LogUtil;
-import src.util.Packet;
-import src.util.PacketFormatter;
+import src.util.*;
 
 import java.util.Queue;
 import java.util.Timer;
@@ -144,8 +141,7 @@ public class ApplicationServer extends Server {
         if(toRemove != null)
             matchQueue.remove(toRemove);
 
-        //TODO: Remove user from match & if necessary close match (
-
+        //TODO: Remove user from match & if necessary close match
     }
 
     public void sendToUser(final User user, final Packet packet) {
