@@ -146,10 +146,10 @@ public class Player {
         if (customProfilePicture == null)
             gameScreen.setProfilePicSelf(profilePic);
         else
-            gameScreen.setProfilePicSelf(ImageUtil.getImageIcon(customProfilePicture));
+            gameScreen.setProfilePicSelf(ImageUtil.getImageIcon(customProfilePicture, 96, 96));
 
         event.getCustomProfilePicture().ifPresentOrElse(
-                s -> gameScreen.setProfilePicEnemy(ImageUtil.getImageIcon(s)),
+                s -> gameScreen.setProfilePicEnemy(ImageUtil.getImageIcon(s, 96, 96)),
                 () -> gameScreen.setProfilePicEnemy(event.getEnemyProfilePicture()));
 
         //Set usernames

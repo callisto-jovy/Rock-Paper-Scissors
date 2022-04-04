@@ -243,23 +243,27 @@ public class GameScreen extends JFrame {
         if (pPic == 0) {
             LblProfilePicSelf.setText("?");
         } else {
-            LblProfilePicSelf.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/96/" + pPic + ".png")));
+            final ImageIcon icon = new ImageIcon(getClass().getResource("/src/client/icons/96/" + pPic + ".png"));
+            LblProfilePicSelf.setIcon(icon);
         }
     }
 
     public void setProfilePicSelf(ImageIcon img) {
         LblProfilePicSelf.setIcon(img);
+        img.setImageObserver(LblProfilePicSelf);
     }
 
     public void setProfilePicEnemy(int pPic) {
         if (pPic == 0) {
             LblProfilePicEnemy.setText("?");
         } else {
-            LblProfilePicEnemy.setIcon(new ImageIcon(getClass().getResource("/src/client/icons/96/" + pPic + ".png")));
+            final ImageIcon icon = new ImageIcon(getClass().getResource("/src/client/icons/96/" + pPic + ".png"));
+            LblProfilePicEnemy.setIcon(icon);
         }
     }
 
     public void setProfilePicEnemy(ImageIcon img) {
         LblProfilePicEnemy.setIcon(img);
+        img.setImageObserver(LblProfilePicEnemy);
     }
 }
