@@ -1,5 +1,7 @@
 package src.server;
-import org.json.*;
+
+import org.json.JSONObject;
+
 /**
  * Basic User class, in order to manage all the users.
  * This class contains such things as the user's name, ip and port. Further, the class points to the users individual packet manager,
@@ -26,10 +28,6 @@ public class User {
      * Toggle whether the user is searching for a match
      */
     private boolean searchesMatch;
-    /**
-     * Toggle whether the user is already in a match
-     */
-    private boolean alreadyInMatch;
     /**
      * The user's total score
      */
@@ -90,7 +88,6 @@ public class User {
         if (this.totalScore > 0) {
             this.totalScore--;
         }
-
     }
 
     public String getName() {
@@ -115,9 +112,5 @@ public class User {
 
     public String getClientIP() {
         return clientIP;
-    }
-    
-    public boolean alreadyInMatch() {
-        return searchesMatch;
     }
 }

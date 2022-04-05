@@ -2,7 +2,6 @@ package src;
 
 import src.client.Player;
 
-import java.util.logging.LogManager;
 import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
@@ -14,7 +13,7 @@ public class MainClient {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
-        LogManager.getLogManager().reset(); 
+      //  LogManager.getLogManager().reset();
         Player.INSTANCE.displayConnectPage();
     }
 }

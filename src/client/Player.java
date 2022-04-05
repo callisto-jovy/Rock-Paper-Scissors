@@ -136,8 +136,16 @@ public class Player {
     public void matchFound(final MatchFoundEvent event) {
         this.searchesMatch = false; //No longer searching
         this.scoreInMatch = 0; //Reset
-        searchingScreen.setVisible(false);
-        searchingScreen.dispose();
+
+        if (searchingScreen != null) {
+            searchingScreen.setVisible(false);
+            searchingScreen.dispose();
+        }
+        //Only needed now because of the match request system.
+        if (mainMenuScreen != null && mainMenuScreen.isVisible()) {
+            mainMenuScreen.setVisible(false);
+            mainMenuScreen.dispose();
+        }
 
         this.gameScreen = new GameScreen();
         //Set profile pictures...
@@ -250,12 +258,12 @@ public class Player {
         if (connectPage != null)
             connectPage.setUsrErrVis(true);
     }
-    
+
     @EventTarget
     public void matchRequest(final MatchRequestEvent event) {
-        
+
     }
-    
+
     public String getCustomProfilePic() {
         return customProfilePicture;
     }

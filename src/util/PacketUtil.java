@@ -11,6 +11,10 @@ public class PacketUtil {
         this.basicData = object;
     }
 
+    public int getStatusCode() {
+        return this.basicData.optInt("status_code");
+    }
+
     public boolean isError() {
         return this.basicData.has("error");
     }

@@ -1,5 +1,7 @@
 package src.client.screens;
 
+import src.client.Player;
+import src.client.packets.MatchRequestPacket;
 import src.util.eventapi.EventManager;
 import src.util.events.RetrieveActiveUsersEvent;
 import src.util.events.RetrieveHighscoreListEvent;
@@ -141,7 +143,9 @@ public class MainMenuScreen extends JFrame {
         challengeUserButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                //TODO: Marcel user challenging
+                final MatchRequestPacket matchRequestPacket = new MatchRequestPacket(activeUserList.getSelectedValue());
+                matchRequestPacket.send();
+                Player.INSTANCE.getPlayer().sendPacket(matchRequestPacket);
             }
         });
         challengeUserButton.setForeground(new Color(210, 210, 210));

@@ -31,6 +31,6 @@ public class HighscorePacket extends Packet {
 
     @Override
     public void send() {
-
+        //Not needed.
     }
 }

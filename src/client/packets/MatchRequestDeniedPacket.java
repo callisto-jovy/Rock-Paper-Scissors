@@ -1,25 +1,23 @@
-package src.server.packets;
+package src.client.packets;
 
 import src.server.User;
 import src.util.Packet;
 import src.util.PacketUtil;
 
-public class MatchRequestDeniedPacket extends Packet
-{
-    
+public class MatchRequestDeniedPacket extends Packet {
+
     public MatchRequestDeniedPacket() {
         super("MTRQDN");
     }
-    
-     
+
+
     @Override
     public void receive(PacketUtil input, User user) {
-        //Ich habe mir mal die Freiheit genommen..
-        
+        //Noch zu implementieren.
     }
 
-    @Override 
+    @Override
     public void send() {
-        setPayload("nico...");
+        //Not needed.
     }
 }

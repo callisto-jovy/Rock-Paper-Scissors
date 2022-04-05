@@ -49,6 +49,7 @@ public class ApplicationServer extends Server {
         packetList.append(new HighscorePacket());
         packetList.append(new MatchPacket());
         packetList.append(new SearchPacket());
+        packetList.append(new MatchRequestPacket());
 
         //Initiate search task:
         final Timer timer = new Timer(); // Instantiate Timer Object
@@ -70,11 +71,7 @@ public class ApplicationServer extends Server {
                     } else { //Otherwise, we know that at least two users are searching for a match 
                         final User next = matchQueue.poll();
                         //Match both users together and create a new match, then append it to the list of ongoing matches.
-                        final Match match = new Match(next, latestSearching);
-                        matchList.toFirst();
-                        matchList.append(match);
-                        //Start the match.
-                        match.start();
+                        setupMatch(next, latestSearching);
                     }
 
                 }
@@ -141,6 +138,7 @@ public class ApplicationServer extends Server {
     }
 
     /******** Additional Methods *********/
+
     /**
      * Returns a given user found by its name or null
      * @param name the user's username 
@@ -182,7 +180,7 @@ public class ApplicationServer extends Server {
             final Match match = matchList.getContent();
 
             for(final User user : users) {
-                if(match.containsUser(user)) {
+                if (match.containsUser(user)) {
                     return true;
                 }
             }
@@ -190,6 +188,14 @@ public class ApplicationServer extends Server {
 
         }
         return false;
+    }
+
+    public void setupMatch(final User user, final User user1) {
+        final Match match = new Match(user, user1);
+        matchList.toFirst();
+        matchList.append(match);
+        //Start the match.
+        match.start();
     }
 
     public void sendToUser(final User user, final Packet packet) {

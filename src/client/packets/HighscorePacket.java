@@ -30,7 +30,6 @@ public class HighscorePacket extends Packet {
         } else {
             JOptionPane.showMessageDialog(null, "No current Highscores...");
         }
-
     }
 
     public void send() {
