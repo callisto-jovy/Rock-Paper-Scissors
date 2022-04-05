@@ -93,7 +93,7 @@ public class MainMenuScreen extends JFrame {
         contentPanes.add(lblNewLabel);
 
         JPanel activeUsersPanel = new JPanel();
-        activeUsersPanel.setBounds(588, 0, 208, 510);
+        activeUsersPanel.setBounds(488, 0, 308, 510);
         activeUsersPanel.setBackground(new Color(70, 70, 70));
         contentPanes.add(activeUsersPanel);
 
@@ -103,7 +103,7 @@ public class MainMenuScreen extends JFrame {
         activeUserList.setLocation(10, 41);
         activeUserList.setAlignmentX(Component.LEFT_ALIGNMENT);
         activeUserList.setAlignmentY(Component.TOP_ALIGNMENT);
-        activeUserList.setSize(new Dimension(188, 424));
+        activeUserList.setSize(new Dimension(288, 424));
         activeUserList.setFont(new Font("SansSerif", Font.PLAIN, 12));
         activeUserList.setToolTipText("Active Users List");
         activeUserList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -113,7 +113,7 @@ public class MainMenuScreen extends JFrame {
         JLabel activeUsersHeading = new JLabel("Active Users");
         activeUsersHeading.setHorizontalAlignment(SwingConstants.CENTER);
         activeUsersHeading.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-        activeUsersHeading.setBounds(56, 11, 104, 19);
+        activeUsersHeading.setBounds(106, 11, 104, 19);
         activeUsersHeading.setFont(new Font("SansSerif", Font.PLAIN, 14));
         activeUsersHeading.setVerticalAlignment(SwingConstants.TOP);
         activeUsersHeading.setBackground(new Color(214, 217, 223));
@@ -131,7 +131,7 @@ public class MainMenuScreen extends JFrame {
         });
         highscoreListButton.setOpaque(false);
         highscoreListButton.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        highscoreListButton.setBounds(118, 476, 80, 23);
+        highscoreListButton.setBounds(178, 476, 120, 23);
         highscoreListButton.setBackground(new Color(70, 70, 70));
         highscoreListButton.setForeground(new Color(210, 210, 210));
         highscoreListButton.setFont(new Font("SansSerif", Font.PLAIN, 12));
@@ -148,7 +148,7 @@ public class MainMenuScreen extends JFrame {
         challengeUserButton.setFont(new Font("SansSerif", Font.PLAIN, 12));
         challengeUserButton.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         challengeUserButton.setBackground(new Color(70, 70, 70));
-        challengeUserButton.setBounds(10, 476, 80, 23);
+        challengeUserButton.setBounds(10, 476, 120, 23);
         activeUsersPanel.add(challengeUserButton);
 
         JButton searchMatchButton = new JButton("Search Match");
