@@ -27,6 +27,10 @@ public class User {
      */
     private boolean searchesMatch;
     /**
+     * Toggle whether the user is already in a match
+     */
+    private boolean alreadyInMatch;
+    /**
      * The user's total score
      */
     private int totalScore;
@@ -111,5 +115,9 @@ public class User {
 
     public String getClientIP() {
         return clientIP;
+    }
+    
+    public boolean alreadyInMatch() {
+        return searchesMatch;
     }
 }

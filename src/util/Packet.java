@@ -44,7 +44,7 @@ public abstract class Packet {
 
     public abstract void send();
 
-    private void setStatusCode(final int statusCode) {
+    protected void setStatusCode(final int statusCode) {
         this.basicData.put("status_code", statusCode);
     }
 

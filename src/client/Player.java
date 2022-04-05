@@ -27,6 +27,7 @@ public class Player {
     //attributes
     private String name;
     private boolean searchesMatch = true;
+    private boolean alreadyInMatch = false;
     private int scoreInMatch;
     private int profilePic;
     private int decision;
@@ -84,7 +85,6 @@ public class Player {
     @EventTarget
     public void searchMatch(final SearchMatchEvent event) {
         this.searchesMatch = true; //Set the player's status to searching...
-
         mainMenuScreen.setVisible(false);
         mainMenuScreen.dispose();
 
@@ -137,7 +137,7 @@ public class Player {
     public void matchFound(final MatchFoundEvent event) {
         this.searchesMatch = false; //No longer searching
         this.scoreInMatch = 0; //Reset
-
+        this.alreadyInMatch = true;
         searchingScreen.setVisible(false);
         searchingScreen.dispose();
 
@@ -252,7 +252,12 @@ public class Player {
         if (connectPage != null)
             connectPage.setUsrErrVis(true);
     }
-
+    
+    @EventTarget
+    public void matchRequest(final MatchRequestEvent event) {
+        
+    }
+    
     public String getCustomProfilePic() {
         return customProfilePicture;
     }
