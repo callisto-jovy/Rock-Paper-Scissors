@@ -44,6 +44,10 @@ public class Match {
     public void setDecision2(int decision2) {
         this.decision2 = decision2;
     }
+    
+    public boolean containsUser(final User user) {
+        return getUser1() == user || getUser2() == user;
+    }
 
     public void decideWinner() {
         //One player has already won, return

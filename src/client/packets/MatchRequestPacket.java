@@ -38,8 +38,7 @@ public class MatchRequestPacket extends Packet
         setStatusCode(80);
         final JSONObject userPayload = new JSONObject();
         
-        userPayload.put("matchrequest", Player.INSTANCE);
-        userPayload.put("
+        userPayload.put("matchrequest", Player.INSTANCE.getName());
     }
     
 }

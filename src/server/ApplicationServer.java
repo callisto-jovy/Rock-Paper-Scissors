@@ -54,25 +54,31 @@ public class ApplicationServer extends Server {
         final Timer timer = new Timer(); // Instantiate Timer Object
         timer.scheduleAtFixedRate(new TimerTask() {
                 public void run() {
+                    //This task matches the players together, always the first two from the queue.
                     LogUtil.getLogger().log(Level.INFO, "Executing match task, matching users...");
+                    //Get the front of the queue and check whether the front is null. If it is null, no users is searching, return.
                     final User latestSearching = matchQueue.poll();
                     if(latestSearching == null) 
                         return;
-                        
+                    //At this point at least one user is searching for a match, peek the front of the queue
+                    //which is now the next searching user or nulll
                     final User nextSearching = matchQueue.peek();
                     if(nextSearching == null) {
-                        matchQueue.add(latestSearching);
-                    } else {
+                        matchQueue.add(latestSearching); 
+                        //If the next searching is indeed null, the only user which searches for a match is the previous front,
+                        //That's why he is added back to the queue
+                    } else { //Otherwise, we know that at least two users are searching for a match 
                         final User next = matchQueue.poll();
-
+                        //Match both users together and create a new match, then append it to the list of ongoing matches.
                         final Match match = new Match(next, latestSearching);
                         matchList.toFirst();
                         matchList.append(match);
+                        //Start the match.
                         match.start();
                     }
 
                 }
-        }, 10, 5000);
+            }, 10, 5000); //Repeat every 5s with a start delay of 10ms.
     }
 
     @Override
@@ -83,7 +89,7 @@ public class ApplicationServer extends Server {
         final User newUser = new User(pClientIP, pClientPort);
         userList.toFirst();
         userList.append(newUser);
-        //Send a user-authentication packet to the newly connected user (prompt for a username)
+        //Send a user-authentication packet to the newly connected user
         final AuthPacket userAuthPacket = new AuthPacket();
         this.sendToUser(newUser, userAuthPacket);
     }
@@ -95,17 +101,7 @@ public class ApplicationServer extends Server {
             return;
 
         //Get user from list to process packets
-        userList.toFirst();
-        User user = null;
-
-        while (userList.hasAccess()) {
-            final User u = userList.getContent();
-            if (u.getClientIP().equals(pClientIP) && u.getClientPort() == pClientPort) {
-                user = u;
-                break;
-            }
-            userList.next();
-        }
+        final User user = getUserByIPAndPort(pClientIP, pClientPort);
 
         if(user != null) {
             final PacketManager packetManager = new PacketManager(packetList);
@@ -142,6 +138,58 @@ public class ApplicationServer extends Server {
             matchQueue.remove(toRemove);
 
         //TODO: Remove user from match & if necessary close match
+    }
+
+    /******** Additional Methods *********/
+    /**
+     * Returns a given user found by its name or null
+     * @param name the user's username 
+     */
+    public User getUserByName(final String name) {
+        userList.toFirst();
+
+        while(userList.hasAccess()) {
+            final User content = userList.getContent();
+
+            if(content.getName().equals(name)) {
+                return content;
+            }
+
+            userList.next();
+        }
+        return null;
+    }
+
+    public User getUserByIPAndPort(final String ipAddress, final int port) {
+        userList.toFirst();
+
+        while(userList.hasAccess()) {
+            final User content = userList.getContent();
+
+            if(content.getClientIP().equals(ipAddress) && content.getClientPort() == port) {
+                return content;
+            }
+
+            userList.next();
+        }
+        return null;
+    }
+
+    public boolean isUserInMatch(final User... users) {
+        matchList.toFirst();
+
+        while(matchList.hasAccess()) {
+            final Match match = matchList.getContent();
+
+            for(final User user : users) {
+                if(match.containsUser(user)) {
+                    return true;
+                }
+            }
+            matchList.next();
+
+        }
+        return false;
     }
 
     public void sendToUser(final User user, final Packet packet) {
