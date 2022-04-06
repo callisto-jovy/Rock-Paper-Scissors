@@ -35,6 +35,9 @@ public class MatchRequestPacket extends Packet {
                 if (ApplicationServer.INSTANCE.isUserInMatch(userToChallenge, user)) {
                     setError("The user is already in an ongoing match");
                     return;
+                } else if (ApplicationServer.INSTANCE.isUserInQueue(userToChallenge, user)) {
+                    setError("The user is already in queue");
+                    return;
                 }
                 //At this point we know that the user can be challenged
 

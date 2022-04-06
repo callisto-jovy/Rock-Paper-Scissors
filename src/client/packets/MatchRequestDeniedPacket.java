@@ -4,6 +4,8 @@ import src.server.User;
 import src.util.Packet;
 import src.util.PacketUtil;
 
+import javax.swing.*;
+
 public class MatchRequestDeniedPacket extends Packet {
 
     public MatchRequestDeniedPacket() {
@@ -13,7 +15,7 @@ public class MatchRequestDeniedPacket extends Packet {
 
     @Override
     public void receive(PacketUtil input, User user) {
-        //Noch zu implementieren.
+        JOptionPane.showMessageDialog(null, "Your match request has been denied.");
     }
 
     @Override

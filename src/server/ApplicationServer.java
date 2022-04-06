@@ -54,28 +54,28 @@ public class ApplicationServer extends Server {
         //Initiate search task:
         final Timer timer = new Timer(); // Instantiate Timer Object
         timer.scheduleAtFixedRate(new TimerTask() {
-                public void run() {
-                    //This task matches the players together, always the first two from the queue.
-                    LogUtil.getLogger().log(Level.INFO, "Executing match task, matching users...");
-                    //Get the front of the queue and check whether the front is null. If it is null, no users is searching, return.
-                    final User latestSearching = matchQueue.poll();
-                    if(latestSearching == null) 
-                        return;
-                    //At this point at least one user is searching for a match, peek the front of the queue
-                    //which is now the next searching user or nulll
-                    final User nextSearching = matchQueue.peek();
-                    if(nextSearching == null) {
-                        matchQueue.add(latestSearching); 
-                        //If the next searching is indeed null, the only user which searches for a match is the previous front,
-                        //That's why he is added back to the queue
-                    } else { //Otherwise, we know that at least two users are searching for a match 
-                        final User next = matchQueue.poll();
-                        //Match both users together and create a new match, then append it to the list of ongoing matches.
-                        setupMatch(next, latestSearching);
-                    }
-
+            public void run() {
+                //This task matches the players together, always the first two from the queue.
+                LogUtil.getLogger().log(Level.INFO, "Executing match task, matching users...");
+                //Get the front of the queue and check whether the front is null. If it is null, no users is searching, return.
+                final User latestSearching = matchQueue.poll();
+                if (latestSearching == null)
+                    return;
+                //At this point at least one user is searching for a match, peek the front of the queue
+                //which is now the next searching user or nulll
+                final User nextSearching = matchQueue.peek();
+                if (nextSearching == null) {
+                    matchQueue.add(latestSearching);
+                    //If the next searching is indeed null, the only user which searches for a match is the previous front,
+                    //That's why he is added back to the queue
+                } else { //Otherwise, we know that at least two users are searching for a match
+                    final User next = matchQueue.poll();
+                    //Match both users together and create a new match, then append it to the list of ongoing matches.
+                    setupMatch(next, latestSearching);
                 }
-            }, 10, 5000); //Repeat every 5s with a start delay of 10ms.
+
+            }
+        }, 10, 5000); //Repeat every 5s with a start delay of 10ms.
     }
 
     @Override
@@ -100,7 +100,7 @@ public class ApplicationServer extends Server {
         //Get user from list to process packets
         final User user = getUserByIPAndPort(pClientIP, pClientPort);
 
-        if(user != null) {
+        if (user != null) {
             final PacketManager packetManager = new PacketManager(packetList);
 
             final Packet returnToSender = packetManager.processMessage(pMessage, user);
@@ -131,7 +131,7 @@ public class ApplicationServer extends Server {
         }
 
         //Remove user from search queue
-        if(toRemove != null)
+        if (toRemove != null)
             matchQueue.remove(toRemove);
 
         //TODO: Remove user from match & if necessary close match
@@ -141,15 +141,16 @@ public class ApplicationServer extends Server {
 
     /**
      * Returns a given user found by its name or null
-     * @param name the user's username 
+     *
+     * @param name the user's username
      */
     public User getUserByName(final String name) {
         userList.toFirst();
 
-        while(userList.hasAccess()) {
+        while (userList.hasAccess()) {
             final User content = userList.getContent();
 
-            if(content.getName().equals(name)) {
+            if (content.getName().equals(name)) {
                 return content;
             }
 
@@ -161,10 +162,10 @@ public class ApplicationServer extends Server {
     public User getUserByIPAndPort(final String ipAddress, final int port) {
         userList.toFirst();
 
-        while(userList.hasAccess()) {
+        while (userList.hasAccess()) {
             final User content = userList.getContent();
 
-            if(content.getClientIP().equals(ipAddress) && content.getClientPort() == port) {
+            if (content.getClientIP().equals(ipAddress) && content.getClientPort() == port) {
                 return content;
             }
 
@@ -176,16 +177,15 @@ public class ApplicationServer extends Server {
     public boolean isUserInMatch(final User... users) {
         matchList.toFirst();
 
-        while(matchList.hasAccess()) {
+        while (matchList.hasAccess()) {
             final Match match = matchList.getContent();
 
-            for(final User user : users) {
+            for (final User user : users) {
                 if (match.containsUser(user)) {
                     return true;
                 }
             }
             matchList.next();
-
         }
         return false;
     }
@@ -203,4 +203,10 @@ public class ApplicationServer extends Server {
         this.send(user.getClientIP(), user.getClientPort(), PacketFormatter.formatPacket(packet));
     }
 
+    public boolean isUserInQueue(final User... users) {
+        for (final User user : users) {
+            return matchQueue.contains(user);
+        }
+        return false;
+    }
 }

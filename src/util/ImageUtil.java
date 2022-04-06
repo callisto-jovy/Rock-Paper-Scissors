@@ -36,10 +36,6 @@ public class ImageUtil {
     }
 
     public static ImageIcon getImageIconFromID(final int id) {
-        if (id == 0) {
-            return new ImageIcon(ImageUtil.class.getResource("/src/client/icons/96/" + 1 + ".png"));
-        } else {
-            return new ImageIcon(ImageUtil.class.getResource("/src/client/icons/96/" + id + ".png"));
-        }
+        return new ImageIcon(ImageUtil.class.getResource("/src/client/icons/96/" + id + ".png"));
     }
 }
