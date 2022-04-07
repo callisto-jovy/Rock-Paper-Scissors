@@ -2,15 +2,12 @@ package src.server;
 
 import src.server.packets.*;
 import src.util.*;
-import src.util.PacketManager;
 
 import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
-
-
 
 
 public class ApplicationServer extends Server {
@@ -58,25 +55,25 @@ public class ApplicationServer extends Server {
         //Initiate search task:
         final Timer timer = new Timer(); // Instantiate Timer Object
         timer.scheduleAtFixedRate(new TimerTask() {
-                public void run() {
-                    LogUtil.getLogger().log(Level.INFO, "Executing match task, matching users...");
-                    final User latestSearching = matchQueue.poll();
-                    if(latestSearching == null) 
-                        return;
-                        
-                    final User nextSearching = matchQueue.peek();
-                    if(nextSearching == null) {
-                        matchQueue.add(latestSearching);
-                    } else {
-                        final User next = matchQueue.poll();
+            public void run() {
+                LogUtil.getLogger().log(Level.INFO, "Executing match task, matching users...");
+                final User latestSearching = matchQueue.poll();
+                if (latestSearching == null)
+                    return;
 
-                        final Match match = new Match(next, latestSearching);
-                        matchList.toFirst();
-                        matchList.append(match);
-                        match.start();
-                    }
+                final User nextSearching = matchQueue.peek();
+                if (nextSearching == null) {
+                    matchQueue.add(latestSearching);
+                } else {
+                    final User next = matchQueue.poll();
 
+                    final Match match = new Match(next, latestSearching);
+                    matchList.toFirst();
+                    matchList.append(match);
+                    match.start();
                 }
+
+            }
         }, 10, 5000);
     }
 
@@ -112,7 +109,7 @@ public class ApplicationServer extends Server {
             userList.next();
         }
 
-        if(user != null) {
+        if (user != null) {
             final PacketManager packetManager = new PacketManager(packetList);
 
             final Packet returnToSender = packetManager.processMessage(pMessage, user);
@@ -143,17 +140,19 @@ public class ApplicationServer extends Server {
         }
 
         //Remove user from search queue
-        if(toRemove != null)
+        if (toRemove != null)
             matchQueue.remove(toRemove);
 
-        //TODO: Remove user from match & if necessary close match
+        final Match userMatch = getMatchByUser(toRemove);
+        if (userMatch != null) {
+            userMatch.closeMatchWithDisconnect(toRemove);
+        }
     }
 
     public void sendToUser(final User user, final Packet packet) {
         packet.send();
         this.send(user.getClientIP(), user.getClientPort(), PacketFormatter.formatPacket(packet));
     }
-
 
 
     /******** Additional Methods *********/
@@ -172,12 +171,18 @@ public class ApplicationServer extends Server {
             if (content.getName().equals(name)) {
                 return content;
             }
-
             userList.next();
         }
         return null;
     }
 
+    /**
+     * Gets the corresponding user by ip and port
+     *
+     * @param ipAddress ip to match
+     * @param port      port to match
+     * @return the user which both matches ip and port or null if no user is found
+     */
     public User getUserByIPAndPort(final String ipAddress, final int port) {
         userList.toFirst();
 
@@ -187,7 +192,6 @@ public class ApplicationServer extends Server {
             if (content.getClientIP().equals(ipAddress) && content.getClientPort() == port) {
                 return content;
             }
-
             userList.next();
         }
         return null;
@@ -222,5 +226,19 @@ public class ApplicationServer extends Server {
             return matchQueue.contains(user);
         }
         return false;
+    }
+
+    public Match getMatchByUser(final User user) {
+        matchList.toFirst();
+
+        while (matchList.hasAccess()) {
+            final Match match = matchList.getContent();
+
+            if (user.equals(match.getUser1()) || user.equals(match.getUser2())) {
+                return match;
+            }
+            matchList.next();
+        }
+        return null;
     }
 }

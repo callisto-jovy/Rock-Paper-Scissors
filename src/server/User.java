@@ -29,11 +29,7 @@ public class User {
      */
     private boolean searchesMatch;
     /**
-     * The user's total score
-     */
-    private int totalScore;
-    /**
-     * The user's profilePicture (used if the user did not provide a custom profile picture) 
+     * The user's profilePicture (used if the user did not provide a custom profile picture)
      */
     private int profilePicture;
 
@@ -51,16 +47,32 @@ public class User {
         final JSONObject object = new JSONObject();
 
         object
-        .put("username", name)
-        .put("profile_picture", profilePicture);
+                .put("username", name)
+                .put("profile_picture", profilePicture);
 
-        if(customPicture != null) 
+        if (customPicture != null)
             object.put("custom_profile_picture", customPicture);
 
         return object;
     }
 
-    public void setCustomProfilePicture(final String base64)   {
+    /*
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return clientPort == user.clientPort && clientIP.equals(user.clientIP) && name.equals(user.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(clientIP, clientPort, name);
+    }
+
+     */
+
+    public void setCustomProfilePicture(final String base64) {
         this.customPicture = base64;
     }
 
@@ -74,20 +86,6 @@ public class User {
 
     public String getCustomProfilePictureBase64String() {
         return this.customPicture;
-    }
-
-    public int getScore() {
-        return totalScore;
-    }
-
-    public void increasePoints() {
-        this.totalScore++;
-    }
-
-    public void deductPoints() {
-        if (this.totalScore > 0) {
-            this.totalScore--;
-        }
     }
 
     public String getName() {

@@ -10,8 +10,14 @@ public class Highscore {
         this.score = score;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void increaseHighscore() {
+        this.score++;
+    }
+
+    public void decreaseHighscore() {
+        if (score > 0) {
+            score--;
+        }
     }
 
     public int getScore() {

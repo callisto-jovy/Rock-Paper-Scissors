@@ -44,7 +44,7 @@ public class Match {
     public void setDecision2(int decision2) {
         this.decision2 = decision2;
     }
-    
+
     public boolean containsUser(final User user) {
         return getUser1() == user || getUser2() == user;
     }
@@ -128,10 +128,6 @@ public class Match {
     }
 
     private void matchDone(final User looser) {
-        //Deduct and increase points
-        //looser.deductPoints();
-        winner.increasePoints();
-
         final ResultPacket resultPacket = new ResultPacket(winner, Math.max(score1, score2));
         ApplicationServer.INSTANCE.sendToUser(user1, resultPacket);
         ApplicationServer.INSTANCE.sendToUser(user2, resultPacket);
@@ -151,21 +147,17 @@ public class Match {
             //If user is already in the list:
             final Highscore hs = ApplicationServer.INSTANCE.highscoreList.getContent();
             if (hs.getName().equals(winner.getName())) {
-                hs.setScore(winner.getScore());
+                hs.increaseHighscore();
                 return;
-            } 
-            
-            /*
-            else if(hs.getName().equals(looser.getName())) {
-                hs.setScore(looser.getScore());
+            } else if (hs.getName().equals(looser.getName())) {
+                hs.decreaseHighscore();
+                return;
             }
-            */
             ApplicationServer.INSTANCE.highscoreList.next();
         }
-        
-        
+
         System.out.println("Adding user to highscore list");
-        //User not in high score list
+        //User not in highscore list
         ApplicationServer.INSTANCE.highscoreList.toFirst();
         ApplicationServer.INSTANCE.highscoreList.append(new Highscore(winner.getName(), 1));
     }
@@ -174,6 +166,12 @@ public class Match {
         //Send a packet which indicates that a match has been found to both users.
         ApplicationServer.INSTANCE.sendToUser(user1, new MatchFoundPacket(user2));
         ApplicationServer.INSTANCE.sendToUser(user2, new MatchFoundPacket(user1));
+    }
+
+
+    public void closeMatchWithDisconnect(final User disconnectedUser) {
+        this.winner = disconnectedUser == user1 ? user2 : user1; //Set winner
+        matchDone(disconnectedUser); //Close match
     }
 
     @Override
@@ -188,4 +186,5 @@ public class Match {
                 ", score2=" + score2 +
                 '}';
     }
+
 }
