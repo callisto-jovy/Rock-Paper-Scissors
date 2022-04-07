@@ -194,7 +194,7 @@ public class Player {
     public void matchRound(final MatchEvent event) {
         gameScreen.setEnemySelection(event.getEnemyDecision());
         if (event.getLooser().equals(name)) {
-            gameScreen.setCounter("YOU LOOSE!");
+            gameScreen.setCounter("YOU LOSE!");
             gameScreen.setEnemyPoints(gameScreen.getEnemyPoints() + 1);
         } else {
             scoreInMatch++;
