@@ -42,12 +42,11 @@ public class Player {
 
     public Player() {
         EventManager.register(this); //Register as event receiver
-        /*
+        
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             EventManager.unregister(this);
+            getPlayer().close(); //Close connection
         }));
-
-         */
     }
 
     public void displayConnectPage() {
@@ -194,7 +193,7 @@ public class Player {
     public void matchRound(final MatchEvent event) {
         gameScreen.setEnemySelection(event.getEnemyDecision());
         if (event.getLooser().equals(name)) {
-            gameScreen.setCounter("YOU LOOSE!");
+            gameScreen.setCounter("YOU LOSE!");
             gameScreen.setEnemyPoints(gameScreen.getEnemyPoints() + 1);
         } else {
             scoreInMatch++;
