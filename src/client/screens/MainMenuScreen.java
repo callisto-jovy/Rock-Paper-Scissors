@@ -2,6 +2,7 @@ package src.client.screens;
 
 import src.client.Player;
 import src.client.packets.MatchRequestPacket;
+import src.util.ImageUtil;
 import src.util.eventapi.EventManager;
 import src.util.events.RetrieveActiveUsersEvent;
 import src.util.events.RetrieveHighscoreListEvent;
@@ -19,8 +20,6 @@ import java.awt.event.WindowListener;
 import java.util.Collections;
 import java.util.List;
 import java.util.TimerTask;
-
-import src.util.*;
 
 public class MainMenuScreen extends JFrame {
 
@@ -131,6 +130,7 @@ public class MainMenuScreen extends JFrame {
         this.listModel = new DefaultListModel<>();
         final JList<String> activeUserList = new JList<>(listModel);
         activeUserList.setLocation(10, 41);
+        activeUserList.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
         activeUserList.setAlignmentX(Component.LEFT_ALIGNMENT);
         activeUserList.setAlignmentY(Component.TOP_ALIGNMENT);
         activeUserList.setSize(new Dimension(288, 424));
@@ -141,7 +141,7 @@ public class MainMenuScreen extends JFrame {
 
         JLabel activeUsersHeading = new JLabel("Active Users");
         activeUsersHeading.setHorizontalAlignment(SwingConstants.CENTER);
-        activeUsersHeading.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+        //activeUsersHeading.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
         activeUsersHeading.setBounds(106, 11, 104, 19);
         activeUsersHeading.setFont(new Font("SansSerif", Font.PLAIN, 14));
         activeUsersHeading.setVerticalAlignment(SwingConstants.TOP);

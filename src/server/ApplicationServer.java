@@ -125,6 +125,7 @@ public class ApplicationServer extends Server {
 
     @Override
     public void processClosingConnection(String pClientIP, int pClientPort) {
+        LogUtil.getLogger().log(Level.INFO, "User with ip " + pClientIP + " and port " + pClientPort + " has disconnected.");
         //Remove user from list if disconnected
         User toRemove = null;
 
