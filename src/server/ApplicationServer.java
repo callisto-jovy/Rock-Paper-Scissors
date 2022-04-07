@@ -2,12 +2,16 @@ package src.server;
 
 import src.server.packets.*;
 import src.util.*;
+import src.util.PacketManager;
 
 import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
+
+
+
 
 public class ApplicationServer extends Server {
 
@@ -54,28 +58,26 @@ public class ApplicationServer extends Server {
         //Initiate search task:
         final Timer timer = new Timer(); // Instantiate Timer Object
         timer.scheduleAtFixedRate(new TimerTask() {
-            public void run() {
-                //This task matches the players together, always the first two from the queue.
-                LogUtil.getLogger().log(Level.INFO, "Executing match task, matching users...");
-                //Get the front of the queue and check whether the front is null. If it is null, no users is searching, return.
-                final User latestSearching = matchQueue.poll();
-                if (latestSearching == null)
-                    return;
-                //At this point at least one user is searching for a match, peek the front of the queue
-                //which is now the next searching user or nulll
-                final User nextSearching = matchQueue.peek();
-                if (nextSearching == null) {
-                    matchQueue.add(latestSearching);
-                    //If the next searching is indeed null, the only user which searches for a match is the previous front,
-                    //That's why he is added back to the queue
-                } else { //Otherwise, we know that at least two users are searching for a match
-                    final User next = matchQueue.poll();
-                    //Match both users together and create a new match, then append it to the list of ongoing matches.
-                    setupMatch(next, latestSearching);
-                }
+                public void run() {
+                    LogUtil.getLogger().log(Level.INFO, "Executing match task, matching users...");
+                    final User latestSearching = matchQueue.poll();
+                    if(latestSearching == null) 
+                        return;
+                        
+                    final User nextSearching = matchQueue.peek();
+                    if(nextSearching == null) {
+                        matchQueue.add(latestSearching);
+                    } else {
+                        final User next = matchQueue.poll();
 
-            }
-        }, 10, 5000); //Repeat every 5s with a start delay of 10ms.
+                        final Match match = new Match(next, latestSearching);
+                        matchList.toFirst();
+                        matchList.append(match);
+                        match.start();
+                    }
+
+                }
+        }, 10, 5000);
     }
 
     @Override
@@ -86,7 +88,7 @@ public class ApplicationServer extends Server {
         final User newUser = new User(pClientIP, pClientPort);
         userList.toFirst();
         userList.append(newUser);
-        //Send a user-authentication packet to the newly connected user
+        //Send a user-authentication packet to the newly connected user (prompt for a username)
         final AuthPacket userAuthPacket = new AuthPacket();
         this.sendToUser(newUser, userAuthPacket);
     }
@@ -98,9 +100,19 @@ public class ApplicationServer extends Server {
             return;
 
         //Get user from list to process packets
-        final User user = getUserByIPAndPort(pClientIP, pClientPort);
+        userList.toFirst();
+        User user = null;
 
-        if (user != null) {
+        while (userList.hasAccess()) {
+            final User u = userList.getContent();
+            if (u.getClientIP().equals(pClientIP) && u.getClientPort() == pClientPort) {
+                user = u;
+                break;
+            }
+            userList.next();
+        }
+
+        if(user != null) {
             final PacketManager packetManager = new PacketManager(packetList);
 
             final Packet returnToSender = packetManager.processMessage(pMessage, user);
@@ -131,11 +143,18 @@ public class ApplicationServer extends Server {
         }
 
         //Remove user from search queue
-        if (toRemove != null)
+        if(toRemove != null)
             matchQueue.remove(toRemove);
 
         //TODO: Remove user from match & if necessary close match
     }
+
+    public void sendToUser(final User user, final Packet packet) {
+        packet.send();
+        this.send(user.getClientIP(), user.getClientPort(), PacketFormatter.formatPacket(packet));
+    }
+
+
 
     /******** Additional Methods *********/
 
@@ -196,11 +215,6 @@ public class ApplicationServer extends Server {
         matchList.append(match);
         //Start the match.
         match.start();
-    }
-
-    public void sendToUser(final User user, final Packet packet) {
-        packet.send();
-        this.send(user.getClientIP(), user.getClientPort(), PacketFormatter.formatPacket(packet));
     }
 
     public boolean isUserInQueue(final User... users) {
