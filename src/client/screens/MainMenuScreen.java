@@ -20,6 +20,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.TimerTask;
 
+import src.util.*;
+
 public class MainMenuScreen extends JFrame {
 
     private final DefaultListModel<String> listModel;
@@ -37,49 +39,48 @@ public class MainMenuScreen extends JFrame {
         java.util.Timer timer = new java.util.Timer();
 
         final Thread activeUserThread = new Thread(() -> {
-            timer.scheduleAtFixedRate(new TimerTask() {
-                public void run() {
-                    EventManager.call(new RetrieveActiveUsersEvent());
-                }
-            }, 10, 5000);
-        });
+                    timer.scheduleAtFixedRate(new TimerTask() {
+                            public void run() {
+                                EventManager.call(new RetrieveActiveUsersEvent());
+                            }
+                        }, 10, 5000);
+                });
 
         this.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {
-                activeUserThread.start();
-            }
+                @Override
+                public void windowOpened(WindowEvent e) {
+                    activeUserThread.start();
+                }
 
-            @Override
-            public void windowClosing(WindowEvent e) {
-            }
+                @Override
+                public void windowClosing(WindowEvent e) {
+                }
 
-            @Override
-            public void windowClosed(WindowEvent e) {
-                timer.cancel();
-            }
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    timer.cancel();
+                }
 
-            @Override
-            public void windowIconified(WindowEvent e) {
+                @Override
+                public void windowIconified(WindowEvent e) {
 
-            }
+                }
 
-            @Override
-            public void windowDeiconified(WindowEvent e) {
+                @Override
+                public void windowDeiconified(WindowEvent e) {
 
-            }
+                }
 
-            @Override
-            public void windowActivated(WindowEvent e) {
+                @Override
+                public void windowActivated(WindowEvent e) {
 
-            }
+                }
 
-            @Override
-            public void windowDeactivated(WindowEvent e) {
-            }
-        });
+                @Override
+                public void windowDeactivated(WindowEvent e) {
+                }
+            });
 
-        
         
         JPanel contentPanes = new JPanel();
         contentPanes.setFont(new Font("SansSerif", Font.PLAIN, 12));
@@ -95,10 +96,10 @@ public class MainMenuScreen extends JFrame {
         LblUserNameSelf.setForeground(new Color(100, 100, 255));
         LblUserNameSelf.setEnabled(true);
         LblUserNameSelf.setFont(new Font("SansSerif", Font.BOLD, 32));
-        LblUserNameSelf.setText("Player");
+        LblUserNameSelf.setText(Player.INSTANCE.getName());
         LblUserNameSelf.setVisible(true);
         contentPanes.add(LblUserNameSelf);
-        
+
         JLabel LblProfilePicSelf = new JLabel();
         LblProfilePicSelf.setBounds(60, 150, 96, 96);
         LblProfilePicSelf.setBackground(new Color(214, 217, 223));
@@ -106,9 +107,15 @@ public class MainMenuScreen extends JFrame {
         LblProfilePicSelf.setEnabled(true);
         LblProfilePicSelf.setVisible(true);
         LblProfilePicSelf.setFont(new Font("SansSerif", Font.BOLD, 32));
-        LblProfilePicSelf.setText("?");
+        // LblProfilePicSelf.setText("?");
+
+        final ImageIcon icon = Player.INSTANCE.getCustomProfilePic() == null ? 
+                ImageUtil.getImageIconFromID(Player.INSTANCE.getProfilePic())
+            : ImageUtil.getImageIcon(Player.INSTANCE.getCustomProfilePic(), 96, 96);
+
+        LblProfilePicSelf.setIcon(icon);
         contentPanes.add(LblProfilePicSelf);
-        
+
         JLabel lblNewLabel = new JLabel("Schere-Stein-Papier");
         lblNewLabel.setFont(new Font("SansSerif", Font.PLAIN, 38));
         lblNewLabel.setBackground(new Color(214, 217, 223));
@@ -121,7 +128,6 @@ public class MainMenuScreen extends JFrame {
         activeUsersPanel.setBackground(new Color(70, 70, 70));
         contentPanes.add(activeUsersPanel);
 
-
         this.listModel = new DefaultListModel<>();
         final JList<String> activeUserList = new JList<>(listModel);
         activeUserList.setLocation(10, 41);
@@ -132,7 +138,6 @@ public class MainMenuScreen extends JFrame {
         activeUserList.setToolTipText("Active Users List");
         activeUserList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         activeUserList.setBackground(new Color(80, 80, 80));
-
 
         JLabel activeUsersHeading = new JLabel("Active Users");
         activeUsersHeading.setHorizontalAlignment(SwingConstants.CENTER);
@@ -148,11 +153,11 @@ public class MainMenuScreen extends JFrame {
 
         JButton highscoreListButton = new JButton("Highscores");
         highscoreListButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                EventManager.call(new RetrieveHighscoreListEvent());
-            }
-        });
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    EventManager.call(new RetrieveHighscoreListEvent());
+                }
+            });
         highscoreListButton.setOpaque(false);
         highscoreListButton.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         highscoreListButton.setBounds(178, 476, 120, 23);
@@ -163,13 +168,13 @@ public class MainMenuScreen extends JFrame {
 
         JButton challengeUserButton = new JButton("Challenge User");
         challengeUserButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                final MatchRequestPacket matchRequestPacket = new MatchRequestPacket(activeUserList.getSelectedValue());
-                matchRequestPacket.send();
-                Player.INSTANCE.getPlayer().sendPacket(matchRequestPacket);
-            }
-        });
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    final MatchRequestPacket matchRequestPacket = new MatchRequestPacket(activeUserList.getSelectedValue());
+                    matchRequestPacket.send();
+                    Player.INSTANCE.getPlayer().sendPacket(matchRequestPacket);
+                }
+            });
         challengeUserButton.setForeground(new Color(210, 210, 210));
         challengeUserButton.setFont(new Font("SansSerif", Font.PLAIN, 12));
         challengeUserButton.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -182,11 +187,11 @@ public class MainMenuScreen extends JFrame {
         searchMatchButton.setBackground(new Color(70, 70, 70));
         searchMatchButton.setForeground(new Color(210, 210, 210));
         searchMatchButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                EventManager.call(new SearchMatchEvent());
-            }
-        });
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    EventManager.call(new SearchMatchEvent());
+                }
+            });
         searchMatchButton.setBounds(10, 476, 208, 23);
         contentPanes.add(searchMatchButton);
 
@@ -203,7 +208,6 @@ public class MainMenuScreen extends JFrame {
         contentPanes.add(creatorsHeading);
 
         
-        
         setVisible(true);
     }
 
@@ -217,13 +221,13 @@ public class MainMenuScreen extends JFrame {
             e.printStackTrace();
         }
         EventQueue.invokeLater(() -> {
-            try {
-                MainMenuScreen frame = new MainMenuScreen();
-                frame.setVisible(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+                try {
+                    MainMenuScreen frame = new MainMenuScreen();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
     }
 
     @Override
