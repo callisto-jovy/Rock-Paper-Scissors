@@ -79,6 +79,8 @@ public class MainMenuScreen extends JFrame {
             }
         });
 
+        
+        
         JPanel contentPanes = new JPanel();
         contentPanes.setFont(new Font("SansSerif", Font.PLAIN, 12));
         contentPanes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -87,6 +89,26 @@ public class MainMenuScreen extends JFrame {
         setContentPane(contentPanes);
         contentPanes.setLayout(null);
 
+        JLabel LblUserNameSelf = new JLabel();
+        LblUserNameSelf.setBounds(30, 250, 450, 60);
+        LblUserNameSelf.setBackground(new Color(214, 217, 223));
+        LblUserNameSelf.setForeground(new Color(100, 100, 255));
+        LblUserNameSelf.setEnabled(true);
+        LblUserNameSelf.setFont(new Font("SansSerif", Font.BOLD, 32));
+        LblUserNameSelf.setText("Player");
+        LblUserNameSelf.setVisible(true);
+        contentPanes.add(LblUserNameSelf);
+        
+        JLabel LblProfilePicSelf = new JLabel();
+        LblProfilePicSelf.setBounds(60, 150, 96, 96);
+        LblProfilePicSelf.setBackground(new Color(214, 217, 223));
+        LblProfilePicSelf.setForeground(new Color(100, 100, 255));
+        LblProfilePicSelf.setEnabled(true);
+        LblProfilePicSelf.setVisible(true);
+        LblProfilePicSelf.setFont(new Font("SansSerif", Font.BOLD, 32));
+        LblProfilePicSelf.setText("?");
+        contentPanes.add(LblProfilePicSelf);
+        
         JLabel lblNewLabel = new JLabel("Schere-Stein-Papier");
         lblNewLabel.setFont(new Font("SansSerif", Font.PLAIN, 38));
         lblNewLabel.setBackground(new Color(214, 217, 223));
@@ -180,6 +202,8 @@ public class MainMenuScreen extends JFrame {
         creatorsHeading.setBounds(10, 59, 338, 19);
         contentPanes.add(creatorsHeading);
 
+        
+        
         setVisible(true);
     }
 
