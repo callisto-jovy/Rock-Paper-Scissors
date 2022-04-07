@@ -151,10 +151,10 @@ public class Match {
             //If user is already in the list:
             final Highscore hs = ApplicationServer.INSTANCE.highscoreList.getContent();
             if (hs.getName().equals(winner.getName())) {
-                hs.setScore(winner.getScore() + 1);
+                hs.setScore(winner.getScore());
                 return;
             } else if(hs.getName().equals(looser.getName())) {
-                hs.setScore(looser.getScore() - 1);
+                hs.setScore(looser.getScore());
             }
             ApplicationServer.INSTANCE.highscoreList.next();
         }
