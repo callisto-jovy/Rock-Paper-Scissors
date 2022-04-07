@@ -129,7 +129,7 @@ public class Match {
 
     private void matchDone(final User looser) {
         //Deduct and increase points
-        looser.deductPoints();
+        //looser.deductPoints();
         winner.increasePoints();
 
         final ResultPacket resultPacket = new ResultPacket(winner, Math.max(score1, score2));
@@ -153,9 +153,13 @@ public class Match {
             if (hs.getName().equals(winner.getName())) {
                 hs.setScore(winner.getScore());
                 return;
-            } else if(hs.getName().equals(looser.getName())) {
+            } 
+            
+            /*
+            else if(hs.getName().equals(looser.getName())) {
                 hs.setScore(looser.getScore());
             }
+            */
             ApplicationServer.INSTANCE.highscoreList.next();
         }
         
