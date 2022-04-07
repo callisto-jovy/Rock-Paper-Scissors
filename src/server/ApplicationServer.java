@@ -153,4 +153,73 @@ public class ApplicationServer extends Server {
         this.send(user.getClientIP(), user.getClientPort(), PacketFormatter.formatPacket(packet));
     }
 
+
+
+    /******** Additional Methods *********/
+
+    /**
+     * Returns a given user found by its name or null
+     *
+     * @param name the user's username
+     */
+    public User getUserByName(final String name) {
+        userList.toFirst();
+
+        while (userList.hasAccess()) {
+            final User content = userList.getContent();
+
+            if (content.getName().equals(name)) {
+                return content;
+            }
+
+            userList.next();
+        }
+        return null;
+    }
+
+    public User getUserByIPAndPort(final String ipAddress, final int port) {
+        userList.toFirst();
+
+        while (userList.hasAccess()) {
+            final User content = userList.getContent();
+
+            if (content.getClientIP().equals(ipAddress) && content.getClientPort() == port) {
+                return content;
+            }
+
+            userList.next();
+        }
+        return null;
+    }
+
+    public boolean isUserInMatch(final User... users) {
+        matchList.toFirst();
+
+        while (matchList.hasAccess()) {
+            final Match match = matchList.getContent();
+
+            for (final User user : users) {
+                if (match.containsUser(user)) {
+                    return true;
+                }
+            }
+            matchList.next();
+        }
+        return false;
+    }
+
+    public void setupMatch(final User user, final User user1) {
+        final Match match = new Match(user, user1);
+        matchList.toFirst();
+        matchList.append(match);
+        //Start the match.
+        match.start();
+    }
+
+    public boolean isUserInQueue(final User... users) {
+        for (final User user : users) {
+            return matchQueue.contains(user);
+        }
+        return false;
+    }
 }

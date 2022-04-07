@@ -1,5 +1,7 @@
 package src.server;
-import org.json.*;
+
+import org.json.JSONObject;
+
 /**
  * Basic User class, in order to manage all the users.
  * This class contains such things as the user's name, ip and port. Further, the class points to the users individual packet manager,
@@ -86,7 +88,6 @@ public class User {
         if (this.totalScore > 0) {
             this.totalScore--;
         }
-
     }
 
     public String getName() {

@@ -44,6 +44,10 @@ public class Match {
     public void setDecision2(int decision2) {
         this.decision2 = decision2;
     }
+    
+    public boolean containsUser(final User user) {
+        return getUser1() == user || getUser2() == user;
+    }
 
     public void decideWinner() {
         //One player has already won, return
@@ -128,17 +132,16 @@ public class Match {
         looser.deductPoints();
         winner.increasePoints();
 
-        final ResultPacket rPacket = new ResultPacket(winner, Math.max(score1, score2));
-
-        ApplicationServer.INSTANCE.sendToUser(user1, rPacket);
-        ApplicationServer.INSTANCE.sendToUser(user2, rPacket);
+        final ResultPacket resultPacket = new ResultPacket(winner, Math.max(score1, score2));
+        ApplicationServer.INSTANCE.sendToUser(user1, resultPacket);
+        ApplicationServer.INSTANCE.sendToUser(user2, resultPacket);
 
         //Remove match from ongoing matches
         ApplicationServer.INSTANCE.matchList.toFirst();
         while (ApplicationServer.INSTANCE.matchList.hasAccess()) {
             if (ApplicationServer.INSTANCE.matchList.getContent() == this) {
                 ApplicationServer.INSTANCE.matchList.remove();
-                return;
+                break;
             }
             ApplicationServer.INSTANCE.matchList.next();
         }

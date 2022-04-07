@@ -84,7 +84,6 @@ public class Player {
     @EventTarget
     public void searchMatch(final SearchMatchEvent event) {
         this.searchesMatch = true; //Set the player's status to searching...
-
         mainMenuScreen.setVisible(false);
         mainMenuScreen.dispose();
 
@@ -138,8 +137,15 @@ public class Player {
         this.searchesMatch = false; //No longer searching
         this.scoreInMatch = 0; //Reset
 
-        searchingScreen.setVisible(false);
-        searchingScreen.dispose();
+        if (searchingScreen != null) {
+            searchingScreen.setVisible(false);
+            searchingScreen.dispose();
+        }
+        //Only needed now because of the match request system.
+        if (mainMenuScreen != null && mainMenuScreen.isVisible()) {
+            mainMenuScreen.setVisible(false);
+            mainMenuScreen.dispose();
+        }
 
         this.gameScreen = new GameScreen();
         //Set profile pictures...
@@ -251,6 +257,11 @@ public class Player {
     public void usernameError(final UsernameErrorEvent event) {
         if (connectPage != null)
             connectPage.setUsrErrVis(true);
+    }
+
+    @EventTarget
+    public void matchRequest(final MatchRequestEvent event) {
+
     }
 
     public String getCustomProfilePic() {

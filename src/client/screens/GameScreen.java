@@ -1,6 +1,7 @@
 package src.client.screens;
 
 import src.client.Player;
+import src.util.ImageUtil;
 
 import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
@@ -240,26 +241,16 @@ public class GameScreen extends JFrame {
     }
 
     public void setProfilePicSelf(int pPic) {
-        if (pPic == 0) {
-            LblProfilePicSelf.setText("?");
-        } else {
-            final ImageIcon icon = new ImageIcon(getClass().getResource("/src/client/icons/96/" + pPic + ".png"));
-            LblProfilePicSelf.setIcon(icon);
-        }
+        LblProfilePicSelf.setIcon(ImageUtil.getImageIconFromID(pPic));
+    }
+
+    public void setProfilePicEnemy(int pPic) {
+        LblProfilePicEnemy.setIcon(ImageUtil.getImageIconFromID(pPic));
     }
 
     public void setProfilePicSelf(ImageIcon img) {
         LblProfilePicSelf.setIcon(img);
         img.setImageObserver(LblProfilePicSelf);
-    }
-
-    public void setProfilePicEnemy(int pPic) {
-        if (pPic == 0) {
-            LblProfilePicEnemy.setText("?");
-        } else {
-            final ImageIcon icon = new ImageIcon(getClass().getResource("/src/client/icons/96/" + pPic + ".png"));
-            LblProfilePicEnemy.setIcon(icon);
-        }
     }
 
     public void setProfilePicEnemy(ImageIcon img) {

@@ -1,11 +1,9 @@
 package src;
-
 import src.client.Player;
-import src.util.*;
-import java.util.logging.Level;
 
 import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+import java.util.logging.*;
 
 public class MainClient {
 
@@ -15,7 +13,7 @@ public class MainClient {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
-        LogUtil.getLogger().setLevel(Level.OFF);
+        LogManager.getLogManager().reset();
         Player.INSTANCE.displayConnectPage();
     }
 }
