@@ -53,6 +53,7 @@ public class ApplicationServer extends Server {
         packetList.append(new HighscorePacket());
         packetList.append(new MatchPacket());
         packetList.append(new SearchPacket());
+        packetList.append(new MatchRequestPacket());
 
         //Initiate search task:
         final Timer timer = new Timer(); // Instantiate Timer Object
