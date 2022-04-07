@@ -42,11 +42,12 @@ public class Player {
 
     public Player() {
         EventManager.register(this); //Register as event receiver
-        
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             EventManager.unregister(this);
             getPlayer().close(); //Close connection
+            System.out.println("closing connection");
         }));
+        
     }
 
     public void displayConnectPage() {
