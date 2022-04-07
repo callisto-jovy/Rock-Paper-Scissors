@@ -151,11 +151,15 @@ public class Match {
             //If user is already in the list:
             final Highscore hs = ApplicationServer.INSTANCE.highscoreList.getContent();
             if (hs.getName().equals(winner.getName())) {
-                hs.setScore(hs.getScore() + 1);
+                hs.setScore(winner.getScore() + 1);
                 return;
+            } else if(hs.getName().equals(looser.getName())) {
+                hs.setScore(looser.getScore() - 1);
             }
             ApplicationServer.INSTANCE.highscoreList.next();
         }
+        
+        
         System.out.println("Adding user to highscore list");
         //User not in high score list
         ApplicationServer.INSTANCE.highscoreList.toFirst();
